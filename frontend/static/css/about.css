@@ -1,0 +1,36 @@
+#aboutus {
+    background-color: #675f91;
+    font-family: "Poppins", sans-serif;
+    color: white;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1px;
+    line-height: 30px;
+}
+
+#txt {
+    display: block;
+    max-width: 50em;
+    margin: 2em;
+}
+
+.titulo {
+    letter-spacing: 0.1em;
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 1.2em;
+}
+
+.texto {
+    letter-spacing: 0.1em;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 0.1em;
+    margin-top: 0.1em;
+}
+
+#imgabout {
+    max-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+}
