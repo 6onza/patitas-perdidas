@@ -5,7 +5,13 @@ app = Flask(__name__, template_folder='../templates', static_folder='../static',
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    pets: dict ={"m1":("no tiene chapa", "macho", "raza", "5 años"), 
+        "m2":("Mumi", "hembra", "mestizo", "2 años"), 
+        "m3":("no tiene chapa", "macho", "raza", "5 años 1 mes"),
+        "m4":("Rambo", "macho", "mestizo", "8 años" ),
+        "m5":("Simon", "macho", "raza", "2 años 8 meses" ),
+        "m6":("no tiene chapa", "hembra", "raza", "3 años") }
+    return render_template('index.html', **pets)
 
 if __name__ == '__main__':
     app.run(debug=True)
