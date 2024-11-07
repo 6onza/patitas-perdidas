@@ -103,7 +103,7 @@ POST /contact
 {
   "name": "María García",
   "email": "maria@email.com",
-  "message": "Vi a tu mascota cerca del parque ayer..."
+  "message": "Vi a un Husky por Palermo centro parecido..."
 }
 ```
 
