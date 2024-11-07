@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
+{% endblock %}
+{% block content %}
+<div class="map-container">
+  <div class="row">
+    <div class="col-lg-5">
+      <form method="GET" id="search-form">
+        <h2 class="text-secondary">Filtrar por:</h2>
+        <div class="form-group">
+          <label for="especie" class="mt-3 fw-bold">Especie</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="cat" name="cat" value="cat">
+            <label class="form-check-label" for="cat">Gato</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="dog" name="dog" value="dog">
+            <label class="form-check-label" for="dog">Perro</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="sexo">Sexo</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="male" name="male" value="male">
+            <label class="form-check-label" for="male" class="fw-light">Macho</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="female" name="female" value="female">
+            <label class="form-check-label" for="female" class="fw-light">Hembra</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="condicion">Condición</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="con-chapa" name="con-chapa" value="con-chapa">
+            <label class="form-check-label" for="con-chapa" class="fw-light">Con chapa</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="sin-chapa" name="sin-chapa" value="sin-chapa">
+            <label class="form-check-label" for="sin-chapa" class="fw-light">Sin chapa</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="provincia">Provincia</label>
+          <input type="text" class="form-control" id="provincia" name="provincia" placeholder="Ingresa una provincia">
+        </div>
+        <div class="form-group">
+          <label for="ciudad">Ciudad</label>
+          <input type="text" class="form-control" id="ciudad" name="ciudad" placeholder="Ingresa una ciudad">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+            Buscar
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-lg-7">
+      <div class="map-container">
+        <div id="map"></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+{% endblock %}
