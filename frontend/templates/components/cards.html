@@ -5,25 +5,25 @@
 {% endblock %}
 
 {% block content %}
-<body>
 
 <article class="contenedor">
   {% for mascota in mascotas %}
   <article class="cuadrado" >
 
     <figure class="circulo">
-      <img class="imagen" src= /static/{{mascota}}.jfif>
+      <img class="imagen" src= "{{ url_for('static', filename='images/' + mascota + '.jfif') }}">
     </figure>
-  
-    <h1 class="nombre">{{mascotas[mascota][0]}}</h1>
-    <p class="dato">Sexo: {{mascotas[mascota][1]}}</p>
-    <p class="dato">Raza: {{mascotas[mascota][2]}}</p>
-    <p class="dato">Edad: {{mascotas[mascota][3]}}</p>
-    <button class="boton">Saber más</button>
     
+    <figure class="cuadro_texto">
+    <h1 class="nombre">{{ mascotas[mascota][0] }}</h1>
+    <p class="dato">Sexo: {{ mascotas[mascota][1] }}</p>
+    <p class="dato">Raza: {{ mascotas[mascota][2] }}</p>
+    <p class="dato">Edad: {{ mascotas[mascota][3] }}</p>
+    <button class="boton">Saber más</button>
+    </figure>
+
   </article>
   {% endfor %}
 </article>
 
-</body>
 {% endblock %}
