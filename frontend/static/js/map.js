@@ -1,4 +1,4 @@
-//* Seed data para mascotas perdidas en Argentina, Buenos Aires*
+// Seed data for lost pets
 let lost_pets = [
   {
     id: 1,
@@ -31,16 +31,16 @@ let lost_pets = [
   },
 ];
 
-//* map initialization*
+// map initialization
 var map = L.map("map").setView([-34.6037, -58.3816], 13);
 
-//* OpenStreetMap layer*
+// OpenStreetMap layer
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution:
     '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
-//* Crear el icono de la patita*
+// paw icon for lost pets
 var pawIcon = L.icon({
   iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png',
   iconSize: [25, 41],
@@ -49,17 +49,17 @@ var pawIcon = L.icon({
   shadowSize: [41, 41]
 });
 
-//* marcadores para cada mascota perdida en sus respectivas ubicaciones*
+// create marker for each lost pet
 lost_pets.forEach((pet) => {
-  //* Separar las coordenadas de la ubicación y convertirlas a números*
+  // Separated latitude and longitude from the string
   let [lat, lng] = pet.lost_location
     .split(",")
     .map((coord) => parseFloat(coord.trim()));
   
-  //* create marker for each pet with the paw icon*
+  // create marker for each pet with the paw icon
   let marker = L.marker([lat, lng], { icon: pawIcon }).addTo(map);
   
-  //* popup with pet information*
+  // popup with pet information
   marker.bindPopup(`
     <b>${pet.name}</b><br>
     Raza: ${pet.breed}<br>
