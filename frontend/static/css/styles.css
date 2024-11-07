@@ -1,14 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');
+
+:root{
+    --primary-color: #8ec266;
+    --secondary-color: #62598a;
+    --background-color: #ffff;
+    --light-color: #f4f4f4;
+    --hover-primary-color: #7cb342;
+    --hover-secondary-color: #4f4676;
+}
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
+}
+.d-flex{
+    display: flex;
+}
+.mt-3{
+    margin-top: 3rem;
+}
+.text-secondary{
+    color: var(--secondary-color);
+}
+
+
+.fw-bold{
+    font-weight: 500;
+}
+.fw-light{
+    font-weight: 300;
+}
+
+main{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
     background-color: #ffff;
 }
