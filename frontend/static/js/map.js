@@ -9,6 +9,8 @@ let lost_pets = [
     lost_description:
       "Golden retriever de 2 años de edad, color dorado, muy amigable.",
     lost_contact: "John Doe, 123-456-7890",
+    latitud:"48.8584°N",
+    longitud:"2.2945°E"
   },
   {
     id: 2,
@@ -19,6 +21,8 @@ let lost_pets = [
     lost_description:
       "Pastor alemán de 3 años de edad, color blanco, muy juguetona.",
     lost_contact: "Jane Doe, 123-456-7890",
+    latitud:"43.0792°N",
+    longitud:"79.0748°O"
   },
   {
     id: 3,
@@ -28,6 +32,8 @@ let lost_pets = [
     lost_location: "-34.6118, -58.4173",
     lost_description: "Husky siberiano de 1 año de edad, color blanco, ojos azules.",
     lost_contact: "Pepe Picapiedra, 123-456-7890",
+    latitud:"43.0792°N",
+    longitud:"79.0748°O"
   },
 ];
 
@@ -64,6 +70,8 @@ lost_pets.forEach((pet) => {
     <b>${pet.name}</b><br>
     Raza: ${pet.breed}<br>
     Descripción: ${pet.lost_description}<br>
-    Contacto: ${pet.lost_contact}
+    Contacto: ${pet.lost_contact}<br>
+    Latitud: ${pet.latitud}<br>
+    Longitud: ${pet.longitud}
   `);
 });
