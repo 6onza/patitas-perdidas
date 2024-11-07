@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html>
-    <head>
+{% extends 'base.html' %}
+{% block head %}
         <link rel="stylesheet" href="{{ url_for("static", filename="css/about.css") }}">
-    </head>
-    <body>
+{% endblock %}
+
+{% block content %}
         <div id="aboutus">
             <div id="txt">
                 <h1 class="titulo">SOBRE NOSOTROS</h1>
@@ -16,5 +16,4 @@
             </div>
             <img src="{{ url_for("static", filename="images/perrosaboutus.jpg") }}" id="imgabout">
         </div>
-    </body>
-</html>
+{% endblock %}
