@@ -5,11 +5,11 @@
                 <h2>Contacto</h2>
             </div>
             <div class="container">
-                <form class="contact-form">
+                <form class="contact-form" action="{{ url_for('enviar_mail') }}" method="POST">
                     <h3>¡Hablemos via Email!</h3>
-                    <input type="text" id="name" placeholder="Ingrese su nombre">
-                    <input type="email" id="email" placeholder="Ingrese su email">
-                    <textarea id="message" placeholder="Escriba su mensaje aquí"></textarea>
+                    <input type="text" id="name" name="name" placeholder="Ingrese su nombre">
+                    <input type="email" id="email" name="email" placeholder="Ingrese su email">
+                    <textarea id="message" name="message" placeholder="Escriba su mensaje aquí"></textarea>
                     <button type="submit">Enviar mensaje</button>
                 </form>
                 <div class="contact-info">
