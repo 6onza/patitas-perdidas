@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');
 
 :root{
-    --primary-color: #8ec266;
-    --secondary-color: #62598a;
+    --primary-color: #2f2e41;
+    --secondary-color: #675F91;
     --background-color: #ffff;
     --light-color: #f4f4f4;
     --hover-primary-color: #7cb342;
@@ -71,7 +71,7 @@ body {
 
 .contact-form h3 {
     font-size: 20px;
-    color: #8ec266;
+    color: #675F91;
     margin-bottom: 10px;
     margin-top: -20px;
 }
@@ -82,7 +82,7 @@ body {
     max-width: 400px;
     padding: 0.8rem;
     font-size: 1rem;
-    border: 1px solid #8ec266;
+    border: 1px solid #675F91;
     border-radius: 4px;
 }
 
@@ -96,7 +96,7 @@ body {
     margin-top: 20px;
     margin-bottom: -20px;
     font-size: 1rem;
-    background-color: #8ec266;
+    background-color: #675F91;
     color: #ffff;
     border: none;
     border-radius: 4px;
@@ -105,7 +105,7 @@ body {
 }
 
 .contact-form button:hover {
-    background-color: #7cb342;
+    background-color: #675F91;
 }
 
 .contact-info {
@@ -113,7 +113,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: #8ec266;
+    color: #675F91;
     font-size: 40px;
     margin: 0px 60px 0px 200px;
 }
@@ -133,11 +133,11 @@ body {
 .whatsapp-number {
     font-size: 40px;
     font-weight: bold;
-    color: #8ec266;
+    color: #675F91;
     margin: 5px 10px 0px 10px;
     transition: color 0.3s;
 }
 
 .whatsapp-number:hover {
-    color: #7cb342;
+    color: #675F91;
 }

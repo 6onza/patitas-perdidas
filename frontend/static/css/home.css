@@ -9,41 +9,48 @@ body {
     font-family: 'Poppins';
 }
 
+header {
+    width: 100%;
+}
+
 .navigation-bar {
     background-color: #f1f1f1;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    padding: 10px 0;
 }
 
 .nav-container {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%; 
 }
 
 .main-title {
-    margin: 0 10px 0 0;
-    padding: 0 35vw 0 0; 
-    text-align: center;
+    margin: 0;
 }
 
 .main-title a {
-    font-size: 20px;
+    font-size: 24px;
     color: #000000;
     text-decoration: none;
+    text-align: center;
 }
 
 .main-title a:hover {
     color: #675F91;
 }
 
-.navigation-bar ul {
+.links-container ul {
     display: flex;
+    list-style-type: none;
 }
 
 .nav-items {
     padding: 15px;
-    list-style-type: none;
-    margin-top: 10px;
 }
 
 .nav-links {
@@ -58,15 +65,17 @@ body {
 
 .contact-button {
     background-color: #675F91;
-    border: 12px solid #675F91;
-    border-radius: 10px;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
     color: #e8e7e7;
+    text-decoration: none;
+    font-size: 16px;
+    margin-left: 15px;
 }
 
 .contact-button:hover {
     background-color: #e8e8e8;
-    border: 12px solid #e8e8e8;
-    border-radius: 10px;
     color: #675F91; 
 }
 
@@ -100,10 +109,9 @@ body {
     margin-bottom: 20px;
 }
 
-.contact-button {
+.button.contact-button {
     align-self: flex-start;
     margin-top: 10px;
-    text-decoration: none;
 }
 
 .home-image {
@@ -111,10 +119,3 @@ body {
     height: auto;
     margin-left: 15vw;
 }
-
-
-
-
-
-
-
