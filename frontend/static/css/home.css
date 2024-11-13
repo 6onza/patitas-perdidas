@@ -67,7 +67,7 @@ header {
 }
 
 .contact-button {
-    background-color: #675F91;
+    background-color: var(--secondary-color);
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -78,8 +78,14 @@ header {
 }
 
 .contact-button:hover {
-    background-color: #e8e8e8;
-    color: #675F91; 
+    background-color: var(--primary-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #e8e7e7;
+    text-decoration: none;
+    font-size: 16px;
+    margin-left: 15px;
 }
 
 .home {
@@ -122,7 +128,7 @@ header {
     align-self: flex-start;
     margin-top: 10px;
     padding: 10px 20px;
-    background-color: #675F91;
+    background-color: var(--primary-color);
     color: #e8e7e7;
     border: none;
     border-radius: 5px;
@@ -131,8 +137,7 @@ header {
 }
 
 .button.contact-button:hover {
-    background-color: #e8e8e8;
-    color: #675F91; 
+    background-color: var(--secondary-color); 
 }
 
 .home-image {
