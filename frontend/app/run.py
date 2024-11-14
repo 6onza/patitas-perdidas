@@ -21,6 +21,13 @@ def index():
 
 @app.route('/enviar_email', methods=['POST'])
 def enviar_mail():
+    '''
+    Procesa el formulario de contacto y envia un correo electrónico tanto al usuario que envió el formulario como al administrador del sitio web.
+    - Crea dos mensajes de correo electrónico:
+    * Mensaje para el usuario: Confirma que su mensaje se ha recibido correctamente y que se pondrán en contacto pronto.
+    * Mensaje para el administrador: Contiene la información proporcionada por el usuario (nombre, correo electrónico y mensaje).
+    Redirige al usuario a la página de inicio al finalizar.
+    '''
     if request.method == "POST":
         nombre = request.form["name"]
         email = request.form["email"]
@@ -32,11 +39,11 @@ def enviar_mail():
         
         msg_user = MIMEText(
             f"Hola {nombre},\n\nHemos recibido tu mensaje correctamente. "
-            "Nos pondremos en contacto contigo pronto.\n\nGracias por escribirnos.\n\nSaludos,\nEquipo Patitas Perdidas"
+            "Nos pondremos en contacto con vos en breve.\n\nGracias por escribirnos.\n\nSaludos,\nEquipo Patitas Perdidas"
         )
         msg_user["From"] = "patitas.perdidas.contacto@gmail.com"
         msg_user["To"] = email
-        msg_user["Subject"] = "Confirmación de recepción de mensaje"
+        msg_user["Subject"] = "Mensaje recibido - Patitas Perdidas"
        
         servidor.sendmail("patitas.perdidas.contacto@gmail.com", email, msg_user.as_string())
 
@@ -45,7 +52,7 @@ def enviar_mail():
         )
         msg_admin["From"] = "patitas.perdidas.contacto@gmail.com"
         msg_admin["To"] = "patitas.perdidas.contacto@gmail.com"
-        msg_admin["Subject"] = "Nuevo mensaje de contacto recibido"
+        msg_admin["Subject"] = f"Nuevo mensaje recibido"
 
         servidor.sendmail("patitas.perdidas.contacto@gmail.com", "patitas.perdidas.contacto@gmail.com", msg_admin.as_string())
         servidor.quit()
