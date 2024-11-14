@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-        <section>
+        <section id="form">
             <div class="section-title">
                 <h2>Contacto</h2>
             </div>
             <div class="container">
                 <form class="contact-form" action="{{ url_for('enviar_mail') }}" method="POST">
                     <h3>¡Hablemos via Email!</h3>
-                    <input type="text" id="name" name="name" placeholder="Ingrese su nombre">
-                    <input type="email" id="email" name="email" placeholder="Ingrese su email">
-                    <textarea id="message" name="message" placeholder="Escriba su mensaje aquí"></textarea>
+                    <input type="text" id="name" name="name" placeholder="Ingrese su nombre" required>
+                    <input type="email" id="email" name="email" placeholder="Ingrese su email" required>
+                    <textarea id="message" name="message" placeholder="Escriba su mensaje aquí"></textarea required>
                     <button type="submit">Enviar mensaje</button>
                 </form>
                 <div class="contact-info">
