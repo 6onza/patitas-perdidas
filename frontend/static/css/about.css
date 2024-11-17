@@ -34,3 +34,33 @@
     min-height: 100%;
     object-fit: cover;
 }
+
+@media (max-width: 768px) {
+    #aboutus {
+        grid-template-columns: 1fr;
+        row-gap: 1em;
+        padding: 1em;
+    }
+
+    #txt {
+        margin: 0;
+        padding: 1em;
+        text-align: center;
+    }
+
+    .titulo {
+        font-size: 28px;
+    }
+
+    .texto {
+        font-size: 18px;
+        line-height: 1.5em;
+    }
+
+    #imgabout {
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+        display: block;
+    }
+}
