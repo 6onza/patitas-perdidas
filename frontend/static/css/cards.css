@@ -79,3 +79,39 @@
 .boton:hover {
     background-color: var(--secondary-color);
 }
+
+@media (max-width: 768px) {
+    .contenedor {
+        grid-template-columns: 1fr; 
+        gap: 20px; 
+        padding: 10px; 
+    }
+
+    .cuadrado {
+        width: 100%; 
+    }
+
+    .imagen {
+        width: 80px; 
+        height: 80px;
+    }
+
+    .cuadro_texto {
+        padding: 15px;
+        gap: 5px; 
+    }
+
+    .boton {
+        padding: 8px 15px; 
+        font-size: 14px;
+    }
+
+    .h2-title {
+        font-size: 18px;
+        text-align: center;
+        color: var(--primary-color);
+        width: 100%;
+        margin-top: 10vh;
+        margin-bottom: 60px;
+    }
+}
