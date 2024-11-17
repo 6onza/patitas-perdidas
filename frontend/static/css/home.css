@@ -7,10 +7,12 @@
 
 body {
     background-color: #f9f9f9;
+    
 }
 
 header {
     width: 100%;
+    position: relative;
 }
 
 .navigation-bar {
@@ -25,7 +27,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 90%; 
+    width: 90%;
 }
 
 .main-title {
@@ -54,7 +56,7 @@ header {
 
 .nav-links {
     text-decoration: none;
-    color: var(--primary-color);
+    color: black;
     font-size: 16px;
     font-weight: bold;
     padding-bottom: 5px;
@@ -92,26 +94,26 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; 
+    height: 100vh;
     padding: 30px;
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
 
 .content-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%; 
-    max-width: 1200px; 
+    width: 100%;
+    max-width: 1200px;
     box-sizing: border-box;
 }
 
 .text-content {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; 
-    gap: 10px; 
-    width: 50%; 
+    align-items: flex-start;
+    gap: 10px;
+    width: 50%;
 }
 
 .home h2 {
@@ -137,11 +139,133 @@ header {
 }
 
 .button.contact-button:hover {
-    background-color: var(--secondary-color); 
+    background-color: var(--secondary-color);
 }
 
 .home-image {
-    width: 50%; 
-    height: auto; 
-    margin-left: 10vw; 
+    width: 50%;
+    height: auto;
+    margin-left: 10vw;
+}
+
+.menu-button {
+    display: none;
+}
+
+@media only screen and (max-width: 768px) {
+    header {
+        padding: 0;
+    }
+
+    .nav-container {
+        position: relative; /* Para el posicionamiento del botón */
+    }
+
+    .menu-button {
+        display: block;
+        cursor: pointer;
+        top: 30px; /* Ajusta según necesites */
+        right: 5%; /* Alineado con el contenedor */
+        border-radius: 5px;
+        z-index: 1001; /* Por encima del menú */
+    }
+
+    .menu-button .line {
+        width: 30px;
+        height: 3px;
+        background-color: blueviolet;
+        margin: 6px 0;
+    }
+
+    .links-container {
+        height: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background-color: #675F91;
+        transition: 0.5s;
+        overflow: hidden;
+        z-index: 1000;
+    }
+
+    .links-container.active {
+        height: 100vh;
+        padding-top: 100px;
+    }
+
+    .links-container ul {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        margin: 0;
+        text-align: center;
+        transition: 0.5s;
+        opacity: 0;
+        padding: 20px 0;
+    }
+
+    .links-container.active ul {
+        opacity: 1;
+    }
+
+    .nav-items {
+        width: 100%;
+        text-align: center;
+        padding: 15px 0;
+    }
+
+    .nav-links {
+        color: #f9f9f9;
+        display: inline-block;
+        width: auto;
+        margin: 10px 0;
+    }
+
+    .nav-links.contact-button {
+        margin: 10px 0;
+        display: inline-block;
+    }
+
+    .contact-button {
+        background-color: #675F91;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        color: #e8e7e7;
+        text-decoration: none;
+        font-size: 16px;
+        margin-left: 15px;
+    }
+
+    /* Ajustes para la sección .home */
+    .home {
+        flex-direction: column; /* Apilar el contenido */
+        height: auto;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .text-content {
+        width: 100%; /* Tomar todo el ancho */
+        align-items: center; /* Centrar el texto */
+        gap: 15px; /* Más espacio entre elementos */
+    }
+
+    .home h2 {
+        font-size: 32px; /* Reducir el tamaño del título */
+    }
+
+    .home p {
+        font-size: 14px; /* Reducir tamaño del texto descriptivo */
+    }
+
+    .home-image {
+        width: 90%; /* Reducir tamaño de la imagen */
+        height: auto;
+        margin: 20px 0 0; /* Separación superior/inferior */
+    }
 }

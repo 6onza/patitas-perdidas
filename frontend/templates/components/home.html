@@ -5,21 +5,26 @@
 {% endblock %}
 
 {% block content %}
-    <header>
-        <nav class="navigation-bar">
-            <div class="nav-container">
-                <h1 class="main-title"><a href="{{ url_for('index') }}">Patitas <br> Perdidas</a></h1>
-                    <div class="links-container">
-                    <ul>
-                        <li class="nav-items"><a class="nav-links" href="#home">Inicio</a></li>
-                        <li class="nav-items"><a class="nav-links" href="#mascotas-perdidas">Mascotas perdidas</a></li>
-                        <li class="nav-items"><a class="nav-links" href="#aboutus">Sobre Nosotros</a></li>
-                        <li class="nav-items"><a class="nav-links contact-button" href="#form">Contacto</a></li>
-                    </ul>
-                </div>
-            </div> 
-        </nav>
-    </header>
+<header>
+    <nav class="navigation-bar">
+        <div class="nav-container">
+            <h1 class="main-title"><a href="{{ url_for('index') }}">Patitas <br> Perdidas</a></h1>
+            <div class="menu-button">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+            <div class="links-container">
+                <ul>
+                    <li class="nav-items"><a class="nav-links" href="#home">Inicio</a></li>
+                    <li class="nav-items"><a class="nav-links" href="#mascotas-perdidas">Mascotas perdidas</a></li>
+                    <li class="nav-items"><a class="nav-links" href="#aboutus">Sobre Nosotros</a></li>
+                    <li class="nav-items"><a class="nav-links contact-button" href="#form">Contacto</a></li>
+                </ul>
+            </div>
+        </div> 
+    </nav>
+</header>
     <section  id="home" class="home">
         <div class="content-wrapper">
             <div class="text-content">
@@ -31,4 +36,5 @@
             alt="Mascota perdida" class="home-image">
         </div>
     </section>   
+    <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
 {% endblock %}
