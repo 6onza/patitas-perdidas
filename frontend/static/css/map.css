@@ -113,7 +113,7 @@
   }
 
   .col-lg-7 {
-    height: 300px; /* Reduce el tamaño del mapa */
+    height: 300px; 
   }
 
   #map {
@@ -130,13 +130,13 @@
   }
 
   .btn-primary {
-    max-width: 120px; /* Botón más pequeño en dispositivos pequeños */
+    max-width: 120px; 
   }
 }
 
 @media (max-width: 480px) {
   #map {
-    height: 250px; /* Aún más pequeño para pantallas muy pequeñas */
+    height: 250px; 
   }
 
   .btn-primary {
