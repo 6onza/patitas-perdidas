@@ -13,21 +13,23 @@ INSERT INTO lost_pets (
     color, 
     lost_date, 
     lost_location, 
+    lost_latitude,
+    lost_longitude,
     description, 
     photo_url, 
     status
 ) VALUES
     (1, 'Max', 'perro', 'Labrador', 'dorado', '2024-03-15', 'Parque Rivadavia, CABA', 
-     'Perro grande y amigable, collar azul con placa de identificación', '/uploads/max.jpg', 'perdido'),
+     -34.6185, -58.4259, 'Perro grande y amigable, collar azul con placa de identificación', '/uploads/max.jpg', 'perdido'),
     
     (2, 'Luna', 'gato', 'Siamés', 'blanco y marrón', '2024-03-17', 'Palermo, CABA',
-     'Gata pequeña, muy tímida, tiene chip de identificación', '/uploads/luna.jpg', 'perdido'),
+     -34.5889, -58.4306, 'Gata pequeña, muy tímida, tiene chip de identificación', '/uploads/luna.jpg', 'perdido'),
     
     (3, 'Rocky', 'perro', 'Bulldog', 'marrón y blanco', '2024-03-10', 'Villa Urquiza, CABA',
-     'Bulldog adulto, manchas marrones, collar rojo', '/uploads/rocky.jpg', 'encontrado'),
+     -34.5746, -58.4863, 'Bulldog adulto, manchas marrones, collar rojo', '/uploads/rocky.jpg', 'encontrado'),
     
     (1, 'Milo', 'gato', 'Común Europeo', 'negro', '2024-03-16', 'Belgrano, CABA',
-     'Gato adulto negro, collar con cascabel', '/uploads/milo.jpg', 'perdido');
+     -34.5624, -58.4563, 'Gato adulto negro, collar con cascabel', '/uploads/milo.jpg', 'perdido');
 
 -- Insertar avistamientos
 INSERT INTO pet_sightings (
