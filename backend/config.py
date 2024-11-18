@@ -1,6 +1,5 @@
 import os
 
-# Configuración básica
 DEBUG = True
 
 # Configuración de la base de datos
