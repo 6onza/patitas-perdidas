@@ -10,13 +10,15 @@ CREATE TABLE users (
 -- Tabla principal de mascotas perdidas
 CREATE TABLE lost_pets (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
+    user_id INT NOT NULL, -- El usuario que publica la mascota
     pet_name VARCHAR(100) NOT NULL,
     type ENUM('perro', 'gato', 'otro') NOT NULL,
     breed VARCHAR(100),
     color VARCHAR(100) NOT NULL,
     lost_date DATE NOT NULL,
-    lost_location VARCHAR(255) NOT NULL,
+    lost_city VARCHAR(100) NOT NULL,
+    lost_latitude DECIMAL(10, 8) NOT NULL,
+    lost_longitude DECIMAL(11, 8) NOT NULL,
     description TEXT NOT NULL,
     photo_url VARCHAR(255), -- TODO: para esto podriamos usar un servicio como Cloudinary
     status ENUM('perdido', 'encontrado') DEFAULT 'perdido',
