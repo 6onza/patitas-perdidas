@@ -6,6 +6,7 @@
     grid-template-columns: 1fr 1fr;
     column-gap: 1px;
     line-height: 30px;
+    border-radius: 10px;
 }
 
 #txt {
