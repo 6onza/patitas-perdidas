@@ -85,5 +85,38 @@ def get_pet(pet_id):
     pet = dict(zip(columns, row))
     return jsonify(pet)
 
+@app.route('/pets/<int:pet_id>', methods=['PUT'])
+def update_pet(pet_id):
+    data = request.get_json()
+
+    cur = mysql.connection.cursor()
+    query = """
+        UPDATE lost_pets
+        SET pet_name = %s, type = %s, breed = %s, color = %s, lost_date = %s, 
+            lost_location = %s, lost_latitude = %s, lost_longitude = %s, 
+            description = %s, photo_url = %s, status = %s
+        WHERE id = %s
+    """
+    values = (
+        data['pet_name'], data['type'], data.get('breed'), data['color'], 
+        data['lost_date'], data['lost_location'], data['lost_latitude'], 
+        data['lost_longitude'], data['description'], data.get('photo_url'), 
+        data['status'], pet_id
+    )
+    cur.execute(query, values)
+    mysql.connection.commit()
+    cur.close()
+
+    return jsonify({'message': 'Pet updated successfully'}), 200
+
+@app.route('/pets/<int:pet_id>', methods=['DELETE'])
+def delete_pet(pet_id):
+    cur = mysql.connection.cursor()
+    cur.execute('DELETE FROM lost_pets WHERE id = %s', (pet_id,))
+    mysql.connection.commit()
+    cur.close()
+
+    return jsonify({'message': 'Pet deleted successfully'}), 204
+
 if __name__ == '__main__':
     app.run()
