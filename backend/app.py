@@ -15,7 +15,7 @@ app.config.update(DB_CONFIG)
 
 mysql = MySQL(app)
 
-@app.route('/pets', methods=['GET'])
+@app.route('/api/v1/pets', methods=['GET'])
 def get_pets():
     cur = mysql.connection.cursor()
     
@@ -46,7 +46,7 @@ def get_pets():
     return jsonify(pets_list)
 
 
-@app.route('/pets', methods=['POST'])
+@app.route('/api/v1/pets', methods=['POST'])
 def add_pet():
     data = request.get_json()
 
@@ -70,7 +70,7 @@ def add_pet():
     data['id'] = pet_id  
     return jsonify(data), 201
 
-@app.route('/pets/<int:pet_id>', methods=['GET'])
+@app.route('/api/v1/pets/<int:pet_id>', methods=['GET'])
 def get_pet(pet_id):
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM lost_pets WHERE id = %s', (pet_id,))
@@ -85,7 +85,7 @@ def get_pet(pet_id):
     pet = dict(zip(columns, row))
     return jsonify(pet)
 
-@app.route('/pets/<int:pet_id>', methods=['PUT'])
+@app.route('/api/v1/pets/<int:pet_id>', methods=['PUT'])
 def update_pet(pet_id):
     data = request.get_json()
 
@@ -109,7 +109,7 @@ def update_pet(pet_id):
 
     return jsonify({'message': 'Pet updated successfully'}), 200
 
-@app.route('/pets/<int:pet_id>', methods=['DELETE'])
+@app.route('/api/v1/pets/<int:pet_id>', methods=['DELETE'])
 def delete_pet(pet_id):
     cur = mysql.connection.cursor()
     cur.execute('DELETE FROM lost_pets WHERE id = %s', (pet_id,))
