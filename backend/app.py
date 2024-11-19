@@ -45,5 +45,45 @@ def get_pets():
     cur.close()
     return jsonify(pets_list)
 
+
+@app.route('/pets', methods=['POST'])
+def add_pet():
+    data = request.get_json()
+
+    cur = mysql.connection.cursor()
+    query = """
+        INSERT INTO lost_pets (user_id, pet_name, type, breed, color, lost_date, 
+                               lost_location, lost_latitude, lost_longitude, 
+                               description, photo_url, status)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """
+    values = (
+        data['user_id'], data['pet_name'], data['type'], data.get('breed'), data['color'],
+        data['lost_date'], data['lost_location'], data['lost_latitude'],
+        data['lost_longitude'], data['description'], data.get('photo_url'), data.get('status', 'perdido')
+    )
+    cur.execute(query, values)
+    mysql.connection.commit()
+    pet_id = cur.lastrowid
+    cur.close()
+
+    data['id'] = pet_id  
+    return jsonify(data), 201
+
+@app.route('/pets/<int:pet_id>', methods=['GET'])
+def get_pet(pet_id):
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM lost_pets WHERE id = %s', (pet_id,))
+    row = cur.fetchone()
+    cur.close()
+
+    if row is None:
+        return jsonify({'error': 'Pet not found'}), 404
+
+    cur.execute("DESCRIBE lost_pets")
+    columns = [column[0] for column in cur.fetchall()]
+    pet = dict(zip(columns, row))
+    return jsonify(pet)
+
 if __name__ == '__main__':
     app.run()

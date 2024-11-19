@@ -15,7 +15,7 @@ def serialize_dates(data):
     elif isinstance(data, timedelta):
         return str(data)
     elif isinstance(data, dict):
-        return {key: serializar_fechas(value) for key, value in data.items()}
+        return {key: serialize_dates(value) for key, value in data.items()}
     elif isinstance(data, list):
-        return [serializar_fechas(item) for item in data]
+        return [serialize_dates(item) for item in data]
     return data
