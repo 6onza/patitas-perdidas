@@ -75,15 +75,16 @@ def get_pet(pet_id):
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM lost_pets WHERE id = %s', (pet_id,))
     row = cur.fetchone()
-    cur.close()
-
     if row is None:
+        cur.close()
         return jsonify({'error': 'Pet not found'}), 404
 
     cur.execute("DESCRIBE lost_pets")
     columns = [column[0] for column in cur.fetchall()]
     pet = dict(zip(columns, row))
+    cur.close()
     return jsonify(pet)
+
 
 @app.route('/api/v1/pets/<int:pet_id>', methods=['PUT'])
 def update_pet(pet_id):
