@@ -1,34 +1,39 @@
 {% extends 'base.html' %}
-
 {% block head %}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/cards.css') }}">
 {% endblock %}
-
 {% block content %}
-
 <article>
   <div id="mascotas-perdidas" class="h2-title">
     <h2>Mascotas perdidas</h2>
   </div>
-
   <div class="contenedor">
-    {% for mascota in mascotas %}
+    {% for mascota in pets %}
     <article class="cuadrado">
       <figure class="circulo">
-        <img class="imagen" src="{{ url_for('static', filename='images/' + mascota + '.jfif') }}">
+        <!-- si no tiene photo_url se muestra una imagen de un perro o gato segun corresponda -->
+        {% if mascota.photo_url %}
+        <img src="{{ mascota.photo_url }}" alt="Foto de {{ mascota.pet_name }}">
+        {% else %}
+        {% if mascota.type == 'perro' %}
+        <img src="{{ url_for('static', filename='images/illustrations/dog.svg') }}" class="imagen" alt="Foto de {{ mascota.pet_name }}">
+        {% elif mascota.type == 'gato' %}
+        <img src="{{ url_for('static', filename='images/illustrations/cat.svg') }}" class="imagen" alt="Foto de {{ mascota.pet_name }}">
+        {% else %}
+        <img src="{{ url_for('static', filename='images/illustrations/dog.svg') }}" class="imagen" alt="Foto de {{ mascota.pet_name }}">
+        {% endif %}
+        {% endif %}
       </figure>
-      
+     
       <figure class="cuadro_texto">
-        <h2 class="nombre">{{ mascotas[mascota][0] }}</h2>
-        <p class="dato">Sexo: {{ mascotas[mascota][1] }}</p>
-        <p class="dato">Raza: {{ mascotas[mascota][2] }}</p>
-        <p class="dato">Edad: {{ mascotas[mascota][3] }}</p>
+        <h2 class="nombre">{{ mascota.pet_name }}</h2>
+        <p class="dato">Tipo: {{ mascota.type }}</p>
+        <p class="dato">Raza: {{ mascota.breed }}</p>
+        <p class="dato">Color: {{ mascota.color }}</p>
         <button class="boton">Saber más</button>
       </figure>
     </article>
     {% endfor %}
   </div>
 </article>
-
-
 {% endblock %}
