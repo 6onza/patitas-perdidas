@@ -75,6 +75,7 @@ def get_pet(pet_id):
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM lost_pets WHERE id = %s', (pet_id,))
     row = cur.fetchone()
+    
     if row is None:
         cur.close()
         return jsonify({'error': 'Pet not found'}), 404
@@ -83,28 +84,27 @@ def get_pet(pet_id):
     columns = [column[0] for column in cur.fetchall()]
     pet = dict(zip(columns, row))
     cur.close()
+    
     return jsonify(pet)
 
 
 @app.route('/api/v1/pets/<int:pet_id>', methods=['PUT'])
 def update_pet(pet_id):
     data = request.get_json()
-
+    
+    query = "UPDATE lost_pets SET "
+    values = []
+    for key, value in data.items():
+        query += f"{key} = %s, "
+        values.append(value)
+    
+    # Removamos la última coma y espacio
+    query = query.rstrip(', ')
+    query += " WHERE id = %s"
+    values.append(pet_id)
+    
     cur = mysql.connection.cursor()
-    query = """
-        UPDATE lost_pets
-        SET pet_name = %s, type = %s, breed = %s, color = %s, lost_date = %s, 
-            lost_location = %s, lost_latitude = %s, lost_longitude = %s, 
-            description = %s, photo_url = %s, status = %s
-        WHERE id = %s
-    """
-    values = (
-        data['pet_name'], data['type'], data.get('breed'), data['color'], 
-        data['lost_date'], data['lost_location'], data['lost_latitude'], 
-        data['lost_longitude'], data['description'], data.get('photo_url'), 
-        data['status'], pet_id
-    )
-    cur.execute(query, values)
+    cur.execute(query, tuple(values))
     mysql.connection.commit()
     cur.close()
 
