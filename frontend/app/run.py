@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import smtplib
 from email.mime.text import MIMEText
+from services import pets_service
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static', static_url_path='/static')
 
@@ -9,15 +10,10 @@ app.secret_key = "1xu5rTqT7CT/POBFBsB7GEuPLUd8klo/Pw52q5QK87E="
 
 @app.route('/')
 def index():
-    mascotas = {
-        "m1": ("no tiene chapa", "macho", "raza", "5 años"), 
-        "m2": ("Mumi", "hembra", "mestizo", "2 años"), 
-        "m3": ("no tiene chapa", "macho", "raza", "5 años 1 mes"),
-        "m4": ("Rambo", "macho", "mestizo", "8 años"),
-        "m5": ("Simon", "macho", "raza", "2 años 8 meses"),
-        "m6": ("no tiene chapa", "hembra", "raza", "3 años")
+    ctx = {
+        'pets' : pets_service.get_pets()
     }
-    return render_template('index.html', mascotas=mascotas)
+    return render_template('index.html', **ctx)
 
 @app.route('/enviar_email', methods=['POST'])
 def enviar_mail():
@@ -56,8 +52,9 @@ def enviar_mail():
 
         servidor.sendmail("patitas.perdidas.contacto@gmail.com", "patitas.perdidas.contacto@gmail.com", msg_admin.as_string())
         servidor.quit()
-
         return redirect(url_for('index'))
+    
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
