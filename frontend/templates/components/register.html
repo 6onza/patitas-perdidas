@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+{% endblock %}
+{% block content %}
+<div class="register-section">
+    <div class="register-container">
+      <form class="register-form" action="/register" method="POST" enctype="multipart/form-data">
+        <h2>Registra a tu mascota perdida</h2>
+        
+        <label for="name">Nombre</label>
+        <input type="text" id="name" name="name" required>
+  
+        <label>Tipo de animal</label>
+        <div class="radio-group">
+          <input type="radio" id="gato" name="animal_type" value="gato" required>
+          <label for="gato">Gato</label>
+          <input type="radio" id="perro" name="animal_type" value="perro">
+          <label for="perro">Perro</label>
+        </div>
+  
+        <label>Sexo</label>
+        <div class="radio-group">
+          <input type="radio" id="macho" name="gender" value="macho" required>
+          <label for="macho">Macho</label>
+          <input type="radio" id="hembra" name="gender" value="hembra">
+          <label for="hembra">Hembra</label>
+        </div>
+  
+        <label>¿Tiene chapa?</label>
+        <div class="radio-group">
+          <input type="radio" id="con-chapa" name="has_tag" value="si" required>
+          <label for="con-chapa">Sí</label>
+          <input type="radio" id="sin-chapa" name="has_tag" value="no">
+          <label for="sin-chapa">No</label>
+        </div>
+  
+        <label for="color">Color</label>
+        <input type="text" id="color" name="color" required>
+  
+        <label for="province">Provincia</label>
+        <input type="text" id="province" name="province" required>
+  
+        <label for="city">Ciudad</label>
+        <input type="text" id="city" name="city" required>
+  
+        <label for="image">Sube una imagen de tu mascota</label>
+        <input type="file" id="image" name="image" accept="image/*">
+  
+        <button type="submit">Registrar mascota</button>
+      </form>
+    </div>
+  </div>  
+{% endblock %}
