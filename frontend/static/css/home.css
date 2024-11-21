@@ -7,7 +7,33 @@
 
 body {
     background-color: #f9f9f9;
-    
+    overflow-x: hidden;
+    z-index: 1;
+}
+body::after{
+    /* circulo al final a la derecha de la pagina */
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+    bottom: -150px;
+    right: -150px;
+    z-index: -1;
+}
+
+body::before{
+    /* circulo al final a la izquierda de la pagina */
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+    top: 250px;
+    left: -150px;
+    z-index: -1;
 }
 
 header {
@@ -76,7 +102,6 @@ header {
     color: #e8e7e7;
     text-decoration: none;
     font-size: 16px;
-    margin-left: 15px;
 }
 
 .contact-button:hover {

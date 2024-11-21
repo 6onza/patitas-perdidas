@@ -150,8 +150,7 @@
   }
 }
 
-
-/* search results modal */
+/** search results modal **/
 .modal-overlay {
   display: none;
   position: fixed;
@@ -160,66 +159,109 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.6);
   justify-content: center;
   align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .modal-overlay.modal-visible {
   display: flex;
+  opacity: 1;
 }
 
 .modal-container {
-  background-color: white;
-  border-radius: 8px;
+  background-color: #ffffff;
+  border-radius: 12px;
   width: 90%;
-  max-width: 600px;
+  max-width: 800px;
   max-height: 80%;
   overflow-y: auto;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  transform: scale(0.9);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.modal-overlay.modal-visible .modal-container {
+  transform: scale(1);
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: 20px;
+  background-color: var(--light-color);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
   border-bottom: 1px solid #e0e0e0;
 }
 
 .modal-title {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  color: var(--secondary-color);
+  font-weight: bold;
 }
 
 .close-modal {
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   cursor: pointer;
   color: #888;
+  transition: color 0.3s ease;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.close-modal:hover {
+  color: var(--danger-color);
 }
 
 .modal-content {
-  padding: 15px;
+  padding: 20px;
 }
 
 .pet-card {
   background-color: #f9f9f9;
   border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  padding: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.pet-card:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.pet-card-body img{
+  max-width: 200px;
+  border-radius: 8px;
 }
 
 .pet-card-header h4 {
   margin-top: 0;
-  color: #333;
+  color: var(--secondary-color);
+  margin-bottom: 10px;
+}
+
+.pet-card-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 .text-success, .text-danger, .text-info {
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .text-success {
@@ -232,4 +274,27 @@
 
 .text-info {
   color: var(--info-color);
+}
+
+@media (max-width: 768px) {
+  .modal-container {
+    width: 95%;
+    max-height: 90%;
+  }
+
+  .modal-header {
+    padding: 15px;
+  }
+
+  .modal-title {
+    font-size: 1.2rem;
+  }
+
+  .pet-card-details {
+    grid-template-columns: 1fr;
+  }
+
+  .pet-card {
+    padding: 15px;
+  }
 }
