@@ -9,7 +9,7 @@ class PatitasPerdidas(App):
         return BoxLayout()
     
     def open_website(self, *args):
-        webbrowser.open("https://patitas-perdidotas.vercel.app/")  # URL del sitio web
+        webbrowser.open("https://patitas-perdidas.vercel.app/")  # URL del sitio web
 
 patitas_perdidas = PatitasPerdidas()
 patitas_perdidas.run()
