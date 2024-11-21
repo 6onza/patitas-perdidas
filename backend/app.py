@@ -28,33 +28,40 @@ mysql = MySQL(app)
 
 @app.route('/api/v1/pets', methods=['GET'])
 def get_pets():
-    cur = mysql.connection.cursor()
-    
-    # obtenemos los nombres de las columnas
-    cur.execute("DESCRIBE lost_pets")
-    columns = [column[0] for column in cur.fetchall()]
-    
-    # Luego hacemos la consulta de las mascotas
-    cur.execute('SELECT * FROM lost_pets')
-    rows = cur.fetchall()
-    
-    # Convertimos las tuplas a diccionarios
-    pets_list = []
-    for row in rows:
-        pet_dict = dict(zip(columns, row))
+    try:
+        cur = mysql.connection.cursor()
         
-        # Serializamos las fechas
-        if 'lost_date' in pet_dict and pet_dict['lost_date']:
-            pet_dict['lost_date'] = serialize_dates(pet_dict['lost_date'])
-        if 'created_at' in pet_dict and pet_dict['created_at']:
-            pet_dict['created_at'] = serialize_dates(pet_dict['created_at'])
-        if 'lost_time' in pet_dict and pet_dict['lost_time']:
-            pet_dict['lost_time'] = serialize_dates(pet_dict['lost_time'])
+        # obtenemos los nombres de las columnas
+        cur.execute("DESCRIBE lost_pets")
+        columns = [column[0] for column in cur.fetchall()]
+        
+        # Luego hacemos la consulta de las mascotas
+        cur.execute('SELECT * FROM lost_pets')
+        rows = cur.fetchall()
+        
+        # Convertimos las tuplas a diccionarios
+        pets_list = []
+        for row in rows:
+            pet_dict = dict(zip(columns, row))
             
-        pets_list.append(pet_dict)
-    
-    cur.close()
-    return jsonify(pets_list)
+            # Serializamos las fechas
+            if 'lost_date' in pet_dict and pet_dict['lost_date']:
+                pet_dict['lost_date'] = serialize_dates(pet_dict['lost_date'])
+            if 'created_at' in pet_dict and pet_dict['created_at']:
+                pet_dict['created_at'] = serialize_dates(pet_dict['created_at'])
+            if 'lost_time' in pet_dict and pet_dict['lost_time']:
+                pet_dict['lost_time'] = serialize_dates(pet_dict['lost_time'])
+                
+            pets_list.append(pet_dict)
+        
+        cur.close()
+        return jsonify(pets_list)
+    except MySQLdb.Error as e:
+        app.logger.error(f"Database error in get_pets: {str(e)}")
+        return jsonify({'error': 'Internal server error'}), 500
+    except Exception as e:
+        app.logger.error(f"Unexpected error in get_pets: {str(e)}")
+        return jsonify({'error': 'Unexpected error occurred'}), 500
 
 
 @app.route('/api/v1/pets', methods=['POST'])
