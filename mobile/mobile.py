@@ -1,14 +1,15 @@
 from kivy.app import App
-from kivy.uix.webview import WebView
+from kivy.uix.boxlayout import BoxLayout
+from kivy.lang import Builder
+import webbrowser
 
-def app_mobile_create():
-    webview = WebView(url='') # Aca tenemos que poner la url de la pagina una vez que ya la tengamos lista (con dominio y todo creo)
-    app = App()
-    app.root = webview
-    app.run()
+class PatitasPerdidas(App):
+    def build(self):
+        Builder.load_file('templates/patitasperdidas.kv')  # Carga explícita del archivo .kv
+        return BoxLayout()
+    
+    def open_website(self, *args):
+        webbrowser.open("https://patitas-perdidotas.vercel.app/")  # URL del sitio web
 
-if __name__ == '__main__':
-    app_mobile_create()
-
-
-# Al tener las dependencias instaladas (kivy y buildozer) se va a crear un buildozer.spec donde tambien tenemos que reemplazar parametros con nuestra url y otras cosas
+patitas_perdidas = PatitasPerdidas()
+patitas_perdidas.run()
