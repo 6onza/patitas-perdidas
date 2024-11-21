@@ -7,6 +7,9 @@
     --light-color: #f4f4f4;
     --hover-primary-color: #7cb342;
     --hover-secondary-color: #4f4676;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --info-color: #17a2b8;
 }
 * {
     margin: 0;
