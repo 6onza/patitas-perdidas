@@ -15,9 +15,9 @@
         {% if mascota.photo_url %}
         <img src="{{ mascota.photo_url }}" alt="Foto de {{ mascota.pet_name }}">
         {% else %}
-        {% if mascota.type == 'perro' %}
+        {% if mascota.type == 'dog' %}
         <img src="{{ url_for('static', filename='images/illustrations/dog.svg') }}" class="imagen" alt="Foto de {{ mascota.pet_name }}">
-        {% elif mascota.type == 'gato' %}
+        {% elif mascota.type == 'cat' %}
         <img src="{{ url_for('static', filename='images/illustrations/cat.svg') }}" class="imagen" alt="Foto de {{ mascota.pet_name }}">
         {% else %}
         <img src="{{ url_for('static', filename='images/illustrations/dog.svg') }}" class="imagen" alt="Foto de {{ mascota.pet_name }}">
@@ -27,7 +27,14 @@
      
       <figure class="cuadro_texto">
         <h2 class="nombre">{{ mascota.pet_name }}</h2>
-        <p class="dato">Tipo: {{ mascota.type }}</p>
+        <!-- si el tipo es dog se muestra perro -->
+        {% if mascota.type == 'dog' %}
+        <p class="tipo">Perro</p>
+        {% elif mascota.type == 'cat' %}
+        <p class="tipo">Gato</p>
+        {% else %}
+        <p class="tipo">No definido</p>
+        {% endif %}
         <p class="dato">Raza: {{ mascota.breed }}</p>
         <p class="dato">Color: {{ mascota.color }}</p>
         <button class="boton">Saber más</button>
