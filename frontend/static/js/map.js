@@ -109,6 +109,7 @@ function displaySearchResults(data, resultsTitle, resultsContainer) {
           <h4>${pet.pet_name || 'Nombre no disponible'}</h4>
         </div>
         <div class="pet-card-body">
+          <img src="${pet.type === 'cat' ? '../static/images/illustrations/cat.svg' : '../static/images/illustrations/dog.svg'}" alt="Mascota">
           <p><strong>Raza:</strong> ${pet.breed || 'No especificada'}</p>
           <p><strong>Descripción:</strong> ${pet.description || 'Sin descripción'}</p>
           <p><strong>Ubicación:</strong> ${pet.lost_location || 'Ubicación no especificada'}</p>

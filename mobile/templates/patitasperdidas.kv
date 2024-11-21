@@ -1,0 +1,47 @@
+<BoxLayout>:
+    orientation: "vertical"
+    spacing: 20
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1  # Fondo blanco
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        
+        # Dibujar círculos morados en los costados
+        Color:
+            rgba: 103/255., 95/255., 145/255., 1  # Color morado
+        Ellipse:
+            pos: self.x - 50, self.center_y - 50  # Círculo en el costado izquierdo
+            size: 100, 100
+        Ellipse:
+            pos: self.right - 50, self.center_y - 50  # Círculo en el costado derecho
+            size: 100, 100
+
+    Label:
+        text: "Patitas Perdidas"
+        font_size: 64
+        color: 103/255., 95/255., 145/255., 1  # Color del título
+        size_hint_y: None
+        height: self.texture_size[1]
+    
+    Label:
+        text: "Encuentra a tu mascota perdida"
+        color: 103/255., 95/255., 145/255., 1  # Color del texto
+        font_size: 24
+        size_hint_y: None
+        height: self.texture_size[1]
+    
+    Widget:
+        size_hint_y: None
+        height: 100
+    
+    Button:
+        text: "Visitar el sitio"
+        font_size: 24
+        size_hint: None, None
+        size: 200, 50
+        background_normal: ''  # Elimina la imagen de fondo predeterminada
+        background_color: 103/255., 95/255., 145/255., 1  # Fondo del botón con el mismo color que el título
+        pos_hint: {"center_x": 0.5}
+        on_press: app.open_website()  # Abre la URL cuando el botón sea presionado
