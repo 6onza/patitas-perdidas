@@ -14,4 +14,5 @@ mysqlclient==2.2.6
 PyMySQL==1.1.1
 requests==2.32.3
 urllib3==2.2.3
-Werkzeug==3.1.
+Werkzeug==3.1.0
+flask-cors==3.1.1
