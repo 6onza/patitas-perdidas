@@ -17,19 +17,20 @@ INSERT INTO lost_pets (
     lost_latitude,
     lost_longitude,
     description, 
-    status
+    status,
+    has_name_tag
 ) VALUES
     (1, 'Max', 'dog', 'Labrador', 'male', 'dorado', '2024-03-15', 'Parque Rivadavia, CABA', 
-     -34.6185, -58.4259, 'Perro grande y amigable, collar azul con placa de identificación', 'perdido'),
+     -34.6185, -58.4259, 'Perro grande y amigable, collar azul con placa de identificación', 'lost', TRUE),
     
     (2, 'Luna', 'cat', 'Siamés', 'male', 'blanco y marrón', '2024-03-17', 'Palermo, CABA',
-     -34.5889, -58.4306, 'Gata pequeña, muy tímida, tiene chip de identificación', 'perdido'),
+     -34.5889, -58.4306, 'Gata pequeña, muy tímida, tiene chip de identificación', 'lost', FALSE),
     
     (3, 'Rocky', 'dog', 'Bulldog', 'male', 'marrón y blanco', '2024-03-10', 'Villa Urquiza, CABA',
-     -34.5746, -58.4863, 'Bulldog adulto, manchas marrones, collar rojo', 'encontrado'),
+     -34.5746, -58.4863, 'Bulldog adulto, manchas marrones, collar rojo', 'found', FALSE),
     
     (1, 'Milo', 'cat', 'Común Europeo', 'male', 'negro', '2024-03-16', 'Belgrano, CABA',
-     -34.5624, -58.4563, 'Gato adulto negro, collar con cascabel', 'perdido');
+     -34.5624, -58.4563, 'Gato adulto negro, collar con cascabel', 'lost', TRUE);
 
 -- Insertar avistamientos
 INSERT INTO pet_sightings (

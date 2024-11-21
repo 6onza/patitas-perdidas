@@ -21,8 +21,9 @@ CREATE TABLE lost_pets (
     lost_latitude DECIMAL(10, 8) NOT NULL,
     lost_longitude DECIMAL(11, 8) NOT NULL,
     description TEXT NOT NULL,
-    photo_url VARCHAR(255), -- TODO: para esto podriamos usar un servicio como Cloudinary
+    photo_url VARCHAR(255), -- TODO: para esto podríamos usar un servicio como Cloudinary
     status ENUM('lost', 'found') DEFAULT 'lost',
+    has_name_tag BOOLEAN DEFAULT FALSE, -- Nueva columna para indicar si la mascota tiene una placa de identificación
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
