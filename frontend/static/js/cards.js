@@ -1,35 +1,13 @@
 const modal = document.createElement('div');
 modal.id = 'modal';
-modal.style.display = 'none';
-modal.style.position = 'fixed';
-modal.style.top = '0';
-modal.style.left = '0';
-modal.style.width = '100%';
-modal.style.height = '100%';
-modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-modal.style.zIndex = '1000';
-modal.style.justifyContent = 'center';
-modal.style.alignItems = 'center';
 
 const modalContent = document.createElement('div');
-modalContent.style.backgroundColor = '#fff';
-modalContent.style.borderRadius = '10px';
-modalContent.style.padding = '20px';
-modalContent.style.maxWidth = '500px';
-modalContent.style.width = '90%';
-modalContent.style.boxShadow = '0px 5px 15px rgba(0, 0, 0, 0.3)';
-modalContent.style.textAlign = 'center';
+modalContent.id = 'modal-content'; 
 modal.appendChild(modalContent);
 
 const closeModalButton = document.createElement('button');
+closeModalButton.id = 'close-modal-button'; 
 closeModalButton.textContent = 'Cerrar';
-closeModalButton.style.marginTop = '20px';
-closeModalButton.style.padding = '10px 20px';
-closeModalButton.style.backgroundColor = 'var(--primary-color)';
-closeModalButton.style.color = '#fff';
-closeModalButton.style.border = 'none';
-closeModalButton.style.borderRadius = '5px';
-closeModalButton.style.cursor = 'pointer';
 closeModalButton.addEventListener('click', () => {
     modal.style.display = 'none';
 });
@@ -51,7 +29,7 @@ buttons.forEach(button => {
             <p>${tipo}</p>
             <p>${raza}</p>
             <p>${color}</p>
-            <p style="color: red; font-weight: bold;">¡Esta mascota se encuentra perdida!</p>
+            <p class="alerta">¡Esta mascota se encuentra perdida!</p>
         `;
         modalContent.appendChild(closeModalButton); 
         modal.style.display = 'flex';
