@@ -103,7 +103,7 @@ MDNavigationLayout:
             elevation: 10
             pos_hint: {"top": 1}
             left_action_items: [["menu", lambda x: app.root.ids.nav_drawer.set_state("open")]]
-        
+
         ScrollView:
             BoxLayout:
                 orientation: "vertical"
@@ -118,6 +118,7 @@ MDNavigationLayout:
                     font_style: "H5"
 
                 MDTextField:
+                    id: name  # Aquí agregamos el id 'name'
                     hint_text: "Nombre"
                     multiline: False
                     size_hint_y: None
@@ -129,11 +130,13 @@ MDNavigationLayout:
                 BoxLayout:
                     orientation: "horizontal"
                     MDCheckbox:
+                        id: animal_type_gato  # id para el checkbox de gato
                         group: "animal_type"
                         active: True
                     MDLabel:
                         text: "Gato"
                     MDCheckbox:
+                        id: animal_type_perro  # id para el checkbox de perro
                         group: "animal_type"
                     MDLabel:
                         text: "Perro"
@@ -144,11 +147,13 @@ MDNavigationLayout:
                 BoxLayout:
                     orientation: "horizontal"
                     MDCheckbox:
+                        id: sex_macho  # id para el checkbox macho
                         group: "sex"
                         active: True
                     MDLabel:
                         text: "Macho"
                     MDCheckbox:
+                        id: sex_hembra  # id para el checkbox hembra
                         group: "sex"
                     MDLabel:
                         text: "Hembra"
@@ -159,28 +164,33 @@ MDNavigationLayout:
                 BoxLayout:
                     orientation: "horizontal"
                     MDCheckbox:
+                        id: has_tag_yes  # id para el checkbox sí
                         group: "has_tag"
                         active: True
                     MDLabel:
                         text: "Sí"
                     MDCheckbox:
+                        id: has_tag_no  # id para el checkbox no
                         group: "has_tag"
                     MDLabel:
                         text: "No"
 
                 MDTextField:
+                    id: color  # id para el campo de color
                     hint_text: "Color"
                     multiline: False
                     size_hint_y: None
                     height: "40dp"
 
                 MDTextField:
+                    id: city  # id para el campo de ciudad
                     hint_text: "Ciudad"
                     multiline: False
                     size_hint_y: None
                     height: "40dp"
 
                 MDTextField:
+                    id: address  # id para el campo de dirección
                     hint_text: "Dirección"
                     multiline: False
                     size_hint_y: None
@@ -191,7 +201,7 @@ MDNavigationLayout:
                     size_hint_y: None
                     height: "50dp"
                     pos_hint: {"center_x": 0.5}
-                    on_release: app.open_file_chooser()
+                    on_release: root.show_file_chooser()
 
                 MDLabel:
                     id: file_label
@@ -206,7 +216,8 @@ MDNavigationLayout:
                     size_hint_y: None
                     height: "50dp"
                     pos_hint: {"center_x": 0.5}
-                    on_release: app.register_pet()
+                    on_release: root.register_pet()
+
 
 <MascotasPerdidasScreen>:
     name: "mascotas_perdidas"
@@ -229,7 +240,6 @@ MDNavigationLayout:
     name: "buscar_mascotas"
     BoxLayout:
         orientation: "vertical"
-
         MDTopAppBar:
             title: "Buscar Mascotas"
             elevation: 10
@@ -237,10 +247,155 @@ MDNavigationLayout:
             left_action_items: [["menu", lambda x: app.root.ids.nav_drawer.set_state("open")]]
         
         ScrollView:
-            MDLabel:
-                text: "Formulario para buscar mascotas."
-                halign: "center"
-                theme_text_color: "Secondary"
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_x: 0.9
+                pos_hint: {"center_x": 0.5}
+                padding: "20dp"
+                spacing: "15dp"
+
+                MDLabel:
+                    text: "Filtrar por:"
+                    theme_text_color: "Primary"
+                    font_style: "H6"
+                    size_hint_y: None
+                    height: "40dp"
+
+                # Especie
+                MDLabel:
+                    text: "Especie"
+                    theme_text_color: "Secondary"
+                    size_hint_y: None
+                    height: "30dp"
+                
+                BoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: None
+                    height: "40dp"
+                    spacing: "20dp"
+                    padding: ["10dp", 0, 0, 0]
+                    
+                    MDCheckbox:
+                        id: gato
+                        group: "especie"
+                        size_hint: None, None
+                        size: "48dp", "48dp"
+                    MDLabel:
+                        text: "Gato"
+                        size_hint_x: 0.3
+                    MDCheckbox:
+                        id: perro
+                        group: "especie"
+                        size_hint: None, None
+                        size: "48dp", "48dp"
+                    MDLabel:
+                        text: "Perro"
+                        size_hint_x: 0.3
+
+                # Sexo
+                MDLabel:
+                    text: "Sexo"
+                    theme_text_color: "Secondary"
+                    size_hint_y: None
+                    height: "30dp"
+
+                BoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: None
+                    height: "40dp"
+                    spacing: "20dp"
+                    padding: ["10dp", 0, 0, 0]
+                    
+                    MDCheckbox:
+                        id: macho
+                        group: "sexo"
+                        size_hint: None, None
+                        size: "48dp", "48dp"
+                    MDLabel:
+                        text: "Macho"
+                        size_hint_x: 0.3
+                    MDCheckbox:
+                        id: hembra
+                        group: "sexo"
+                        size_hint: None, None
+                        size: "48dp", "48dp"
+                    MDLabel:
+                        text: "Hembra"
+                        size_hint_x: 0.3
+
+                # Condición
+                MDLabel:
+                    text: "Condición"
+                    theme_text_color: "Secondary"
+                    size_hint_y: None
+                    height: "30dp"
+
+                BoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: None
+                    height: "40dp"
+                    spacing: "20dp"
+                    padding: ["10dp", 0, 0, 0]
+                    
+                    MDCheckbox:
+                        id: con_chapa
+                        group: "condicion"
+                        size_hint: None, None
+                        size: "48dp", "48dp"
+                    MDLabel:
+                        text: "Con chapa"
+                        size_hint_x: 0.3
+                    MDCheckbox:
+                        id: sin_chapa
+                        group: "condicion"
+                        size_hint: None, None
+                        size: "48dp", "48dp"
+                    MDLabel:
+                        text: "Sin chapa"
+                        size_hint_x: 0.3
+
+                # Ciudad
+                MDLabel:
+                    text: "Ciudad"
+                    theme_text_color: "Secondary"
+                    size_hint_y: None
+                    height: "30dp"
+
+                MDTextField:
+                    id: ciudad
+                    hint_text: "Ingresa una ciudad"
+                    mode: "rectangle"
+                    size_hint_y: None
+                    height: "40dp"
+
+                # Dirección
+                MDLabel:
+                    text: "Dirección"
+                    theme_text_color: "Secondary"
+                    size_hint_y: None
+                    height: "30dp"
+
+                MDTextField:
+                    id: direccion
+                    hint_text: "Ingresa una dirección"
+                    mode: "rectangle"
+                    size_hint_y: None
+                    height: "40dp"
+
+                # Botón Buscar
+                MDRaisedButton:
+                    text: "Buscar"
+                    size_hint_y: None
+                    height: "50dp"
+                    size_hint_x: None
+                    width: "200dp"
+                    pos_hint: {"center_x": 0.5}
+                    md_bg_color: app.theme_cls.primary_color
+                    on_release: app.search_pets()
+
+                Widget:
+                    size_hint_y: None
+                    height: "20dp"
 
 <SobreNosotrosScreen>:
     name: "sobre_nosotros"
@@ -280,6 +435,15 @@ MDNavigationLayout:
                     text: "Si tienes alguna pregunta o deseas colaborar con nosotros, no dudes en contactarnos."
                     halign: "center"
                     theme_text_color: "Secondary"
+                
+                MDRaisedButton:
+                    text: "Visita nuestra web"
+                    size_hint: None, None
+                    size: "250dp", "50dp"
+                    pos_hint: {"center_x": 0.5}
+                    md_bg_color: [103/255., 95/255., 145/255., 1]
+                    on_release: root.open_website()  
+
 
 <ContactoScreen>:
     name: "contacto"
@@ -307,6 +471,7 @@ MDNavigationLayout:
                     height: "40dp"
 
                 MDTextField:
+                    id: name
                     hint_text: "Ingrese su nombre"
                     mode: "rectangle"
                     size_hint_x: None
@@ -314,6 +479,7 @@ MDNavigationLayout:
                     pos_hint: {"center_x": 0.5}
 
                 MDTextField:
+                    id: email
                     hint_text: "Ingrese su email"
                     mode: "rectangle"
                     size_hint_x: None
@@ -321,6 +487,7 @@ MDNavigationLayout:
                     pos_hint: {"center_x": 0.5}
 
                 MDTextField:
+                    id: message
                     hint_text: "Escriba su mensaje aquí"
                     mode: "rectangle"
                     size_hint_x: None

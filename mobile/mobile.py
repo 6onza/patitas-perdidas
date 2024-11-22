@@ -10,25 +10,17 @@ from kivy.uix.filechooser import FileChooserIconView
 from kivy.uix.popup import Popup
 from kivymd.uix.button import MDRaisedButton
 
-
+import webbrowser
+import requests
 
 # Definir las pantallas
 class HomeScreen(Screen):
-    pass
-
-class RegistrarMascotaScreen(Screen):
     pass
 
 class MascotasPerdidasScreen(Screen):
     pass
 
 class BuscarMascotasScreen(Screen):
-    pass
-
-class SobreNosotrosScreen(Screen):
-    pass
-
-class ContactoScreen(Screen):
     pass
 
 # Clase principal de la app
@@ -45,7 +37,8 @@ class PatitasPerdidasApp(MDApp):
         screen_manager = self.root.ids.screen_manager
         screen_manager.current = screen_name
 
-class RegistrarMascotaScreen(Screen):
+
+class RegistrarMascotaScreen(Screen):  #
     def show_file_chooser(self):
         filechooser = FileChooserIconView()
         filechooser.bind(on_selection=lambda *x: self.on_file_select(filechooser.selection))
@@ -60,19 +53,62 @@ class RegistrarMascotaScreen(Screen):
 
     def register_pet(self):
         name = self.ids.name.text
-        animal_type = self.ids.animal_type.active
-        sex = self.ids.sex.active
-        has_tag = self.ids.has_tag.active
+        animal_type = 'Gato' if self.ids.animal_type_gato.active else 'Perro'
+        sex = 'Macho' if self.ids.sex_macho.active else 'Hembra'
+        has_tag = 'Sí' if self.ids.has_tag_yes.active else 'No'
         color = self.ids.color.text
         city = self.ids.city.text
         address = self.ids.address.text
-        image = self.ids.image.text
-        
-        # Aquí puedes realizar la validación o el procesamiento de los datos
-        # Mostrar un mensaje de éxito
+        image = self.ids.file_label.text  
+    
+        # Rama, deje encaminada la logica de validacion de campos (para evitar que crashee la app al tocar el boton ademas), pero falta el tema snackbar, asi que
+        # crashea igual xd
+        if not name or not color or not city or not address or not image:
+            Snackbar(text="Por favor, completa todos los campos").open()
+            return  
+    
+        if not animal_type:
+            Snackbar(text="Por favor, selecciona el tipo de animal").open()
+            return  # Detener la ejecución si no se seleccionó el tipo de animal
+    
+        if not sex:
+            Snackbar(text="Por favor, selecciona el sexo de la mascota").open()
+            return  # Detener la ejecución si no se seleccionó el sexo
+
+        if not has_tag:
+            Snackbar(text="Por favor, selecciona si tiene chapa").open()
+            return  # Detener la ejecución si no se seleccionó si tiene chapa
+    
+        # Si todos los campos están completos, se realiza el registro
         Snackbar(text="Mascota registrada exitosamente!").open()
 
+class SobreNosotrosScreen(Screen):
+    def open_website(self):
+        webbrowser.open("https://patitas-perdidas.vercel.app/")  
+    
+class ContactoScreen(Screen):
+    def send_contact_data(self):
+        name = self.ids.name.text
+        email = self.ids.email.text
+        message = self.ids.message.text
 
+        # Las keys del diccionario tienen que coincidir con lo que espera el endpoint enviar_email y los valores con la info de kivy
+        data = {
+            "name": name,
+            "email": email,
+            "message": message
+        }
+
+        endpoint = "https://localhost:5001/enviar_email" 
+
+        try:
+            response = requests.post(endpoint, data=data)
+            if response.status_code == 200:
+                print("Data send successfully")
+            else:
+                print(f"Error sending data: {response.status_code}")
+        except requests.exceptions.RequestException as e:
+            print(f"Error making request: {e}")
 
 if __name__ == "__main__":
     PatitasPerdidasApp().run()
