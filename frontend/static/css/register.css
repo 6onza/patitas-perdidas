@@ -81,4 +81,7 @@
     .register-form h2 {
         font-size: 20px;
     }
+    .register-section{
+        margin-top: 250px;
+    }
 }

@@ -1,47 +1,299 @@
-<BoxLayout>:
-    orientation: "vertical"
-    spacing: 20
-    canvas.before:
-        Color:
-            rgba: 1, 1, 1, 1  # Fondo blanco
-        Rectangle:
-            pos: self.pos
-            size: self.size
-        
-        # Dibujar círculos morados en los costados
-        Color:
-            rgba: 103/255., 95/255., 145/255., 1  # Color morado
-        Ellipse:
-            pos: self.x - 50, self.center_y - 50  # Círculo en el costado izquierdo
-            size: 100, 100
-        Ellipse:
-            pos: self.right - 50, self.center_y - 50  # Círculo en el costado derecho
-            size: 100, 100
+MDNavigationLayout:
+    ScreenManager:
+        id: screen_manager
 
-    Label:
-        text: "Patitas Perdidas"
-        font_size: 64
-        color: 103/255., 95/255., 145/255., 1  # Color del título
-        size_hint_y: None
-        height: self.texture_size[1]
-    
-    Label:
-        text: "Encuentra a tu mascota perdida"
-        color: 103/255., 95/255., 145/255., 1  # Color del texto
-        font_size: 24
-        size_hint_y: None
-        height: self.texture_size[1]
-    
-    Widget:
-        size_hint_y: None
-        height: 100
-    
-    Button:
-        text: "Visitar el sitio"
-        font_size: 24
-        size_hint: None, None
-        size: 200, 50
-        background_normal: ''  # Elimina la imagen de fondo predeterminada
-        background_color: 103/255., 95/255., 145/255., 1  # Fondo del botón con el mismo color que el título
-        pos_hint: {"center_x": 0.5}
-        on_press: app.open_website()  # Abre la URL cuando el botón sea presionado
+        # Definir pantallas
+        HomeScreen:
+            name: "home"
+        RegistrarMascotaScreen:
+            name: "registrar_mascota"
+        MascotasPerdidasScreen:
+            name: "mascotas_perdidas"
+        BuscarMascotasScreen:
+            name: "buscar_mascotas"
+        SobreNosotrosScreen:
+            name: "sobre_nosotros"
+        ContactoScreen:
+            name: "contacto"
+
+    MDNavigationDrawer:
+        id: nav_drawer
+
+        BoxLayout:
+            orientation: "vertical"
+            padding: "8dp"
+            spacing: "10dp"
+
+            ScrollView:
+                MDList:
+                    OneLineListItem:
+                        text: "Home"
+                        on_release:
+                            app.change_screen("home")
+                    OneLineListItem:
+                        text: "Registrar Mascota"
+                        on_release:
+                            app.change_screen("registrar_mascota")
+                    OneLineListItem:
+                        text: "Mascotas Perdidas"
+                        on_release:
+                            app.change_screen("mascotas_perdidas")
+                    OneLineListItem:
+                        text: "Buscar Mascotas"
+                        on_release:
+                            app.change_screen("buscar_mascotas")
+                    OneLineListItem:
+                        text: "Sobre Nosotros"
+                        on_release:
+                            app.change_screen("sobre_nosotros")
+                    OneLineListItem:
+                        text: "Contacto"
+                        on_release:
+                            app.change_screen("contacto")
+
+<HomeScreen>:
+    name: "home"
+    BoxLayout:
+        orientation: "vertical"
+        
+        MDTopAppBar:
+            title: "Patitas Perdidas"
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [["menu", lambda x: app.root.ids.nav_drawer.set_state("open")]]
+        
+        Widget:
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+                Color:
+                    rgba: 103/255., 95/255., 145/255., 1
+                Ellipse:
+                    pos: self.x - 100, self.center_y - 150
+                    size: 200, 200
+
+                Ellipse:
+                    pos: self.right - 100, self.center_y - 150
+                    size: 200, 200
+        
+        Image:
+            source: "assets/images/background.png"
+            size: 600, 600 
+            allow_stretch: False  
+            keep_ratio: True  
+            pos_hint: {"center": (0.5, 0.5)}  
+
+        ScrollView:
+            MDLabel:
+                text: "Bienvenido a Patitas Perdidas, ayúdanos a encontrar tu mascota."
+                halign: "center"
+                theme_text_color: "Secondary"
+
+<RegistrarMascotaScreen>:
+    name: "registrar_mascota"
+    BoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "Registrar Mascota"
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [["menu", lambda x: app.root.ids.nav_drawer.set_state("open")]]
+        
+        ScrollView:
+            BoxLayout:
+                orientation: "vertical"
+                padding: "20dp"
+                spacing: "10dp"
+                padding: [0, 40, 0, 0]
+
+                MDLabel:
+                    text: "Registra a tu mascota perdida"
+                    halign: "center"
+                    theme_text_color: "Secondary"
+                    font_style: "H5"
+
+                MDTextField:
+                    hint_text: "Nombre"
+                    multiline: False
+                    size_hint_y: None
+                    height: "40dp"
+
+                MDLabel:
+                    text: "Tipo de animal"
+                    theme_text_color: "Secondary"
+                BoxLayout:
+                    orientation: "horizontal"
+                    MDCheckbox:
+                        group: "animal_type"
+                        active: True
+                    MDLabel:
+                        text: "Gato"
+                    MDCheckbox:
+                        group: "animal_type"
+                    MDLabel:
+                        text: "Perro"
+
+                MDLabel:
+                    text: "Sexo"
+                    theme_text_color: "Secondary"
+                BoxLayout:
+                    orientation: "horizontal"
+                    MDCheckbox:
+                        group: "sex"
+                        active: True
+                    MDLabel:
+                        text: "Macho"
+                    MDCheckbox:
+                        group: "sex"
+                    MDLabel:
+                        text: "Hembra"
+
+                MDLabel:
+                    text: "¿Tiene chapa?"
+                    theme_text_color: "Secondary"
+                BoxLayout:
+                    orientation: "horizontal"
+                    MDCheckbox:
+                        group: "has_tag"
+                        active: True
+                    MDLabel:
+                        text: "Sí"
+                    MDCheckbox:
+                        group: "has_tag"
+                    MDLabel:
+                        text: "No"
+
+                MDTextField:
+                    hint_text: "Color"
+                    multiline: False
+                    size_hint_y: None
+                    height: "40dp"
+
+                MDTextField:
+                    hint_text: "Ciudad"
+                    multiline: False
+                    size_hint_y: None
+                    height: "40dp"
+
+                MDTextField:
+                    hint_text: "Dirección"
+                    multiline: False
+                    size_hint_y: None
+                    height: "40dp"
+
+                MDRaisedButton:
+                    text: "Seleccionar imagen de mascota"
+                    size_hint_y: None
+                    height: "50dp"
+                    pos_hint: {"center_x": 0.5}
+                    on_release: app.open_file_chooser()
+
+                MDLabel:
+                    id: file_label
+                    text: "No se ha seleccionado archivo"
+                    halign: "center"
+                    theme_text_color: "Secondary"
+                    size_hint_y: None
+                    height: "40dp"
+
+                MDRaisedButton:
+                    text: "Registrar mascota"
+                    size_hint_y: None
+                    height: "50dp"
+                    pos_hint: {"center_x": 0.5}
+                    on_release: app.register_pet()
+
+<MascotasPerdidasScreen>:
+    name: "mascotas_perdidas"
+    BoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "Mascotas Perdidas"
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [["menu", lambda x: app.root.ids.nav_drawer.set_state("open")]]
+        
+        ScrollView:
+            MDLabel:
+                text: "Lista de mascotas perdidas."
+                halign: "center"
+                theme_text_color: "Secondary"
+
+<BuscarMascotasScreen>:
+    name: "buscar_mascotas"
+    BoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "Buscar Mascotas"
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [["menu", lambda x: app.root.ids.nav_drawer.set_state("open")]]
+        
+        ScrollView:
+            MDLabel:
+                text: "Formulario para buscar mascotas."
+                halign: "center"
+                theme_text_color: "Secondary"
+
+<SobreNosotrosScreen>:
+    name: "sobre_nosotros"
+    BoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "Sobre Nosotros"
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [["menu", lambda x: app.root.ids.nav_drawer.set_state("open")]]
+        
+        ScrollView:
+            BoxLayout:
+                orientation: "vertical"
+                padding: "20dp"
+                spacing: "10dp"
+                
+                MDLabel:
+                    text: "Nuestra misión es ayudar a reunir a las mascotas perdidas con sus dueños."
+                    halign: "center"
+                    theme_text_color: "Secondary"
+                    font_style: "H5"
+                
+                MDLabel:
+                    text: "Trabajamos con amor y dedicación para que ninguna mascota se quede sin hogar."
+                    halign: "center"
+                    theme_text_color: "Secondary"
+                
+                Image:
+                    source: "assets/images/background.png"
+                    size_hint: (None, None)
+                    size: (200, 200)
+                    pos_hint: {"center_x": 0.5}
+                
+                MDLabel:
+                    text: "Si tienes alguna pregunta o deseas colaborar con nosotros, no dudes en contactarnos."
+                    halign: "center"
+                    theme_text_color: "Secondary"
+
+<ContactoScreen>:
+    name: "contacto"
+    BoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            title: "Contacto"
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [["menu", lambda x: app.root.ids.nav_drawer.set_state("open")]]
+        
+        ScrollView:
+            MDLabel:
+                text: "Formulario para contactar con nosotros."
+                halign: "center"
+                theme_text_color: "Secondary"
