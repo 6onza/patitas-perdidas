@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect
 import config
 from services.pet_service import find_pet_by_id, add_new_pet, update_existing_pet
 from flask_mysqldb import MySQL
@@ -350,7 +350,7 @@ def search_pet():
         app.logger.error(f"Unexpected error in pet search: {str(e)}")
         return jsonify({'error': 'Unexpected error occurred'}), 500
     
-@app.route('/api/v1/send_email', methods=['POST'])
+@app.route('/send_email', methods=['POST'])
 def send_email():
     '''
     Procesa el formulario de contacto y envia un correo electrónico tanto al usuario que envió el formulario como al administrador del sitio web.
@@ -366,7 +366,10 @@ def send_email():
 
         servidor = smtplib.SMTP("smtp.gmail.com", 587)
         servidor.starttls()
-        servidor.login(SMTP_USERNAME, SMTP_PASSWORD)  
+        servidor.login(SMTP_USERNAME, SMTP_PASSWORD)
+        print("SMTP_USERNAME:", SMTP_USERNAME)
+        print("SMTP_PASSWORD:", SMTP_PASSWORD)
+
         
         msg_user = MIMEText(
             f"Hola {name},\n\nHemos recibido tu mensaje correctamente. "
