@@ -19,7 +19,12 @@
                     <li class="nav-items"><a class="nav-links" href="#home">Inicio</a></li>
                     <li class="nav-items"><a class="nav-links" href="#mascotas-perdidas">Mascotas perdidas</a></li>
                     <li class="nav-items"><a class="nav-links" href="#aboutus">Sobre Nosotros</a></li>
-                    <li class="nav-items"><a class="nav-links contact-button" href="#form">Contacto</a></li>
+                    <!-- este boton va a tener cerrar sesion o iniciar sesion segun si esta logueado o no -->
+                    <li class="nav-items my-0 py-0 d-flex align-items-center" id="loginButton">
+                        <button class="my-0 btn-primary text-decoration-none">
+                            action
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div> 
@@ -35,6 +40,32 @@
             <img src="{{ url_for('static', filename='images/dog.svg') }}" 
             alt="Mascota perdida" class="home-image">
         </div>
-    </section>   
-    <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+    </section> 
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+<!-- logout -->
+<script>
+    function logout() {
+        // Eliminar el token de acceso
+        localStorage.removeItem('access_token');
+        // Redirigir al inicio
+        window.location.href = '/';
+    }
+    // Si el usuario esta logueado, mostrar boton de cerrar sesion
+    if (localStorage.getItem('access_token')) {
+        document.getElementById('loginButton').innerHTML = `
+            <button class="my-0 btn-primary text-decoration-none" onclick="logout()">
+                Cerrar Sesión
+            </button>
+        `;
+    } else {
+        document.getElementById('loginButton').innerHTML = `
+            <button class="my-0 btn-primary text-decoration-none" onclick="window.location.href='/login'">
+                Iniciar Sesión
+            </button>
+        `;
+    }
+</script>
 {% endblock %}

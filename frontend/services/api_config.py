@@ -1,6 +1,6 @@
 import requests
 
-base_url = "http://127.0.0.1:5000/api/v1" # URL de la API
+base_url = "https://gvineg.pythonanywhere.com/api/v1" # URL de la API
 
 def get(endpoint, params=None):
     url = f"{base_url}/{endpoint}"

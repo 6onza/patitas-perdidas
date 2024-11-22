@@ -1,51 +1,33 @@
--- Insertar usuarios de ejemplo
-INSERT INTO users (name, email, phone) VALUES
-    ('Juan Pérez', 'juan@email.com', '1156789012'),
-    ('María García', 'maria@email.com', '1145678901'),
-    ('Carlos López', 'carlos@email.com', '1167890123');
+-- Insertando usuarios de ejemplo
+INSERT INTO users (name, username, password_hash, phone) VALUES
+('María González', 'mariag', '$2b$12$FvEwn0nsruAJVSbnQ22PL.fIWaptv9AEyJFVvB2oarETHKmgClX3K', '11-4523-7890'),
+('Juan Pérez', 'juanp', '$2b$12$VSnoAZKe0UHuPJYf3Aqsbeqkik83d6si7rup6.0KBSguPsPHunjtG', '11-6789-4532'),
+('Laura Rodríguez', 'laurar', '$2b$12$w39IG6XY5Xda9JrYhbvuE.gaSLQWGD9Aznh9xgSEKPs/mpwfE99se', '11-2345-6789'),
+('Carlos Martínez', 'carlosm', '$2b$12$xMWp1tPfzwCqLRBhDrz5Q.uAkXJz9hRf5BaE9KqW7T3q', '11-8901-2345'),
+('Ana Silva', 'anas', '$2b$12$xNWp1tPfzwCqZnPf3Q7IjOBzX5J9hRf5BaE9KqW7T3q', '11-3456-7890'),
+('Diego López', 'diegol', '$2b$12$xOWp1tPfzwCqFbRhDrz5Q.uAkXJz9hRf5BaE9KqW7T3q', '11-7890-1234'),
+('Paula Fernández', 'paulaf', '$2b$12$xPWp1tPfzwCqLbRhDrz5Q.uAkXJz9hRf5BaE9KqW7T3q', '11-5678-9012');
 
--- Insertar mascotas perdidas
+-- Insertando mascotas perdidas
 INSERT INTO lost_pets (
-    user_id, 
-    pet_name, 
-    type, 
-    breed, 
+    user_id,
+    pet_name,
+    type,
     sex,
-    color, 
-    lost_date, 
-    lost_location, 
+    breed,
+    color,
+    lost_date,
+    lost_location,
     lost_latitude,
     lost_longitude,
-    description, 
+    description,
     status,
     has_name_tag
-) VALUES
-    (1, 'Max', 'dog', 'Labrador', 'male', 'dorado', '2024-03-15', 'Parque Rivadavia, CABA', 
-     -34.6185, -58.4259, 'Perro grande y amigable, collar azul con placa de identificación', 'lost', TRUE),
-    
-    (2, 'Luna', 'cat', 'Siamés', 'male', 'blanco y marrón', '2024-03-17', 'Palermo, CABA',
-     -34.5889, -58.4306, 'Gata pequeña, muy tímida, tiene chip de identificación', 'lost', FALSE),
-    
-    (3, 'Rocky', 'dog', 'Bulldog', 'male', 'marrón y blanco', '2024-03-10', 'Villa Urquiza, CABA',
-     -34.5746, -58.4863, 'Bulldog adulto, manchas marrones, collar rojo', 'found', FALSE),
-    
-    (1, 'Milo', 'cat', 'Común Europeo', 'male', 'negro', '2024-03-16', 'Belgrano, CABA',
-     -34.5624, -58.4563, 'Gato adulto negro, collar con cascabel', 'lost', TRUE);
-
--- Insertar avistamientos
-INSERT INTO pet_sightings (
-    lost_pet_id,
-    reporter_name,
-    reporter_phone,
-    sighting_date,
-    sighting_location,
-    details
-) VALUES
-    (1, 'Ana Martínez', '1123456789', '2024-03-16', 'Plaza Almagro, CABA',
-     'Vi un perro similar corriendo cerca de la plaza, parecía desorientado'),
-    
-    (1, 'Pedro Sánchez', '1134567890', '2024-03-17', 'Caballito, CABA',
-     'Creo haber visto este perro cerca del parque Rivadavia hoy temprano'),
-    
-    (2, 'Laura Rodríguez', '1145678901', '2024-03-18', 'Palermo Soho, CABA',
-     'Vi una gata siamesa entrando a un garage en Thames al 1500');
+) VALUES 
+(1, 'Toby', 'dog', 'male', 'Labrador', 'dorado', '2024-03-15', 'Palermo, Buenos Aires', -34.588446, -58.411780, 'Perro labrador amigable, collar azul con placa', 'lost', true),
+(2, 'Luna', 'cat', 'female', 'Siamés', 'blanco y marrón', '2024-03-18', 'Recoleta, Buenos Aires', -34.587569, -58.393839, 'Gata siamesa con collar rojo', 'lost', true),
+(3, 'Rocky', 'dog', 'male', 'Pastor Alemán', 'negro y marrón', '2024-03-20', 'Belgrano, Buenos Aires', -34.563589, -58.451886, 'Pastor alemán adulto con cicatriz en pata derecha', 'found', false),
+(4, 'Mimi', 'cat', 'female', 'Persa', 'gris', '2024-03-21', 'San Telmo, Buenos Aires', -34.621023, -58.371573, 'Gata persa de pelo largo, muy asustadiza', 'lost', false),
+(5, 'Max', 'dog', 'male', 'Golden Retriever', 'dorado', '2024-03-22', 'Núñez, Buenos Aires', -34.543456, -58.456789, 'Golden retriever con pañuelo rojo en el cuello', 'lost', true),
+(6, 'Nina', 'cat', 'female', 'Común Europeo', 'negro', '2024-03-23', 'Villa Crespo, Buenos Aires', -34.599825, -58.436937, 'Gata negra con manchita blanca en el pecho', 'lost', false),
+(7, 'Zeus', 'dog', 'male', 'Bulldog Francés', 'atigrado', '2024-03-24', 'Caballito, Buenos Aires', -34.619732, -58.442982, 'Bulldog francés con collar verde', 'found', true);

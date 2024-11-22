@@ -1,34 +1,48 @@
-from flask import Flask, jsonify, request, redirect
-import config, os
+from flask import Flask, jsonify, request
+import config
 from services.pet_service import find_pet_by_id, add_new_pet, update_existing_pet
 from flask_mysqldb import MySQL
-from datetime import datetime
+from datetime import datetime, timedelta
 from helpers.dates import serialize_dates
 from flask_cors import CORS
 import MySQLdb
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_bcrypt import Bcrypt
+import secrets
+import hashlib
+from dotenv import load_dotenv
 
 import smtplib
 from email.mime.text import MIMEText
-
-from dotenv import load_dotenv
 
 load_dotenv()
 
 app = Flask(__name__)
 
+# SMTP Configuración
 app.secret_key = os.getenv('APP_SECRET_KEY')
 SMTP_USERNAME = os.getenv('SMTP_USERNAME')
 SMTP_PASSWORD = os.getenv('SMTP_PASSWORD')
 
+# Configuración de JWT
+app.config['JWT_SECRET_KEY'] = config.SECRET_KEY
+jwt = JWTManager(app)
 
+# Configuración de CORS
 CORS(app, resources={
-    r"/*": {
-        "origins": config.CORS_ORIGIN,
-        "methods": config.CORS_ALLOWED_METHODS,
-        "allow_headers": config.CORS_ALLOWED_HEADERS,
+    r"/api/*": {
+        "origins": ["http://localhost:5001", "http://127.0.0.1:5001", 'http://localhost:5001/login'],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
         "supports_credentials": True
     }
 })
+
+# Configuración de JWT
+app.config['JWT_SECRET_KEY'] = config.SECRET_KEY
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)  # Token expira en 1 hora
+app.config['JWT_TOKEN_LOCATION'] = ['headers']
+jwt = JWTManager(app)
 
 # Configuración desde config.py
 app.config['DEBUG'] = config.DEBUG
@@ -38,6 +52,81 @@ app.config.update(config.DB_CONFIG)
 
 mysql = MySQL(app)
 
+
+@app.route('/api/v1/login', methods=['POST'])
+def login():
+    # Obtener los datos JSON de la solicitud
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+   
+    # Validar que se proporcionen username y password
+    if not username or not password:
+        return jsonify({'error': 'Nombre de usuario y contraseña son requeridos'}), 400
+   
+    try:
+        # Establecer conexión a la base de datos y buscar el usuario
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT id, username, password_hash FROM users WHERE username = %s', (username,))
+        user = cur.fetchone()
+        cur.close()
+   
+        # Verificar si el usuario existe
+        if not user:
+            return jsonify({'error': 'Nombre de usuario o contraseña inválidos'}), 400
+        
+        # Verificar la contraseña usando hashing seguro
+        user_id, db_username, stored_password = user
+        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        
+        # Comparar contraseñas de forma segura
+        if hashed_password == stored_password:
+            # Generar token de acceso
+            access_token = create_access_token(identity={
+                'user_id': user_id,
+                'username': db_username
+            })
+            return jsonify({'access_token': access_token}), 200
+        else:
+            return jsonify({'error': 'Nombre de usuario o contraseña inválidos'}), 400
+    
+    except Exception as e:
+        # Manejo de errores generales
+        print(f"Error de inicio de sesión: {e}")
+        return jsonify({'error': 'Error interno del servidor'}), 500
+    
+    
+@app.route('/api/v1/register', methods=['POST'])
+def register():
+    # Obtener los datos JSON de la solicitud
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    name = data.get('name')
+    phone = data.get('phone')
+    
+    # Validar que se proporcionen username, password, name y phone
+    if not username or not password or not name or not phone:
+        return jsonify({'error': 'Nombre de usuario, contraseña, nombre y teléfono son requeridos'}), 400
+    
+    try:
+        # Hash de la contraseña sin salt
+        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        
+        # Establecer conexión a la base de datos y guardar el usuario
+        cur = mysql.connection.cursor()
+        cur.execute('INSERT INTO users (username, password_hash, name, phone) VALUES (%s, %s, %s, %s)',
+                    (username, hashed_password, name, phone))
+        mysql.connection.commit()
+        cur.close()
+        
+        return jsonify({'message': 'Usuario registrado exitosamente'}), 201
+    
+    except Exception as e:
+        # Manejo de errores generales
+        print(f"Error de registro: {e}")
+        return jsonify({'error': 'Error interno del servidor'}), 500
+    
 @app.route('/api/v1/pets', methods=['GET'])
 def get_pets():
     try:
@@ -298,7 +387,6 @@ def send_email():
         servidor.sendmail(SMTP_USERNAME, SMTP_USERNAME, msg_admin.as_string())
         servidor.quit()
         return redirect("https://patitas-perdidas.vercel.app/")
-    
 
 if __name__ == '__main__':
     app.run()

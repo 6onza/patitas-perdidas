@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}Registro de Usuario{% endblock %}
+{% block content %}
+<section class="register container-fluid">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <img src="{{ url_for('static', filename='images/illustrations/cat.svg') }}"
+                             alt="Ilustración de registro"
+                             class="img-fluid col-lg-6">
+                        <h2 class="text-center">Crear Cuenta</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-danger d-none" id="errorAlert" role="alert">
+                        </div>
+                       
+                        <form id="registerForm" novalidate>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Nombre Completo</label>
+                                <input type="text"
+                                       name="name"
+                                       id="name"
+                                       class="form-control"
+                                       required>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa tu nombre completo
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nombre de Usuario</label>
+                                <input type="text"
+                                       name="username"
+                                       id="username"
+                                       class="form-control"
+                                       required>
+                                <div class="invalid-feedback">
+                                    Por favor elige un nombre de usuario
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Teléfono</label>
+                                <input type="tel"
+                                       name="phone"
+                                       id="phone"
+                                       class="form-control"
+                                       required>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa tu número de teléfono
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña</label>
+                                <input type="password"
+                                       name="password"
+                                       id="password"
+                                       class="form-control"
+                                       required>
+                                <div class="invalid-feedback">
+                                    Por favor ingresa una contraseña
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirm-password" class="form-label">Confirmar Contraseña</label>
+                                <input type="password"
+                                       name="confirm-password"
+                                       id="confirm-password"
+                                       class="form-control"
+                                       required>
+                                <div class="invalid-feedback">
+                                    Las contraseñas no coinciden
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100" id="submitBtn">
+                                <span class="spinner-border spinner-border-sm d-none" id="loadingSpinner" role="status" aria-hidden="true"></span>
+                                Registrarse
+                            </button>
+                            <div class="text-center mt-3">
+                                <p>¿Ya tienes una cuenta? <a href="{{ url_for('login') }}">Iniciar sesión</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/register.js') }}"></script>
+{% endblock %}

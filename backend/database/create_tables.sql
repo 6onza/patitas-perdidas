@@ -2,7 +2,8 @@
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,  -- Cambiado de password a password_hash
     phone VARCHAR(20) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -26,17 +27,4 @@ CREATE TABLE lost_pets (
     has_name_tag BOOLEAN DEFAULT FALSE, -- Nueva columna para indicar si la mascota tiene una placa de identificación
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
--- Tabla para avistamientos de mascotas
-CREATE TABLE pet_sightings (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    lost_pet_id INT NOT NULL,
-    reporter_name VARCHAR(100) NOT NULL,
-    reporter_phone VARCHAR(20) NOT NULL,
-    sighting_date DATE NOT NULL,
-    sighting_location VARCHAR(255) NOT NULL,
-    details TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (lost_pet_id) REFERENCES lost_pets(id)
 );

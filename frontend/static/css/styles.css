@@ -5,7 +5,7 @@
     --secondary-color: #675F91;
     --background-color: #ffff;
     --light-color: #f4f4f4;
-    --hover-primary-color: #7cb342;
+    --hover-primary-color: #3b3a52;
     --hover-secondary-color: #4f4676;
     --success-color: #28a745;
     --danger-color: #dc3545;
@@ -28,6 +28,19 @@
     color: var(--secondary-color);
 }
 
+.btn-primary{
+    background-color: var(--primary-color) !important;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.btn-primary:hover{
+    background-color: var(--hover-primary-color) !important;
+}
+
 
 .fw-bold{
     font-weight: 500;
@@ -38,6 +51,7 @@
 
 main{
     width: 100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
