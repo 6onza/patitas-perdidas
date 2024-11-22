@@ -11,6 +11,7 @@ from flask_bcrypt import Bcrypt
 import secrets
 import hashlib
 from dotenv import load_dotenv
+import os
 
 import smtplib
 from email.mime.text import MIMEText
