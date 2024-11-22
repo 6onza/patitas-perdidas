@@ -291,9 +291,76 @@ MDNavigationLayout:
             elevation: 10
             pos_hint: {"top": 1}
             left_action_items: [["menu", lambda x: app.root.ids.nav_drawer.set_state("open")]]
-        
+
         ScrollView:
-            MDLabel:
-                text: "Formulario para contactar con nosotros."
-                halign: "center"
-                theme_text_color: "Secondary"
+            BoxLayout:
+                orientation: "vertical"
+                padding: "20dp"
+                spacing: "20dp"
+
+                MDLabel:
+                    text: "¡Hablemos via Email!"
+                    font_style: "H5"
+                    halign: "center"
+                    theme_text_color: "Primary"
+                    size_hint_y: None
+                    height: "40dp"
+
+                MDTextField:
+                    hint_text: "Ingrese su nombre"
+                    mode: "rectangle"
+                    size_hint_x: None
+                    width: "300dp"
+                    pos_hint: {"center_x": 0.5}
+
+                MDTextField:
+                    hint_text: "Ingrese su email"
+                    mode: "rectangle"
+                    size_hint_x: None
+                    width: "300dp"
+                    pos_hint: {"center_x": 0.5}
+
+                MDTextField:
+                    hint_text: "Escriba su mensaje aquí"
+                    mode: "rectangle"
+                    size_hint_x: None
+                    width: "300dp"
+                    height: "100dp"
+                    multiline: True
+                    pos_hint: {"center_x": 0.5}
+
+                MDRaisedButton:
+                    text: "Enviar mensaje"
+                    size_hint_x: None
+                    width: "200dp"
+                    pos_hint: {"center_x": 0.5}
+                    on_release: app.enviar_mensaje_contacto()
+
+                MDLabel:
+                    text: "O hablemos por:"
+                    halign: "center"
+                    theme_text_color: "Secondary"
+                    size_hint_y: None
+                    height: "40dp"
+
+                BoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: None
+                    height: "60dp"
+                    spacing: "20dp"
+                    pos_hint: {"center_x": 0.5}
+
+                    MDRaisedButton:
+                        text: "WhatsApp"
+                        icon: "whatsapp"
+                        text_color: 1, 1, 1, 1
+                        md_bg_color: app.theme_cls.primary_color
+                        pos_hint: {"center_x": 0.5}
+
+                    MDRaisedButton:
+                        text: "Instagram"
+                        icon: "instagram"
+                        text_color: 1, 1, 1, 1
+                        md_bg_color: app.theme_cls.primary_color
+                        pos_hint: {"center_x": 0.5}
+
