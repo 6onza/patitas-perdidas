@@ -8,16 +8,37 @@ from kivymd.uix.toolbar import MDTopAppBar
 from kivymd.uix.snackbar import Snackbar
 from kivy.uix.filechooser import FileChooserIconView
 from kivy.uix.popup import Popup
-from kivymd.uix.button import MDRaisedButton
-
+from kivymd.uix.card import MDCard
+from kivymd.uix.label import MDLabel
+from kivymd.uix.button import MDFillRoundFlatButton
 import webbrowser
 import requests
 
+mascotas_info = {
+    "Max": {
+        "tipo": "Perro",
+        "raza": "Labrador",
+        "color": "dorado"
+    },
+    "Luna": {
+        "tipo": "Gato",
+        "raza": "Siamés",
+        "color": "blanco y marrón"
+    },
+    "Rocky": {
+        "tipo": "Perro",
+        "raza": "Bulldog",
+        "color": "marrón y blanco"
+    },
+    "Milo": {
+        "tipo": "Gato",
+        "raza": "Común Europeo",
+        "color": "negro"
+    }
+}
+
 # Definir las pantallas
 class HomeScreen(Screen):
-    pass
-
-class MascotasPerdidasScreen(Screen):
     pass
 
 class BuscarMascotasScreen(Screen):
@@ -99,7 +120,7 @@ class ContactoScreen(Screen):
             "message": message
         }
 
-        endpoint = "https://localhost:5001/enviar_email" 
+        endpoint = "https://localhost:5000//api/v1/send_email" 
 
         try:
             response = requests.post(endpoint, data=data)
@@ -109,6 +130,28 @@ class ContactoScreen(Screen):
                 print(f"Error sending data: {response.status_code}")
         except requests.exceptions.RequestException as e:
             print(f"Error making request: {e}")
+
+class MascotaCard(MDCard):
+    def __init__(self, mascota_name, **kwargs):
+        super().__init__(**kwargs)
+        self.orientation = "vertical"
+        self.padding = "12dp"
+        self.spacing = "12dp"
+        
+        self.add_widget(MDLabel(text=mascota_name, font_style="H5", halign="center"))
+        self.add_widget(MDLabel(text=mascotas_info[mascota_name]["tipo"], font_style="Subtitle1", halign="center"))
+        self.add_widget(MDLabel(text=mascotas_info[mascota_name]["raza"], font_style="Subtitle1", halign="center"))
+        self.add_widget(MDLabel(text=mascotas_info[mascota_name]["color"], font_style="Subtitle1", halign="center"))
+        self.add_widget(MDFillRoundFlatButton(text="Saber más", pos_hint={"center_x": 0.5}))
+
+class MascotasPerdidasScreen(Screen):
+    def on_pre_enter(self, *args):
+        container = self.ids.container
+        container.clear_widgets()
+        for mascota in mascotas_info:
+            card = MascotaCard(mascota)
+            container.add_widget(card)
+
 
 if __name__ == "__main__":
     PatitasPerdidasApp().run()

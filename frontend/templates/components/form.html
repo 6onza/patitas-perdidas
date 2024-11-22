@@ -8,7 +8,7 @@
                 <h2>Contacto</h2>
             </div>
             <div class="container">
-                <form class="contact-form" action="{{ url_for('enviar_mail') }}" method="POST">
+                <form class="contact-form" action="https://gvineg.pythonanywhere.com/api/v1/send_email" method="POST">
                     <h3>¡Hablemos via Email!</h3>
                     <input type="text" id="name" name="name" placeholder="Ingrese su nombre" required>
                     <input type="email" id="email" name="email" placeholder="Ingrese su email" required>
