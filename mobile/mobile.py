@@ -14,28 +14,8 @@ from kivymd.uix.button import MDFillRoundFlatButton
 import webbrowser
 import requests
 
-mascotas_info = {
-    "Max": {
-        "tipo": "Perro",
-        "raza": "Labrador",
-        "color": "dorado"
-    },
-    "Luna": {
-        "tipo": "Gato",
-        "raza": "Siamés",
-        "color": "blanco y marrón"
-    },
-    "Rocky": {
-        "tipo": "Perro",
-        "raza": "Bulldog",
-        "color": "marrón y blanco"
-    },
-    "Milo": {
-        "tipo": "Gato",
-        "raza": "Común Europeo",
-        "color": "negro"
-    }
-}
+from kivy.network.urlrequest import UrlRequest 
+API_URL = 'http://localhost:5000/api/v1/pets'
 
 # Definir las pantallas
 class HomeScreen(Screen):
@@ -59,7 +39,7 @@ class PatitasPerdidasApp(MDApp):
         screen_manager.current = screen_name
 
 
-class RegistrarMascotaScreen(Screen):  #
+class RegistrarMascotaScreen(Screen):  
     def show_file_chooser(self):
         filechooser = FileChooserIconView()
         filechooser.bind(on_selection=lambda *x: self.on_file_select(filechooser.selection))
@@ -70,7 +50,6 @@ class RegistrarMascotaScreen(Screen):  #
     def on_file_select(self, selection):
         if selection:
             self.ids.image.text = selection[0]  # Suponiendo que 'image' es un TextInput
-            Snackbar(text="Imagen seleccionada").open()
 
     def register_pet(self):
         name = self.ids.name.text
@@ -82,26 +61,20 @@ class RegistrarMascotaScreen(Screen):  #
         address = self.ids.address.text
         image = self.ids.file_label.text  
     
-        # Rama, deje encaminada la logica de validacion de campos (para evitar que crashee la app al tocar el boton ademas), pero falta el tema snackbar, asi que
-        # crashea igual xd
+        # Validar los datos
         if not name or not color or not city or not address or not image:
-            Snackbar(text="Por favor, completa todos los campos").open()
             return  
     
         if not animal_type:
-            Snackbar(text="Por favor, selecciona el tipo de animal").open()
-            return  # Detener la ejecución si no se seleccionó el tipo de animal
+            return  
     
         if not sex:
-            Snackbar(text="Por favor, selecciona el sexo de la mascota").open()
-            return  # Detener la ejecución si no se seleccionó el sexo
+            return 
 
         if not has_tag:
-            Snackbar(text="Por favor, selecciona si tiene chapa").open()
-            return  # Detener la ejecución si no se seleccionó si tiene chapa
+            return  
     
-        # Si todos los campos están completos, se realiza el registro
-        Snackbar(text="Mascota registrada exitosamente!").open()
+        
 
 class SobreNosotrosScreen(Screen):
     def open_website(self):
@@ -109,46 +82,109 @@ class SobreNosotrosScreen(Screen):
     
 class ContactoScreen(Screen):
     def send_contact_data(self):
-        name = self.ids.name.text
-        email = self.ids.email.text
-        message = self.ids.message.text
-
-        # Las keys del diccionario tienen que coincidir con lo que espera el endpoint enviar_email y los valores con la info de kivy
+        # Esto es para obtener los datos de cada field
+        name = self.ids.name.text.strip()
+        email = self.ids.email.text.strip()
+        message = self.ids.message.text.strip()
+        
+        # Validar que los campos no estén vacíos
+        if not all([name, email, message]):
+            print("Por favor, completa todos los campos")
+            return
+        
+        # Le mandamos al endpoint la data que fue ingresada en el form de la app
         data = {
             "name": name,
             "email": email,
             "message": message
         }
-
-        endpoint = "https://localhost:5000//api/v1/send_email" 
-
+        
+        # Endpoint local
+        endpoint = "http://localhost:5000/send_email"
+        
         try:
             response = requests.post(endpoint, data=data)
+            
             if response.status_code == 200:
-                print("Data send successfully")
+                print("Mensaje enviado exitosamente")
+                # Limpia los fields despues de enviar el formulario
+                self.ids.name.text = ""
+                self.ids.email.text = ""
+                self.ids.message.text = ""
             else:
-                print(f"Error sending data: {response.status_code}")
+                print(f"Error al enviar el mensaje: {response.status_code}")
+                print(f"Respuesta: {response.text}")
+                
         except requests.exceptions.RequestException as e:
-            print(f"Error making request: {e}")
+            print(f"Error de conexión: {e}")
+            
+        except Exception as e:
+            print(f"Error inesperado: {e}")
 
 class MascotaCard(MDCard):
-    def __init__(self, mascota_name, **kwargs):
+    def __init__(self, mascota_data, **kwargs):
         super().__init__(**kwargs)
         self.orientation = "vertical"
         self.padding = "12dp"
         self.spacing = "12dp"
+        self.size_hint_y = "12dp"
+        self.height = "320dp"  
+        self.elevation = 2
         
-        self.add_widget(MDLabel(text=mascota_name, font_style="H5", halign="center"))
-        self.add_widget(MDLabel(text=mascotas_info[mascota_name]["tipo"], font_style="Subtitle1", halign="center"))
-        self.add_widget(MDLabel(text=mascotas_info[mascota_name]["raza"], font_style="Subtitle1", halign="center"))
-        self.add_widget(MDLabel(text=mascotas_info[mascota_name]["color"], font_style="Subtitle1", halign="center"))
-        self.add_widget(MDFillRoundFlatButton(text="Saber más", pos_hint={"center_x": 0.5}))
+        # Nombre de la mascota
+        self.add_widget(MDLabel(
+            text=mascota_data.get('pet_name', ''),
+            font_style="H5",
+            halign="center"
+        ))
+        
+        # Tipo de mascota 
+        tipo = "Perro" if mascota_data.get('type') == 'dog' else "Gato"
+        self.add_widget(MDLabel(
+            text=tipo,
+            font_style="Subtitle1",
+            halign="center"
+        ))
+        
+        # Raza
+        self.add_widget(MDLabel(
+            text=mascota_data.get('breed', ''),
+            font_style="Subtitle1",
+            halign="center"
+        ))
+        
+        # Color
+        self.add_widget(MDLabel(
+            text=mascota_data.get('color', ''),
+            font_style="Subtitle1",
+            halign="center"
+        ))
+        
+        # Ubicación
+        self.add_widget(MDLabel(
+            text=mascota_data.get('lost_location', ''),
+            font_style="Subtitle1",
+            halign="center"
+        ))
+        
+        self.add_widget(MDFillRoundFlatButton(
+            text="Saber más",
+            pos_hint={"center_x": 0.5}
+        ))
 
 class MascotasPerdidasScreen(Screen):
     def on_pre_enter(self, *args):
+        UrlRequest(
+            API_URL,
+            on_success=self.on_mascotas_cargadas,
+            verify=False
+        )
+    
+    def on_mascotas_cargadas(self, request, result):
         container = self.ids.container
         container.clear_widgets()
-        for mascota in mascotas_info:
+        
+        for mascota in result:
             card = MascotaCard(mascota)
             container.add_widget(card)
 

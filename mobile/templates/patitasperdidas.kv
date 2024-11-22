@@ -223,6 +223,7 @@ MDNavigationLayout:
     name: "mascotas_perdidas"
     BoxLayout:
         orientation: "vertical"
+        
         MDTopAppBar:
             title: "Mascotas Perdidas"
             elevation: 10
@@ -230,20 +231,26 @@ MDNavigationLayout:
             left_action_items: [["menu", lambda x: app.root.ids.nav_drawer.set_state("open")]]
         
         ScrollView:
-            GridLayout:
-                id: container
-                cols: 2
-                row_default_height: "160dp"
-                row_force_default: True
-                padding: "12dp"
-                spacing: "12dp"
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height  # Ajustar automáticamente el tamaño vertical
 
-                canvas.before:
-                    Color:
-                        rgb: 0.95, 0.95, 0.95
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
+                GridLayout:
+                    id: container
+                    cols: 2
+                    row_default_height: "160dp"  # Altura de cada fila
+                    row_force_default: True  # Forzar a que todas las filas tengan la misma altura
+                    padding: "12dp"
+                    spacing: "12dp"
+                    
+                    canvas.before:
+                        Color:
+                            rgb: 0.95, 0.95, 0.95
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
 
 <BuscarMascotasScreen>:
     name: "buscar_mascotas"
@@ -510,7 +517,7 @@ MDNavigationLayout:
                     size_hint_x: None
                     width: "200dp"
                     pos_hint: {"center_x": 0.5}
-                    on_release: app.enviar_mensaje_contacto()
+                    on_release: root.send_contact_data()
 
                 MDLabel:
                     text: "O hablemos por:"
