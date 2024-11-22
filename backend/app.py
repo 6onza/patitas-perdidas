@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, redirect
-import config
+import config, os
 from services.pet_service import find_pet_by_id, add_new_pet, update_existing_pet
 from flask_mysqldb import MySQL
 from datetime import datetime
@@ -10,10 +10,15 @@ import MySQLdb
 import smtplib
 from email.mime.text import MIMEText
 
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
-app.secret_key = "1xu5rTqT7CT/POBFBsB7GEuPLUd8klo/Pw52q5QK87E=" 
+app.secret_key = os.getenv('APP_SECRET_KEY')
+SMTP_USERNAME = os.getenv('SMTP_USERNAME')
+SMTP_PASSWORD = os.getenv('SMTP_PASSWORD')
 
 
 CORS(app, resources={
@@ -255,8 +260,8 @@ def search_pet():
         app.logger.error(f"Unexpected error in pet search: {str(e)}")
         return jsonify({'error': 'Unexpected error occurred'}), 500
     
-@app.route('/send_email', methods=['POST'])
-def send_mail():
+@app.route('/api/v1/send_email', methods=['POST'])
+def send_email():
     '''
     Procesa el formulario de contacto y envia un correo electrónico tanto al usuario que envió el formulario como al administrador del sitio web.
     - Crea dos mensajes de correo electrónico:
@@ -265,32 +270,32 @@ def send_mail():
     Redirige al usuario a la página de inicio al finalizar.
     '''
     if request.method == "POST":
-        nombre = request.form["name"]
+        name = request.form["name"]
         email = request.form["email"]
         message = request.form["message"]
 
         servidor = smtplib.SMTP("smtp.gmail.com", 587)
         servidor.starttls()
-        servidor.login("patitas.perdidas.contacto@gmail.com", "tmha xurb ybfn ndsn")  
+        servidor.login(SMTP_USERNAME, SMTP_PASSWORD)  
         
         msg_user = MIMEText(
-            f"Hola {nombre},\n\nHemos recibido tu mensaje correctamente. "
+            f"Hola {name},\n\nHemos recibido tu mensaje correctamente. "
             "Nos pondremos en contacto con vos en breve.\n\nGracias por escribirnos.\n\nSaludos,\nEquipo Patitas Perdidas"
         )
         msg_user["From"] = "patitas.perdidas.contacto@gmail.com"
         msg_user["To"] = email
         msg_user["Subject"] = "Mensaje recibido - Patitas Perdidas"
        
-        servidor.sendmail("patitas.perdidas.contacto@gmail.com", email, msg_user.as_string())
+        servidor.sendmail(SMTP_USERNAME, email, msg_user.as_string())
 
         msg_admin = MIMEText(
-            f"Correo recibido de: {email}\nNombre: {nombre}\n\n{message}"
+            f"Correo recibido de: {email}\nNombre: {name}\n\n{message}"
         )
         msg_admin["From"] = "patitas.perdidas.contacto@gmail.com"
         msg_admin["To"] = "patitas.perdidas.contacto@gmail.com"
         msg_admin["Subject"] = f"Nuevo mensaje recibido"
 
-        servidor.sendmail("patitas.perdidas.contacto@gmail.com", "patitas.perdidas.contacto@gmail.com", msg_admin.as_string())
+        servidor.sendmail(SMTP_USERNAME, SMTP_USERNAME, msg_admin.as_string())
         servidor.quit()
         return redirect("https://patitas-perdidas.vercel.app/")
     

@@ -223,7 +223,6 @@ MDNavigationLayout:
     name: "mascotas_perdidas"
     BoxLayout:
         orientation: "vertical"
-
         MDTopAppBar:
             title: "Mascotas Perdidas"
             elevation: 10
@@ -231,10 +230,20 @@ MDNavigationLayout:
             left_action_items: [["menu", lambda x: app.root.ids.nav_drawer.set_state("open")]]
         
         ScrollView:
-            MDLabel:
-                text: "Lista de mascotas perdidas."
-                halign: "center"
-                theme_text_color: "Secondary"
+            GridLayout:
+                id: container
+                cols: 2
+                row_default_height: "160dp"
+                row_force_default: True
+                padding: "12dp"
+                spacing: "12dp"
+
+                canvas.before:
+                    Color:
+                        rgb: 0.95, 0.95, 0.95
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
 
 <BuscarMascotasScreen>:
     name: "buscar_mascotas"
