@@ -14,7 +14,7 @@ CREATE TABLE lost_pets (
     user_id INT NOT NULL, -- El usuario que publica la mascota
     pet_name VARCHAR(100) NOT NULL,
     type ENUM('dog', 'cat', 'other') NOT NULL,
-    sex ENUM('male', 'female') DEFAULT NULL,
+    sex ENUM('male', 'female') NOT NULL,
     breed VARCHAR(100),
     color VARCHAR(100) NOT NULL,
     lost_date DATE NOT NULL,

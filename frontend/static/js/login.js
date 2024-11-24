@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('user', JSON.stringify(data.user));
                 
                 // Redirigir al usuario a la página principal
-                window.location.href = '/';
+                window.location.href = '/cuenta';
             } else {
                 // Mostrar mensaje de error específico
                 errorAlert.textContent = data.error || 'Error al iniciar sesión';
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (error) {
             console.error('Error:', error);
-            errorAlert.textContent = 'Error de conexión con el servidor';
+            errorAlert.textContent = 'Error al iniciar sesión';
             errorAlert.classList.remove('d-none');
         } finally {
             // Ocultar spinner y habilitar botón

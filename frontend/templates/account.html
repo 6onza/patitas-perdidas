@@ -1,0 +1,474 @@
+{% extends "base.html" %} {% block content %}
+<div class="container py-4">
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3">Mascotas Perdidas</h1>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#newPetModal"
+    >
+      <i class="bi bi-plus-circle me-2"></i>Reportar Mascota Perdida
+    </button>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <form id="filterForm" class="row g-3">
+        <div class="col-md-4">
+          <select class="form-select" name="type" id="filterType">
+            <option value="">Tipo de mascota</option>
+            <option value="dog">Perro</option>
+            <option value="cat">Gato</option>
+            <option value="other">Otro</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <select class="form-select" name="status" id="filterStatus">
+            <option value="">Estado</option>
+            <option value="lost">Perdido</option>
+            <option value="found">Encontrado</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-secondary w-100">Filtrar</button>
+        </div>
+      </form>
+    </div>
+    <!-- pets grid -->
+    <div id="petsGrid" class="row d-flex"></div>
+  </div>
+
+  <!-- New Pet Modal -->
+  <div class="modal fade" id="newPetModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Reportar Mascota Perdida</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form id="newPetForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Nombre de la mascota</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="pet_name"
+                  required
+                  id="pet_name"
+                  value="Firulais"
+                  placeholder="Nombre de la mascota"
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Tipo</label>
+                <select class="form-select" name="type" required id="pet_type">
+                  <option value="dog" selected>Perro</option>
+                  <option value="cat">Gato</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Sexo</label>
+                <select class="form-select" name="pet_sex" id="pet_sex" required>
+                  <option value="male" selected>Macho</option>
+                  <option value="female">Hembra</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Raza</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="breed"
+                  id="breed"
+                  value="Mestizo"
+                  placeholder="Raza de la mascota"
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Color</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="color"
+                  required
+                  id="color"
+                  value="Café"
+                  placeholder="Color principal"
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Fecha de pérdida</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  name="lost_date"
+                  required
+                  id="lost_date"
+                  value="2024-11-24"
+                />
+              </div>
+              <div class="col-12">
+                <label class="form-label">Ubicación</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="lost_location"
+                  required
+                  id="lost_location"
+                  value="CABA, Argentina"
+                  placeholder="Dirección o punto de referencia"
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Latitud</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="lost_latitude"
+                  step="any"
+                  required
+                  id="lost_latitude"
+                  value="19.4326"
+                  placeholder="Ej: 19.4326"
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Longitud</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="lost_longitude"
+                  step="any"
+                  required
+                  id="lost_longitude"
+                  value="-99.1332"
+                  placeholder="Ej: -99.1332"
+                />
+              </div>
+              <div class="col-12">
+                <label class="form-label">Descripción</label>
+                <textarea
+                  class="form-control"
+                  name="description"
+                  rows="3"
+                  required
+                  id="description"
+                  placeholder="Describe características distintivas, comportamiento, circunstancias de la pérdida, etc."
+                >Se perdió en el parque, es muy amigable y le gusta jugar con pelotas.</textarea>
+              </div>
+              <div class="col-12">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="has_name_tag"
+                    id="has_name_tag"
+                    checked
+                  />
+                  <label class="form-check-label">
+                    ¿Tiene placa de identificación?
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4">
+              <button type="submit" class="btn btn-primary">Guardar</button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notifications -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div
+      id="notification"
+      class="toast"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="toast-header">
+        <strong class="me-auto">Notificación</strong>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="toast"
+        ></button>
+      </div>
+      <div class="toast-body"></div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const API_URL = "http://localhost:5000/api/v1";
+    const filterForm = document.getElementById("filterForm");
+    const newPetForm = document.getElementById("newPetForm");
+    const petsGrid = document.getElementById("petsGrid");
+    const notification = new bootstrap.Toast(
+      document.getElementById("notification")
+    );
+
+    // Function to show notifications
+    function showNotification(message, success = true) {
+      const toast = document.getElementById("notification");
+      toast.querySelector(".toast-body").textContent = message;
+      toast.classList.toggle("bg-success", success);
+      toast.classList.toggle("bg-danger", !success);
+      toast.classList.toggle("text-white", true);
+      notification.show();
+    }
+
+    // Function to format date
+    function formatDate(dateString) {
+      return new Date(dateString).toLocaleDateString("es-ES", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    }
+
+    // Función para manejar acciones de mascota (eliminar o marcar como encontrada)
+async function handlePetAction(petId, action, actionName) {
+  try {
+    const token = localStorage.getItem("access_token");
+    let endpoint = `${API_URL}/pets/${petId}`;
+    let method = 'DELETE';
+    let body = null;
+
+    if (action === 'markFound') {
+      endpoint = `${API_URL}/pets/${petId}/update-status`;
+      method = 'PUT';
+      body = JSON.stringify({ status: 'found' });
+    }
+
+    const response = await fetch(endpoint, {
+      method: method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: body
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || `Error al ${actionName}`);
+    }
+
+    showNotification(`Mascota ${actionName} exitosamente`, true);
+    await loadPets();
+  } catch (error) {
+    showNotification(error.message, false);
+  }
+}
+
+// Función para crear la tarjeta de mascota
+function createPetCard(pet) {
+  const statusClass = pet.status === 'found' ? 'bg-success' : 'bg-warning';
+  const statusText = pet.status === 'found' ? 'Encontrado' : 'Perdido';
+  
+  const petCardHTML = `
+    <div class="col-lg-4 my-2">
+      <div class="card mx-3">
+        <div class="card-header d-flex gap-2 py-4 justify-content-center align-items-center">
+          <span class="badge ${statusClass} text-white px-3 py-2 fs-5">${statusText}</span>
+        </div>
+        <img 
+          src="${pet.photo_url ? pet.photo_url : `../static/images/illustrations/${pet.type}.svg`}" 
+          class="card-img-top mx-auto d-block mt-3" 
+          style="max-width:150px; min-height:150px;" 
+          alt="${pet.pet_name}"
+        >
+        <div class="card-body">
+          <h5 class="card-title">${pet.pet_name}</h5>
+          <p class="card-text">
+            <strong>Tipo:</strong> ${pet.type === 'dog' ? 'Perro' : pet.type === 'cat' ? 'Gato' : 'Otro'}<br>
+            <strong>Raza:</strong> ${pet.breed}<br>
+            <strong>Color:</strong> ${pet.color}<br>
+            <strong>Fecha de pérdida:</strong> ${formatDate(pet.lost_date)}<br>
+            <strong>Ubicación:</strong> ${pet.lost_location}
+          </p>
+        </div>
+        <div class="btn-group m-3">
+            ${pet.status === 'lost' ? `
+              <button class="btn btn-success btn-sm mark-found me-2" data-pet-id="${pet.id}">
+                <i class="fa fa-check"></i> 
+                Encontrado
+              </button>
+            ` : ''}
+            <button class="btn btn-danger btn-sm delete-pet" data-pet-id="${pet.id}">
+              <i class="fa fa-trash"></i> Eliminar
+            </button>
+          </div>
+      </div>
+    </div>
+  `;
+  
+  const petCard = document.createElement("div");
+  petCard.innerHTML = petCardHTML;
+  
+  // Agregar event listeners para los botones
+  const card = petCard.firstElementChild;
+  const deleteBtn = card.querySelector('.delete-pet');
+  const markFoundBtn = card.querySelector('.mark-found');
+  
+  if (deleteBtn) {
+    deleteBtn.addEventListener('click', () => {
+      if (confirm('¿Estás seguro de que deseas eliminar esta mascota?')) {
+        handlePetAction(pet.id, 'delete', 'eliminada');
+      }
+    });
+  }
+  
+  if (markFoundBtn) {
+    markFoundBtn.addEventListener('click', () => {
+      if (confirm('¿Confirmas que esta mascota ha sido encontrada?')) {
+        handlePetAction(pet.id, 'markFound', 'actualizada');
+      }
+    });
+  }
+  
+  return card;
+}
+
+    async function loadPets(filters = {}) {
+      try {
+        const token = localStorage.getItem("access_token");
+
+        const response = await fetch(`${API_URL}/pets/user`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        // Loguear la respuesta completa
+        console.log("Status:", response.status);
+        console.log("Headers:", Object.fromEntries(response.headers.entries()));
+
+        if (response.status === 401) {
+          // si el token expiró o es inválido, redirigir al login
+          window.location.href = "/login";
+        }
+
+        // Si la respuesta no es ok, intentar leer el mensaje de error
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("Error detallado:", errorData);
+          throw new Error(errorData.error || "Error al cargar las mascotas");
+        }
+
+        const data = await response.json();
+
+        const pets = data.pets || data;
+        console.log("Mascotas procesadas:", pets);
+
+        petsGrid.innerHTML = "";
+
+        if (pets.length === 0) {
+          const emptyTemplate = document.getElementById("emptyState");
+          petsGrid.appendChild(emptyTemplate.content.cloneNode(true));
+          return;
+        }
+
+        pets.forEach((pet) => {
+          petsGrid.appendChild(createPetCard(pet));
+        });
+      } catch (error) {
+        console.error("Error:", error);
+        showNotification(error.message, false);
+      }
+    }
+
+    filterForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const filters = {
+        type: document.getElementById("filterType").value,
+        status: document.getElementById("filterStatus").value,
+      };
+      await loadPets(filters);
+    });
+
+    // New pet form handler
+    newPetForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const submitButton = newPetForm.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+
+      const formData = {
+        pet_name: document.getElementById("pet_name").value,
+        type: document.getElementById("pet_type").value,
+        sex: document.getElementById("pet_sex").value,
+        breed: document.getElementById("breed").value,
+        color: document.getElementById("color").value,
+        lost_date: document.getElementById("lost_date").value,
+        lost_location: document.getElementById("lost_location").value,
+        status: 'lost',
+        lost_latitude: parseFloat(
+          document.getElementById("lost_latitude").value
+        ),
+        lost_longitude: parseFloat(
+          document.getElementById("lost_longitude").value
+        ),
+        description: document.getElementById("description").value,
+        has_name_tag: document.getElementById("has_name_tag").checked,
+      };
+
+      try {
+        const response = await fetch(`${API_URL}/pets/create`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+          body: JSON.stringify(formData),
+        });
+        // if not 201
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(
+            errorData.message + "sexo" || "Error al guardar la mascota"
+          );
+        }
+
+        showNotification("Mascota registrada exitosamente", true);
+        const modal = bootstrap.Modal.getInstance(
+          document.getElementById("newPetModal")
+        );
+        modal.hide();
+        newPetForm.reset();
+        await loadPets();
+      } catch (error) {
+        showNotification(error.message, false);
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+
+    // Load initial pets
+    loadPets();
+  });
+</script>
+{% endblock %}

@@ -22,15 +22,17 @@ def logout():
     response.delete_cookie('access_token')
     return response
 
+@app.route('/cuenta', methods=['GET'])
+def cuenta():
+    return render_template('account.html')
+
 
 @app.route('/')
 def index():
-    access_token = request.cookies.get('access_token')
-    print(access_token)
-    
     ctx = {
         'pets': pets_service.get_pets()
     }
+    print(pets_service.get_pets())
     return render_template('index.html', **ctx)
 
 @app.route('/enviar_email', methods=['POST'])

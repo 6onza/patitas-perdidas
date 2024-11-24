@@ -3,7 +3,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/cards.css') }}">
 {% endblock %}
 {% block content %}
-<article>
+<div class="conatiner-fluid">
   <div id="mascotas-perdidas" class="h2-title">
     <h2>Mascotas perdidas</h2>
   </div>
@@ -42,6 +42,6 @@
     </article>
     {% endfor %}
   </div>
-</article>
+</div>
 <script src="{{ url_for('static', filename='js/cards.js') }}"></script>
 {% endblock %}
