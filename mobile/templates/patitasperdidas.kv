@@ -104,6 +104,197 @@ MDNavigationLayout:
                 halign: "center"
                 theme_text_color: "Secondary"
 
+<LoginScreen>:
+    name: "login"
+    username: username_field
+    password: password_field
+    message: message_label  # Enlace al id "message_label"
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+
+        MDCard:
+            orientation: 'vertical'
+            padding: 20
+            size_hint: None, None
+            size: "400dp", "600dp"
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            elevation: 6
+            radius: [25]
+            md_bg_color: 0.98, 0.98, 0.98, 1
+
+            Image:
+                source: 'assets/images/dog.png'
+                size_hint: None, None
+                size: "150dp", "150dp"
+                pos_hint: {'center_x': 0.5}
+
+            MDLabel:
+                text: 'Iniciar Sesión'
+                font_style: 'H5'
+                halign: 'center'
+                size_hint_y: None
+                height: "40dp"
+
+            MDTextField:
+                id: username_field
+                hint_text: "Usuario"
+                icon_right: "account"
+                size_hint: 1, None
+                height: "60dp"
+
+            MDTextField:
+                id: password_field
+                hint_text: "Contraseña"
+                icon_right: "lock"
+                password: True
+                size_hint: 1, None
+                height: "60dp"
+
+            MDLabel:
+                id: message_label  # Este es el widget faltante
+                text: ""  # Vacío al inicio
+                theme_text_color: "Error"  # Color rojo para mensajes de error
+                halign: "center"
+                size_hint_y: None
+                height: "40dp"
+
+            MDFillRoundFlatButton:
+                text: "Iniciar Sesión"
+                md_bg_color: 0.62, 0.14, 0.82, 1
+                pos_hint: {"center_x": 0.5}
+                on_release: root.do_login()
+
+            BoxLayout:
+                orientation: "horizontal"
+                size_hint: None, None
+                height: "50dp"
+                width: "300dp"
+                pos_hint: {"center_x": 0.5}
+
+                MDLabel:
+                    text: "¿No tienes cuenta?"
+                    theme_text_color: "Secondary"
+                    size_hint: None, None
+                    size: "150dp", "50dp"
+                    halign: "right"
+                
+                MDTextButton:
+                    text: "Regístrate"
+                    on_release: root.go_to_register()
+
+
+<RegisterScreen>:
+    name: "register"
+    username_field: username_field
+    password_field: password_field
+    fullname_field: fullname_field
+    phone_field: phone_field
+    message: message_label
+    
+    BoxLayout:
+        orientation: "vertical"
+        
+        MDTopAppBar:
+            title: "Registro"
+            elevation: 10
+            pos_hint: {"top": 1}
+            left_action_items: [["arrow-left", lambda x: root.go_to_login()]]
+            
+        BoxLayout:
+            orientation: 'vertical'
+            padding: 20
+            spacing: 20
+            
+            MDCard:
+                orientation: 'vertical'
+                padding: 20
+                spacing: 15
+                size_hint: None, None
+                size: "400dp", "600dp"
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                elevation: 4
+                radius: [20]
+                md_bg_color: 1, 1, 1, 1
+                
+                Image:
+                    source: 'assets/images/dog.png'
+                    size_hint: None, None
+                    size: "120dp", "100dp"
+                    pos_hint: {'center_x': 0.5}
+                
+                MDLabel:
+                    text: 'Registro'
+                    font_style: 'H5'
+                    halign: 'center'
+                    size_hint_y: None
+                    height: "50dp"
+                    bold: True
+                
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: "10dp"
+                    size_hint_y: None
+                    height: "240dp"
+                    padding: [0, "20dp", 0, "20dp"]
+                    
+                    MDTextField:
+                        id: username_field
+                        hint_text: 'Usuario'
+                        helper_text_mode: 'on_error'
+                        size_hint: 1, None
+                        height: "50dp"
+                    
+                    MDTextField:
+                        id: password_field
+                        hint_text: 'Contraseña'
+                        password: True
+                        helper_text_mode: 'on_error'
+                        size_hint: 1, None
+                        height: "50dp"
+                    
+                    MDTextField:
+                        id: fullname_field
+                        hint_text: 'Nombre completo'
+                        helper_text_mode: 'on_error'
+                        size_hint: 1, None
+                        height: "50dp"
+                    
+                    MDTextField:
+                        id: phone_field
+                        hint_text: 'Teléfono'
+                        helper_text_mode: 'on_error'
+                        size_hint: 1, None
+                        height: "50dp"
+                
+                MDLabel:
+                    id: message_label
+                    text: ''
+                    theme_text_color: 'Error'
+                    halign: 'center'
+                    size_hint_y: None
+                    height: "30dp"
+                
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: "10dp"
+                    size_hint_y: None
+                    height: "100dp"
+                    
+                    MDFillRoundFlatButton:
+                        text: 'Registrarse'
+                        pos_hint: {'center_x': 0.5}
+                        size_hint_x: 0.8
+                        on_release: root.do_register()
+                    
+                    MDTextButton:
+                        text: 'Volver al inicio de sesión'
+                        theme_text_color: 'Primary'
+                        pos_hint: {'center_x': 0.5}
+                        on_release: root.go_to_login()
+
 <RegistrarMascotaScreen>:
     name: "registrar_mascota"
     BoxLayout:
