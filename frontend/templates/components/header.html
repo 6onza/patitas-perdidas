@@ -8,7 +8,10 @@
 <header>
     <nav class="navigation-bar">
         <div class="nav-container">
-            <h1 class="main-title"><a href="{{ url_for('index') }}">Patitas <br> Perdidas</a></h1>
+            <h1 class="main-title">
+                <a href="{{ url_for('index') }}" class="d-flex align-items-center gap-2">
+                <i class="fas fa-paw fs-1"></i> <span class="fw-bold">Patitas Perdidas</span>
+            </h1>
             <div class="menu-button">
                 <div class="line"></div>
                 <div class="line"></div>
@@ -16,13 +19,13 @@
             </div>
             <div class="links-container">
                 <ul>
-                    <li class="nav-items"><a class="nav-links" href="#home">Inicio</a></li>
-                    <li class="nav-items"><a class="nav-links" href="#lostPets">Mascotas perdidas</a></li>
-                    <li class="nav-items"><a class="nav-links" href="#aboutUs">Sobre Nosotros</a></li>
-                    <li class="nav-items"><a class="nav-links" href="#contact">Contacto</a></li>
+                    <li class="nav-items"><a class="nav-links fw-light" href="#home">Inicio</a></li>
+                    <li class="nav-items"><a class="nav-links fw-light" href="#lostPets">Mascotas perdidas</a></li>
+                    <li class="nav-items"><a class="nav-links fw-light" href="#aboutUs">Sobre Nosotros</a></li>
+                    <li class="nav-items"><a class="nav-links fw-light" href="#contact">Contacto</a></li>
                     <!-- este boton va a tener cerrar sesion o iniciar sesion segun si esta logueado o no -->
                     <li class="nav-items my-0 py-0 d-flex align-items-center" id="loginButton">
-                        <a class="my-0 btn-primary text-decoration-none" href="{{ url_for('cuenta') }}">
+                        <a class="my-0 btn-primary text-decoration-none fw-light" href="{{ url_for('cuenta') }}">
                             Mi cuenta
                         </a>
                     </li>
