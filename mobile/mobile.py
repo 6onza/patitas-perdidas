@@ -169,137 +169,6 @@ class LoginScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.auth_service = None
-        
-        # Layout principal
-        layout = BoxLayout(orientation='vertical', padding=20, spacing=10)
-        
-        # Tarjeta contenedora
-        card = MDCard(
-            orientation='vertical',
-            padding=20,
-            spacing=15,
-            size_hint=(None, None),
-            size=(1000, 1000),  # Aumentado para acomodar la imagen
-            pos_hint={'center_x': 0.5, 'center_y': 0.5},
-            elevation=4,
-            radius=[20],
-            md_bg_color=[1, 1, 1, 1]
-        )
-        
-        # Imagen
-        image = Image(
-            source='assets/images/dog.png',  # Asegúrate de tener esta imagen
-            size_hint=(None, None),
-            size=(200, 200),
-            pos_hint={'center_x': 0.5}
-        )
-        card.add_widget(image)
-        
-        # Encabezado
-        card.add_widget(MDLabel(
-            text='Iniciar Sesión',
-            font_style='H5',
-            halign='center',
-            size_hint_y=None,
-            height=40,
-            bold=True,
-            padding=40
-        ))
-        
-        # Contenedor para campos de entrada
-        fields_container = BoxLayout(
-            orientation='vertical',
-            spacing=40,
-            size_hint_y=None,
-            height=dp(200),
-            padding=[0, 40, 0, 40]
-        )
-        
-        # Campos de entrada con etiquetas
-        self.username = MDTextField(
-            hint_text='Usuario',
-            helper_text_mode='on_error',
-            size_hint=(1, None),
-            height=50
-        )
-        
-        self.password = MDTextField(
-            hint_text='Contraseña',
-            password=True,
-            helper_text_mode='on_error',
-            size_hint=(1, None),
-            height=50
-        )
-        
-        fields_container.add_widget(self.username)
-        fields_container.add_widget(self.password)
-        
-        card.add_widget(fields_container)
-        
-        # Mensaje de error
-        self.message = MDLabel(
-            text='',
-            theme_text_color='Error',
-            halign='center',
-            size_hint_y=None,
-            height=30
-        )
-        card.add_widget(self.message)
-        
-        # Botón de inicio de sesión
-        login_btn = MDFillRoundFlatButton(
-            text='Iniciar Sesión',
-            pos_hint={'center_x': 0.5},
-            size_hint=(0.8, None),
-            on_release=self.do_login
-        )
-        card.add_widget(login_btn)
-        
-        # Enlace de registro
-        register_text = BoxLayout(
-            orientation='horizontal',
-            size_hint_y=None,
-            height=50,
-            spacing=5,
-            pos_hint={'center_x': 0.5}
-        )
-        
-        # Reemplaza la sección del register_text por esto:
-        register_box = BoxLayout(
-            orientation='horizontal',
-            size_hint=(None, None),
-            height=50,
-            width=300,  # Ajusta este valor según necesites
-            spacing=0,
-            pos_hint={'center_x': 0.5}
-        )
-
-        # Texto no clickeable
-        register_box.add_widget(MDLabel(
-            text='¿No tienes cuenta? ',  # Espacio añadido al final
-            theme_text_color='Secondary',
-            size_hint=(None, None),
-            size=(300, 50),  # Ajusta el ancho según necesites
-            halign='center',
-            valign='middle'
-        ))
-
-        # Texto clickeable
-        register_link = MDTextButton(
-            text='Regístrate',
-            theme_text_color='Primary',
-            size_hint=(None, None),
-            size=(300, 50),  # Ajusta el ancho según necesites
-            on_release=self.go_to_register
-        )
-        register_box.add_widget(register_link)
-
-        # Añadir el box a la tarjeta
-        card.add_widget(register_box)
-        
-        # Añadir tarjeta al layout principal
-        layout.add_widget(card)
-        self.add_widget(layout)
     
     def go_to_register(self, *args):
         self.manager.current = "register"
@@ -318,124 +187,12 @@ class LoginScreen(Screen):
         else:
             self.message.text = message
 
+
 class RegisterScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.auth_service = None
-        
-        layout = BoxLayout(orientation='vertical', padding=20, spacing=20)
-        
-        card = MDCard(
-            orientation='vertical',
-            padding=20,
-            spacing=15,
-            size_hint=(None, None),
-            size=(1000, 1000),  # Aumentado para acomodar la imagen
-            pos_hint={'center_x': 0.5, 'center_y': 0.5},
-            elevation=4,
-            radius=[20],
-            md_bg_color=[1, 1, 1, 1]
-        )
-        
-        # Imagen
-        image = Image(
-            source='assets/images/dog.png',
-            size_hint=(None, None),
-            size=(200, 200),
-            pos_hint={'center_x': 0.5}
-        )
-        card.add_widget(image)
-        
-        card.add_widget(MDLabel(
-            text='Registro',
-            font_style='H5',
-            halign='center',
-            size_hint_y=None,
-            height=50,
-            padding=100,
-            bold=True
-        ))
-        
-        # Contenedor para campos
-        fields_container = BoxLayout(
-            orientation='vertical',
-            spacing=10,
-            size_hint_y=None,
-            height=dp(240),  # Reducido porque ya no tenemos etiquetas
-            padding=[0, 20, 0, 20]
-        )
 
-        # Crear y añadir campos directamente
-        fields = [
-            self.create_field('username'),
-            self.create_field('password', is_password=True),
-            self.create_field('fullname'),
-            self.create_field('phone')
-        ]
-
-        for field in fields:
-            fields_container.add_widget(field)
-
-        card.add_widget(fields_container)
-        
-        self.message = MDLabel(
-            text='',
-            theme_text_color='Error',
-            halign='center',
-            size_hint_y=None,
-            height=30
-        )
-        card.add_widget(self.message)
-        
-        # Botones
-        buttons_container = BoxLayout(
-            orientation='vertical',
-            spacing=10,
-            size_hint_y=None,
-            height=100
-        )
-        
-        register_btn = MDFillRoundFlatButton(
-            text='Registrarse',
-            pos_hint={'center_x': 0.5},
-            size_hint=(0.8, None),
-            on_release=self.do_register
-        )
-        
-        back_btn = MDTextButton(
-            text='Volver al inicio de sesión',
-            theme_text_color='Primary',
-            pos_hint={'center_x': 0.5},
-            on_release=self.go_to_login
-        )
-        
-        buttons_container.add_widget(register_btn)
-        buttons_container.add_widget(back_btn)
-        
-        card.add_widget(buttons_container)
-        
-        layout.add_widget(card)
-        self.add_widget(layout)
-
-    # Mueve el método fuera del __init__
-    def create_field(self, field_type, is_password=False):
-        hints = {
-            'username': 'Usuario',
-            'password': 'Contraseña',
-            'fullname': 'Nombre completo',
-            'phone': 'Teléfono'
-        }
-        
-        field = MDTextField(
-            hint_text=hints[field_type],
-            password=is_password,
-            helper_text_mode='on_error',
-            size_hint=(1, None),
-            height=50
-        )
-        setattr(self, f'{field_type}_field', field)  # Mantener la referencia al campo
-        return field
-    
     def go_to_login(self, *args):
         self.manager.current = "login"
     
@@ -502,7 +259,7 @@ class MascotaCard(MDCard):
         self.orientation = "vertical"
         self.padding = "12dp"
         self.spacing = "12dp"
-        self.size_hint_y = None
+        self.size_hint_y = "12dp"
         self.height = "320dp"
         self.elevation = 2
         
