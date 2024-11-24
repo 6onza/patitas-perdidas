@@ -1,19 +1,56 @@
-{% extends 'base.html' %}
-{% block head %}
-        <link rel="stylesheet" href="{{ url_for("static", filename="css/about.css") }}">
-{% endblock %}
+{% extends 'base.html' %} {% block head %} <link rel="stylesheet" href="{{
+url_for("static", filename="css/about.css") }}"> {% endblock %} {% block content
+%}
+<section class="about-section container-fluid pb-5" id="aboutUs">
+  <div class="container d-flex flex-column pb-0">
+    <div class="text-center mb-5 d-flex flex-column align-items-center">
+      <h1 class="section-title display-4 fw-bold">Sobre Nosotros</h1>
+      <p class="lead mb-4 col-lg-8">
+        Somos una comunidad comprometida que conecta mascotas perdidas con sus
+        familias, creando puentes de esperanza para reunir a compañeros peludos
+        con quienes los extrañan.
+      </p>
+    </div>
 
-{% block content %}
-        <div id="aboutus" class="container">
-            <div id="txt">
-                <h1 class="titulo">SOBRE NOSOTROS</h1>
-                <p class="texto">Somos una comunidad que comparte información de mascotas perdidas, para vincularlas con quienes buscan tenerlas de vuelta en su hogar.</p>
-                <ol>
-                    <li class="texto">Si se te perdio tu compañero peludo, puedes registrar sus datos y quedara en el mapa la zona donde se perdio.</li>
-                    <li class="texto">Ademas de registrar podes mirar el mapa y contribuir a nuestra noble causa.</li>
-                    <li class="texto">Si tenes algunda preguntao informacion, podes comunicarte con nosotros en el formulario contacto aca abajo.</li>
-                </ol>
+    <div class="row align-items-center">
+      <div class="col-lg-12">
+        <div class="features row d-flex justify-content-between">
+          <div class="feature-item col-lg-4">
+            <div class="feature-icon">
+              <i class="fas fa-map-marker-alt"></i>
             </div>
-            <img src="{{ url_for("static", filename="images/perrosaboutus.jpg") }}" id="imgabout">
+            <h3 class="h5 mb-3">Registro Geolocalizado</h3>
+            <p class="text-muted">
+              Registra la ubicación exacta donde se perdió tu mascota y nosotros
+              la mostraremos en nuestro mapa interactivo para maximizar las
+              posibilidades de encuentro.
+            </p>
+          </div>
+
+          <div class="feature-item col-lg-4">
+            <div class="feature-icon">
+              <i class="fas fa-search"></i>
+            </div>
+            <h3 class="h5 mb-3">Búsqueda Comunitaria</h3>
+            <p class="text-muted">
+              Explora nuestro mapa interactivo y únete a la búsqueda. Tu ayuda
+              puede ser crucial para reunir a una mascota con su familia.
+            </p>
+          </div>
+
+          <div class="feature-item col-lg-4">
+            <div class="feature-icon">
+              <i class="fas fa-comments"></i>
+            </div>
+            <h3 class="h5 mb-3">Contacto Directo</h3>
+            <p class="text-muted">
+              ¿Tienes información o preguntas? Utiliza nuestro formulario de
+              contacto para comunicarte directamente con el equipo o los dueños.
+            </p>
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}
