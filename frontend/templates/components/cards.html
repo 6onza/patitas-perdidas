@@ -1,47 +1,151 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 {% block head %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/cards.css') }}">
-{% endblock %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cards.css') }}" />
+{% endblock %} 
+
 {% block content %}
-<div class="conatiner-fluid">
-  <div id="mascotas-perdidas" class="h2-title">
-    <h2>Mascotas perdidas</h2>
+<section class="container-fluid bg-light py-5 d-flex flex-column justify-content-center">
+  <div>
+    <h2 class="text-center mb-4">
+      <i class="fas fa-paw me-2"></i>Mascotas Perdidas
+    </h2>
   </div>
-  <div class="contenedor">
-    {% for mascota in pets %}
-    <article class="cuadrado">
-      <figure class="circulo">
-        <!-- si no tiene photo_url se muestra una imagen de un perro o gato segun corresponda -->
-        {% if mascota.photo_url %}
-        <img src="{{ mascota.photo_url }}" alt="Foto de {{ mascota.pet_name }}">
-        {% else %}
-        {% if mascota.type == 'dog' %}
-        <img src="{{ url_for('static', filename='images/illustrations/dog.svg') }}" class="imagen" alt="Foto de {{ mascota.pet_name }}">
-        {% elif mascota.type == 'cat' %}
-        <img src="{{ url_for('static', filename='images/illustrations/cat.svg') }}" class="imagen" alt="Foto de {{ mascota.pet_name }}">
-        {% else %}
-        <img src="{{ url_for('static', filename='images/illustrations/dog.svg') }}" class="imagen" alt="Foto de {{ mascota.pet_name }}">
-        {% endif %}
-        {% endif %}
-      </figure>
-     
-      <figure class="cuadro_texto">
-        <h2 class="nombre">{{ mascota.pet_name }}</h2>
-        <!-- si el tipo es dog se muestra perro -->
-        {% if mascota.type == 'dog' %}
-        <p class="tipo">Perro</p>
-        {% elif mascota.type == 'cat' %}
-        <p class="tipo">Gato</p>
-        {% else %}
-        <p class="tipo">No definido</p>
-        {% endif %}
-        <p class="dato">Raza: {{ mascota.breed }}</p>
-        <p class="dato">Color: {{ mascota.color }}</p>
-        <button class="boton">Saber más</button>
-      </figure>
-    </article>
-    {% endfor %}
+  <div class="container d-flex flex-column align-items-center bg-light">
+    <div class="row g-4" id="petsContainer">
+      {% for mascota in pets %}
+      <div class="col-12 col-md-6 col-lg-4 pet-card-container" {% if loop.index > 6 %}style="display: none;"{% endif %}>
+        <div class="card pet-card shadow-sm border">
+          <div class="card-body text-center d-flex flex-column align-items-center">
+            <div class="mb-3 pet-image-container">
+              {% if mascota.photo_url %}
+              <img
+                src="{{ mascota.photo_url }}"
+                class="pet-image shadow-sm"
+                alt="Foto de {{ mascota.pet_name }}"
+              />
+              {% else %}
+                {% if mascota.type == 'dog' %}
+                <img
+                  src="{{ url_for('static', filename='images/illustrations/dog.svg') }}"
+                  class="pet-image"
+                  alt="Ilustración de perro"
+                />
+                {% elif mascota.type == 'cat' %}
+                <img
+                  src="{{ url_for('static', filename='images/illustrations/cat.svg') }}"
+                  class="pet-image"
+                  alt="Ilustración de gato"
+                />
+                {% else %}
+                <img
+                  src="{{ url_for('static', filename='images/illustrations/dog.svg') }}"
+                  class="pet-image"
+                  alt="Ilustración por defecto"
+                />
+                {% endif %}
+              {% endif %}
+            </div>
+
+            <h3 class="card-title">{{ mascota.pet_name }}</h3>
+
+            <div class="pet-type">
+              {% if mascota.type == 'dog' %}
+              <i class="fas fa-dog me-1"></i>Perro
+              {% elif mascota.type == 'cat' %}
+              <i class="fas fa-cat me-1"></i>Gato
+              {% else %}
+              <i class="fas fa-question me-1"></i>No definido
+              {% endif %}
+            </div>
+
+            <p class="pet-info">
+              <i class="fas fa-tag me-2"></i>Raza: {{ mascota.breed }}
+            </p>
+            <p class="pet-info">
+              <i class="fas fa-palette me-2"></i>Color: {{ mascota.color }}
+            </p>
+
+            <button class="btn btn-primary mt-3 more-info-btn">
+              <i class="fas fa-info-circle me-2"></i>Saber más
+            </button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    
+    {% if pets|length > 6 %}
+    <div class="text-center mt-4">
+      <button id="showMoreBtn" class="btn btn-outline-primary px-4 py-2">
+        <i class="fas fa-plus-circle me-2"></i>Ver todos
+      </button>
+    </div>
+    {% endif %}
   </div>
-</div>
-<script src="{{ url_for('static', filename='js/cards.js') }}"></script>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const modal = document.createElement('div');
+modal.classList.add('modal', 'fade');
+modal.id = 'petInfoModal';
+modal.tabIndex = -1;
+modal.setAttribute('aria-labelledby', 'petInfoModalLabel');
+modal.setAttribute('aria-hidden', 'true');
+modal.innerHTML = `
+  <div class="modal-dialog">
+    <div class="modal-content p-0">
+      <div class="modal-header m-0">
+        <h5 class="modal-title" id="petInfoModalLabel">Información de la Mascota</h5>
+      </div>
+      <div class="modal-body">
+        <p id="modalPetName"></p>
+        <p id="modalPetType"></p>
+        <p id="modalPetBreed"></p>
+        <p id="modalPetColor"></p>
+        <p id="modalPetLostDate"></p>
+        <p id="modalPetDescription"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+`;
+document.body.appendChild(modal);
+
+const petInfoModal = new bootstrap.Modal(document.getElementById('petInfoModal'));
+
+// mostrar más mascotas al hacer clic en el botón
+const showMoreBtn = document.getElementById('showMoreBtn');
+if (showMoreBtn) {
+  showMoreBtn.addEventListener('click', function() {
+    const hiddenPets = document.querySelectorAll('.pet-card-container[style="display: none;"]');
+    hiddenPets.forEach(pet => {
+      pet.style.display = '';
+    });
+    this.style.display = 'none';
+  });
+}
+
+// Modal de información de mascota
+const moreInfoButtons = document.querySelectorAll('.more-info-btn');
+moreInfoButtons.forEach((button, index) => {
+  button.addEventListener('click', () => {
+    const pet = pets[index];
+    document.getElementById('modalPetName').textContent = `Nombre: ${pet.pet_name}`;
+    document.getElementById('modalPetType').innerHTML = `Tipo: ${
+      pet.type == 'dog' ? '<i class="fas fa-dog me-1"></i>Perro' : 
+      pet.type == 'cat' ? '<i class="fas fa-cat me-1"></i>Gato' : 
+      '<i class="fas fa-question me-1"></i>No definido'
+    }`;
+    document.getElementById('modalPetBreed').textContent = `Raza: ${pet.breed}`;
+    document.getElementById('modalPetColor').textContent = `Color: ${pet.color}`;
+    document.getElementById('modalPetLostDate').textContent = `Fecha de extravío: ${pet.lost_date}`;
+    document.getElementById('modalPetDescription').textContent = `Descripción: ${pet.description}`;
+    petInfoModal.show();
+  });
+});
+</script>
 {% endblock %}
