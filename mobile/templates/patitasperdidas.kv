@@ -55,6 +55,13 @@ MDNavigationLayout:
                         on_release:
                             app.change_screen("contacto")
 
+            MDRaisedButton:
+                text: "Cerrar Sesión"
+                size_hint_x: 0.8
+                pos_hint: {"center_x": 0.5}
+                md_bg_color: app.theme_cls.primary_color
+                on_release: app.logout()
+
 <HomeScreen>:
     name: "home"
     BoxLayout:
@@ -89,7 +96,7 @@ MDNavigationLayout:
             size: 600, 600 
             allow_stretch: False  
             keep_ratio: True  
-            pos_hint: {"center": (0.5, 0.5)}  
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}  
 
         ScrollView:
             MDLabel:
@@ -113,16 +120,19 @@ MDNavigationLayout:
                 orientation: "vertical"
                 padding: "20dp"
                 spacing: "10dp"
-                padding: [0, 40, 0, 0]
+                size_hint_y: None
+                height: self.minimum_height
 
                 MDLabel:
                     text: "Registra a tu mascota perdida"
                     halign: "center"
                     theme_text_color: "Secondary"
                     font_style: "H5"
+                    size_hint_y: None
+                    height: "40dp"
 
                 MDTextField:
-                    id: name  # Aquí agregamos el id 'name'
+                    id: name
                     hint_text: "Nombre"
                     multiline: False
                     size_hint_y: None
@@ -131,16 +141,20 @@ MDNavigationLayout:
                 MDLabel:
                     text: "Tipo de animal"
                     theme_text_color: "Secondary"
+                    size_hint_y: None
+                    height: "30dp"
                 BoxLayout:
                     orientation: "horizontal"
+                    size_hint_y: None
+                    height: "40dp"
                     MDCheckbox:
-                        id: animal_type_gato  # id para el checkbox de gato
+                        id: animal_type_gato
                         group: "animal_type"
                         active: True
                     MDLabel:
                         text: "Gato"
                     MDCheckbox:
-                        id: animal_type_perro  # id para el checkbox de perro
+                        id: animal_type_perro
                         group: "animal_type"
                     MDLabel:
                         text: "Perro"
@@ -148,16 +162,20 @@ MDNavigationLayout:
                 MDLabel:
                     text: "Sexo"
                     theme_text_color: "Secondary"
+                    size_hint_y: None
+                    height: "30dp"
                 BoxLayout:
                     orientation: "horizontal"
+                    size_hint_y: None
+                    height: "40dp"
                     MDCheckbox:
-                        id: sex_macho  # id para el checkbox macho
+                        id: sex_macho
                         group: "sex"
                         active: True
                     MDLabel:
                         text: "Macho"
                     MDCheckbox:
-                        id: sex_hembra  # id para el checkbox hembra
+                        id: sex_hembra
                         group: "sex"
                     MDLabel:
                         text: "Hembra"
@@ -165,36 +183,40 @@ MDNavigationLayout:
                 MDLabel:
                     text: "¿Tiene chapa?"
                     theme_text_color: "Secondary"
+                    size_hint_y: None
+                    height: "30dp"
                 BoxLayout:
                     orientation: "horizontal"
+                    size_hint_y: None
+                    height: "40dp"
                     MDCheckbox:
-                        id: has_tag_yes  # id para el checkbox sí
+                        id: has_tag_yes
                         group: "has_tag"
                         active: True
                     MDLabel:
                         text: "Sí"
                     MDCheckbox:
-                        id: has_tag_no  # id para el checkbox no
+                        id: has_tag_no
                         group: "has_tag"
                     MDLabel:
                         text: "No"
 
                 MDTextField:
-                    id: color  # id para el campo de color
+                    id: color
                     hint_text: "Color"
                     multiline: False
                     size_hint_y: None
                     height: "40dp"
 
                 MDTextField:
-                    id: city  # id para el campo de ciudad
+                    id: city
                     hint_text: "Ciudad"
                     multiline: False
                     size_hint_y: None
                     height: "40dp"
 
                 MDTextField:
-                    id: address  # id para el campo de dirección
+                    id: address
                     hint_text: "Dirección"
                     multiline: False
                     size_hint_y: None
@@ -222,7 +244,6 @@ MDNavigationLayout:
                     pos_hint: {"center_x": 0.5}
                     on_release: root.register_pet()
 
-
 <MascotasPerdidasScreen>:
     name: "mascotas_perdidas"
     BoxLayout:
@@ -238,15 +259,17 @@ MDNavigationLayout:
             BoxLayout:
                 orientation: "vertical"
                 size_hint_y: None
-                height: self.minimum_height  # Ajustar automáticamente el tamaño vertical
+                height: self.minimum_height
 
                 GridLayout:
                     id: container
                     cols: 2
-                    row_default_height: "160dp"  # Altura de cada fila
-                    row_force_default: True  # Forzar a que todas las filas tengan la misma altura
+                    row_default_height: "160dp"
+                    row_force_default: True
                     padding: "12dp"
                     spacing: "12dp"
+                    size_hint_y: None
+                    height: self.minimum_height
                     
                     canvas.before:
                         Color:
@@ -254,7 +277,6 @@ MDNavigationLayout:
                         Rectangle:
                             pos: self.pos
                             size: self.size
-
 
 <BuscarMascotasScreen>:
     name: "buscar_mascotas"
@@ -273,6 +295,8 @@ MDNavigationLayout:
                 pos_hint: {"center_x": 0.5}
                 padding: "20dp"
                 spacing: "15dp"
+                size_hint_y: None
+                height: self.minimum_height
 
                 MDLabel:
                     text: "Filtrar por:"
@@ -281,7 +305,6 @@ MDNavigationLayout:
                     size_hint_y: None
                     height: "40dp"
 
-                # Especie
                 MDLabel:
                     text: "Especie"
                     theme_text_color: "Secondary"
@@ -312,7 +335,6 @@ MDNavigationLayout:
                         text: "Perro"
                         size_hint_x: 0.3
 
-                # Sexo
                 MDLabel:
                     text: "Sexo"
                     theme_text_color: "Secondary"
@@ -343,7 +365,6 @@ MDNavigationLayout:
                         text: "Hembra"
                         size_hint_x: 0.3
 
-                # Condición
                 MDLabel:
                     text: "Condición"
                     theme_text_color: "Secondary"
@@ -374,7 +395,6 @@ MDNavigationLayout:
                         text: "Sin chapa"
                         size_hint_x: 0.3
 
-                # Ciudad
                 MDLabel:
                     text: "Ciudad"
                     theme_text_color: "Secondary"
@@ -388,7 +408,6 @@ MDNavigationLayout:
                     size_hint_y: None
                     height: "40dp"
 
-                # Dirección
                 MDLabel:
                     text: "Dirección"
                     theme_text_color: "Secondary"
@@ -402,7 +421,6 @@ MDNavigationLayout:
                     size_hint_y: None
                     height: "40dp"
 
-                # Botón Buscar
                 MDRaisedButton:
                     text: "Buscar"
                     size_hint_y: None
@@ -550,4 +568,3 @@ MDNavigationLayout:
                         text_color: 1, 1, 1, 1
                         md_bg_color: app.theme_cls.primary_color
                         pos_hint: {"center_x": 0.5}
-

@@ -53,6 +53,24 @@ class PatitasPerdidasApp(MDApp):
     def change_screen(self, screen_name):
         screen_manager = self.root.ids.screen_manager
         screen_manager.current = screen_name
+        
+    def logout(self):
+        # Cerrar la sesión usando el auth_service
+        self.auth_service.logout()
+        
+        # Cerrar el drawer
+        self.root.ids.nav_drawer.set_state("close")
+        
+        # Mostrar mensaje de confirmación
+        Snackbar(
+            text="Sesión cerrada exitosamente",
+            snackbar_x="10dp",
+            snackbar_y="10dp",
+            size_hint_x=0.7
+        ).open()
+        
+        # Redirigir a la pantalla de login
+        self.change_screen("login")
 
 class RegistrarMascotaScreen(Screen):  
     def show_file_chooser(self):
