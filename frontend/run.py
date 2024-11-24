@@ -32,7 +32,6 @@ def index():
     ctx = {
         'pets': pets_service.get_pets()
     }
-    print(pets_service.get_pets())
     return render_template('index.html', **ctx)
 
 @app.route('/enviar_email', methods=['POST'])

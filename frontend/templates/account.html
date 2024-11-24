@@ -14,31 +14,9 @@
   </div>
 
   <!-- Filters Section -->
-  <div class="card mb-4">
-    <div class="card-body">
-      <form id="filterForm" class="row g-3">
-        <div class="col-md-4">
-          <select class="form-select" name="type" id="filterType">
-            <option value="">Tipo de mascota</option>
-            <option value="dog">Perro</option>
-            <option value="cat">Gato</option>
-            <option value="other">Otro</option>
-          </select>
-        </div>
-        <div class="col-md-4">
-          <select class="form-select" name="status" id="filterStatus">
-            <option value="">Estado</option>
-            <option value="lost">Perdido</option>
-            <option value="found">Encontrado</option>
-          </select>
-        </div>
-        <div class="col-md-4">
-          <button type="submit" class="btn btn-secondary w-100">Filtrar</button>
-        </div>
-      </form>
-    </div>
+  <div id="petsGrid" class="row d-flex"></div>
+
     <!-- pets grid -->
-    <div id="petsGrid" class="row d-flex"></div>
   </div>
 
   <!-- New Pet Modal -->
@@ -221,7 +199,6 @@
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const API_URL = "http://localhost:5000/api/v1";
-    const filterForm = document.getElementById("filterForm");
     const newPetForm = document.getElementById("newPetForm");
     const petsGrid = document.getElementById("petsGrid");
     const notification = new bootstrap.Toast(
@@ -289,7 +266,7 @@ function createPetCard(pet) {
   
   const petCardHTML = `
     <div class="col-lg-4 my-2">
-      <div class="card mx-3">
+      <div class="card">
         <div class="card-header d-flex gap-2 py-4 justify-content-center align-items-center">
           <span class="badge ${statusClass} text-white px-3 py-2 fs-5">${statusText}</span>
         </div>
@@ -363,16 +340,11 @@ function createPetCard(pet) {
           },
         });
 
-        // Loguear la respuesta completa
-        console.log("Status:", response.status);
-        console.log("Headers:", Object.fromEntries(response.headers.entries()));
-
         if (response.status === 401 || response.status === 422) {
           // si el token expiró o es inválido, redirigir al login
           window.location.href = "/login";
         }
 
-        // Si la respuesta no es ok, intentar leer el mensaje de error
         if (!response.ok) {
           const errorData = await response.json();
           console.error("Error detallado:", errorData);
@@ -400,15 +372,6 @@ function createPetCard(pet) {
         showNotification(error.message, false);
       }
     }
-
-    filterForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const filters = {
-        type: document.getElementById("filterType").value,
-        status: document.getElementById("filterStatus").value,
-      };
-      await loadPets(filters);
-    });
 
     // New pet form handler
     newPetForm.addEventListener("submit", async (event) => {
@@ -449,7 +412,7 @@ function createPetCard(pet) {
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(
-            errorData.message + "sexo" || "Error al guardar la mascota"
+            errorData.message || "Error al guardar la mascota"
           );
         }
 

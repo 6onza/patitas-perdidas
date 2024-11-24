@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}" />
 {% endblock %} {% block content %}
-<div id="map-section" class="map-container">
+<section id="map-section" class="map-container py-5">
   <div class="col-lg-5">
     <form method="GET" id="search-form">
       <h2 class="text-secondary">Filtrar por:</h2>
@@ -113,7 +113,7 @@
   <div class="col-lg-7">
     <div id="map"></div>
   </div>
-</div>
+</section>
 
 <!-- Search Results Container -->
 <div class="container mt-4">
