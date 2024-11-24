@@ -135,7 +135,7 @@ def get_pets():
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute('SELECT * FROM lost_pets')
+        cur.execute('SELECT * FROM lost_pets ORDER BY created_at DESC')
         rows = cur.fetchall()
         
         columns = [column[0] for column in cur.description]
