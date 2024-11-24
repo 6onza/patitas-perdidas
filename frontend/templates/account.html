@@ -256,7 +256,7 @@ async function handlePetAction(petId, action, actionName) {
     let body = null;
 
     if (action === 'markFound') {
-      endpoint = `${API_URL}/pets/${petId}/update-status`;
+      endpoint = `${API_URL}/pets/${petId}`;
       method = 'PUT';
       body = JSON.stringify({ status: 'found' });
     }
@@ -367,7 +367,7 @@ function createPetCard(pet) {
         console.log("Status:", response.status);
         console.log("Headers:", Object.fromEntries(response.headers.entries()));
 
-        if (response.status === 401) {
+        if (response.status === 401 || response.status === 422) {
           // si el token expiró o es inválido, redirigir al login
           window.location.href = "/login";
         }

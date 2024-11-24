@@ -338,36 +338,35 @@ def get_pet(pet_id):
 
 
 @app.route('/api/v1/pets/<int:pet_id>', methods=['PUT'])
+@jwt_required()
 def update_pet(pet_id):
-    data = request.get_json()
-    
-    query = "UPDATE lost_pets SET "
-    values = []
-    for key, value in data.items():
-        query += f"{key} = %s, "
-        values.append(value)
-    
-    # Removamos la última coma y espacio
-    query = query.rstrip(', ')
-    query += " WHERE id = %s"
-    values.append(pet_id)
-    
     try:
+        # Obtener los datos del cuerpo de la solicitud
+        data = request.get_json()
+        status = data.get('status')
+        
+        if not status:
+            return jsonify({'error': 'Se requiere el campo status'}), 400
+
         conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute(query, tuple(values))
+        
+        # Actualizar el estado de la mascota
+        cur.execute('UPDATE lost_pets SET status = %s WHERE id = %s', 
+                   (status, pet_id))
+        
         conn.commit()
         cur.close()
         conn.close()
         
         return jsonify({'message': 'Pet updated successfully'}), 200
-    
     except mysql.connector.Error as e:
         app.logger.error(f"Database error in update_pet: {str(e)}")
         return jsonify({'error': 'Error de base de datos'}), 500
     except Exception as e:
         app.logger.error(f"Unexpected error in update_pet: {str(e)}")
         return jsonify({'error': str(e)}), 500
+        
 
 @app.route('/api/v1/pets/<int:pet_id>', methods=['DELETE'])
 def delete_pet(pet_id):
