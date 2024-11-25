@@ -413,12 +413,21 @@ MDNavigationLayout:
                     size_hint_y: None
                     height: "40dp"
 
+                # Campo de imagen sigue siendo opcional
+                MDTextField:
+                    id: image
+                    hint_text: "Ruta de la imagen seleccionada (opcional)"
+                    readonly: True
+                    size_hint_y: None
+                    height: "40dp"
+
                 MDRaisedButton:
-                    text: "Seleccionar imagen de mascota"
+                    id: image_button
+                    text: "Seleccionar imagen de mascota (opcional)"
                     size_hint_y: None
                     height: "50dp"
                     pos_hint: {"center_x": 0.5}
-                    on_release: root.show_file_chooser()
+                    on_release: root.show_file_chooser()  # Abre el file chooser para seleccionar una imagen
 
                 MDLabel:
                     id: file_label
@@ -433,7 +442,7 @@ MDNavigationLayout:
                     size_hint_y: None
                     height: "50dp"
                     pos_hint: {"center_x": 0.5}
-                    on_release: root.register_pet()
+                    on_release: root.register_pet()  # Llama al método para registrar la mascota
 
 <MascotasPerdidasScreen>:
     name: "mascotas_perdidas"
