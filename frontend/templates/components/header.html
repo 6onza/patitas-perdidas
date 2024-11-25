@@ -47,15 +47,4 @@
     </section> 
 {% endblock %}
 
-{% block scripts %}
-<script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
-<!-- logout -->
-<script>
-    function logout() {
-        // Eliminar el token de acceso
-        localStorage.removeItem('access_token');
-        // Redirigir al inicio
-        window.location.href = '/';
-    }
-</script>
-{% endblock %}
+

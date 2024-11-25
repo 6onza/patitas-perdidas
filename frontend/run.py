@@ -16,11 +16,6 @@ def login():
 def register():
     return render_template('register.html')
 
-@app.route('/logout', methods=['GET'])
-def logout():
-    response = redirect(url_for('index'))
-    response.delete_cookie('access_token')
-    return response
 
 @app.route('/cuenta', methods=['GET'])
 def cuenta():

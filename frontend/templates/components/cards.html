@@ -11,7 +11,7 @@
     </h2>
   </div>
   <div class="container d-flex flex-column align-items-center bg-light">
-    <div class="row g-4" id="petsContainer">
+    <div class="row bg-light" id="petsContainer">
       {% for mascota in pets %}
       <div class="col-12 col-md-6 col-lg-4 pet-card-container" {% if loop.index > 6 %}style="display: none;"{% endif %}>
         <div class="card pet-card shadow-sm border">
@@ -104,6 +104,7 @@ modal.innerHTML = `
         <p id="modalPetType"></p>
         <p id="modalPetBreed"></p>
         <p id="modalPetColor"></p>
+        <p id="modalPetAddress"></p>
         <p id="modalPetLostDate"></p>
         <p id="modalPetDescription"></p>
       </div>
@@ -142,6 +143,7 @@ moreInfoButtons.forEach((button, index) => {
     }`;
     document.getElementById('modalPetBreed').textContent = `Raza: ${pet.breed}`;
     document.getElementById('modalPetColor').textContent = `Color: ${pet.color}`;
+    document.getElementById('modalPetAddress').textContent = `Dirección: ${pet.lost_location}`;
     document.getElementById('modalPetLostDate').textContent = `Fecha de extravío: ${pet.lost_date}`;
     document.getElementById('modalPetDescription').textContent = `Descripción: ${pet.description}`;
     petInfoModal.show();
