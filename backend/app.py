@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, redirect
 import config
 import mysql.connector
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from helpers.dates import serialize_dates
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
@@ -129,40 +129,72 @@ def register():
         print(f"Error de registro: {e}")
         return jsonify({'error': 'Error interno del servidor'}), 500
     
-
 @app.route('/api/v1/pets', methods=['GET'])
 def get_pets():
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute('SELECT * FROM lost_pets ORDER BY created_at DESC')
+        
+        # Base query
+        query = 'SELECT * FROM lost_pets'
+        params = []
+        
+        # Add status filter if provided
+        status = request.args.get('status')
+        if status:
+            query += ' WHERE status = %s'
+            params.append(status)
+            
+        # Add ordering
+        query += ' ORDER BY created_at DESC'
+        
+        # Execute query
+        cur.execute(query, tuple(params))  # Convert params list to tuple
         rows = cur.fetchall()
         
+        # Get column names
         columns = [column[0] for column in cur.description]
         pets_list = []
+        
+        # Process results
         for row in rows:
             pet_dict = dict(zip(columns, row))
             
-            # Serializamos las fechas
-            if 'lost_date' in pet_dict and pet_dict['lost_date']:
-                pet_dict['lost_date'] = pet_dict['lost_date'].isoformat()
-            if 'created_at' in pet_dict and pet_dict['created_at']:
-                pet_dict['created_at'] = pet_dict['created_at'].isoformat()
-            if 'lost_time' in pet_dict and pet_dict['lost_time']:
-                pet_dict['lost_time'] = pet_dict['lost_time'].isoformat()
-                
+            # Serialize dates
+            date_fields = ['lost_date', 'created_at', 'lost_time']
+            for field in date_fields:
+                if field in pet_dict and pet_dict[field]:
+                    if isinstance(pet_dict[field], (datetime, date)):
+                        pet_dict[field] = pet_dict[field].isoformat()
+            
             pets_list.append(pet_dict)
         
-        cur.close()
-        conn.close()
         return jsonify(pets_list)
     
     except mysql.connector.Error as e:
-        app.logger.error(f"Database error in get_pets: {str(e)}")
-        return jsonify({'error': 'Error de base de datos'}), 500
+        error_msg = f"Database error in get_pets: {str(e)}"
+        app.logger.error(error_msg)
+        return jsonify({
+            'error': 'Database error',
+            'message': str(e),
+            'status_code': 500
+        }), 500
+        
     except Exception as e:
-        app.logger.error(f"Unexpected error in get_pets: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+        error_msg = f"Unexpected error in get_pets: {str(e)}"
+        app.logger.error(error_msg)
+        return jsonify({
+            'error': 'Internal server error',
+            'message': str(e),
+            'status_code': 500
+        }), 500
+        
+    finally:
+        if 'cur' in locals():
+            cur.close()
+        if 'conn' in locals():
+            conn.close()
+    
     
 @app.route('/api/v1/pets/user', methods=['GET'])
 @jwt_required()

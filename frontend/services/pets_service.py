@@ -1,7 +1,7 @@
 from .api_config import get, post, put, delete
 
 def get_pets():
-    return get('pets')
+    return get('pets', {'status': 'lost'})
 
 def get_pet_by_id(pet_id):
     return get(f'pets/{pet_id}')
