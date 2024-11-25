@@ -629,12 +629,18 @@ MDNavigationLayout:
                     width: "200dp"
                     pos_hint: {"center_x": 0.5}
                     md_bg_color: app.theme_cls.primary_color
-                    on_release: app.search_pets()
+                    on_release: root.search_pets()
 
                 Widget:
                     size_hint_y: None
                     height: "20dp"
 
+                # Contenedor para los resultados
+                BoxLayout:
+                    id: results_container
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: "400dp"  # Ajusta el alto según sea necesario
 <SobreNosotrosScreen>:
     name: "sobre_nosotros"
     BoxLayout:

@@ -26,6 +26,7 @@ import hashlib
 from kivy.storage.jsonstore import JsonStore
 import webbrowser
 from kivy.network.urlrequest import UrlRequest 
+from kivymd.uix.widget import Widget
 
 from datetime import datetime
 from functools import partial
@@ -42,8 +43,104 @@ API_URL = 'http://localhost:5000/api/v1/pets'
 class HomeScreen(Screen):
     pass
 class BuscarMascotasScreen(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.results = []
 
+    def search_pets(self):
+        # Get values from form
+        params = {
+            'type': 'cat' if self.ids.gato.active else 'dog' if self.ids.perro.active else '',
+            'sex': 'male' if self.ids.macho.active else 'female' if self.ids.hembra.active else '',
+            'has_tag': 'True' if self.ids.con_chapa.active else 'False' if self.ids.sin_chapa.active else '',
+            'city': self.ids.ciudad.text,
+            'address': self.ids.direccion.text
+        }
+        
+        # Build query string
+        query_params = '&'.join([f"{k}={v}" for k, v in params.items() if v])
+        url = f'http://localhost:5000/api/v1/pets/search'
+        
+        # Make API request
+        UrlRequest(
+            url,
+            on_success=self.handle_search_success,
+            on_error=self.handle_search_error,
+            on_failure=self.handle_search_error
+        )
+
+    def handle_search_success(self, request, result):
+        self.results = result
+        self.update_results_display()
+
+    def handle_search_error(self, request, error):
+        # Show error message to user
+        self.ids.results_label.text = f"Error al buscar mascotas: {str(error)}"
+
+    def update_results_display(self):
+        # Clear previous results
+        results_container = self.ids.results_container
+        results_container.clear_widgets()
+        
+        if not self.results:
+            # Show no results message
+            no_results_label = MDLabel(
+                text="No se encontraron mascotas con los criterios especificados",
+                theme_text_color="Secondary",
+                size_hint_y=None,
+                height="40dp"
+            )
+            results_container.add_widget(no_results_label)
+            return
+
+        # Add each pet card
+        for pet in self.results:
+            card = MDCard(
+                orientation="vertical",
+                size_hint=(1, None),
+                height="180dp",
+                padding="10dp",
+                spacing="10dp",
+                elevation=1
+            )
+            
+            # Pet name and type
+            header = BoxLayout(
+                orientation="horizontal",
+                size_hint_y=None,
+                height="30dp"
+            )
+            name_label = MDLabel(
+                text=f"{pet['pet_name']} - {pet['type'].capitalize()}",
+                theme_text_color="Primary",
+                font_style="H6"
+            )
+            header.add_widget(name_label)
+            
+            # Details
+            details = MDLabel(
+                text=f"""
+            Sexo: {pet['sex']}
+            Raza: {pet['breed']}
+            Color: {pet['color']}
+            Fecha de pérdida: {pet['lost_date']}
+            Ubicación: {pet['lost_location']}
+            Descripción: {pet['description']}
+                """.strip(),
+                theme_text_color="Secondary",
+                size_hint_y=None,
+                height="120dp"
+            )
+            
+            card.add_widget(header)
+            # Crear un Widget que simula un separador
+            separator = Widget(size_hint_y=None, height="1dp")
+            separator.md_bg_color = [0, 0, 0, 1]  # Establecer color negro para la línea
+            card.add_widget(separator)
+
+            card.add_widget(details)
+            
+            results_container.add_widget(card)
 class PatitasPerdidasApp(MDApp):
     primary_color = ListProperty(get_color_from_hex("#2f2e41"))
     secondary_color = ListProperty(get_color_from_hex("#675F91"))
