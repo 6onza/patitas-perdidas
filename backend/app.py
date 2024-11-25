@@ -215,7 +215,7 @@ def get_user_pets():
         columns = [column[0] for column in cur.fetchall()]
         
         # Consulta filtrada por user_id
-        cur.execute('SELECT * FROM lost_pets WHERE user_id = %s', (current_user_id,))
+        cur.execute('SELECT * FROM lost_pets WHERE user_id = %s ORDER BY status, created_at DESC', (current_user_id,))
         rows = cur.fetchall()
         
         # Convertimos las tuplas a diccionarios
