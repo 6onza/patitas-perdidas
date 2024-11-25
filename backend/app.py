@@ -139,24 +139,24 @@ def get_pets():
         query = 'SELECT * FROM lost_pets'
         params = []
         
-        # Add status filter if provided
+        # se filtra por estado si se proporciona
         status = request.args.get('status')
         if status:
             query += ' WHERE status = %s'
             params.append(status)
             
-        # Add ordering
+        # Se ordena por fecha de creación de forma descendente
         query += ' ORDER BY created_at DESC'
         
-        # Execute query
+        # ejecutar la consulta
         cur.execute(query, tuple(params))  # Convert params list to tuple
         rows = cur.fetchall()
         
-        # Get column names
+        # se obtienen los nombres de las columnas
         columns = [column[0] for column in cur.description]
         pets_list = []
         
-        # Process results
+        #  Convertir las tuplas a diccionarios
         for row in rows:
             pet_dict = dict(zip(columns, row))
             
