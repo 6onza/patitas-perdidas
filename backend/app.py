@@ -424,62 +424,55 @@ def delete_pet(pet_id):
 def search_pet():
     try:
         # Validate and sanitize input parameters
+        ALLOWED_TYPES = ['dog', 'cat', 'other']
+        ALLOWED_SEXES = ['male', 'female']
+
+        # Get parameters
         type = request.args.get('type', '').lower()
         sex = request.args.get('sex', '').lower()
-        has_tag = request.args.get('has_tag', '')
+        has_name_tag = request.args.get('has_name_tag', '').lower()
         city = request.args.get('city', '').strip()
         address = request.args.get('address', '').strip()
-        
-        # Define allowed values
-        ALLOWED_TYPES = ['cat', 'dog']
-        ALLOWED_SEXES = ['male', 'female']
-        
+
         # Initialize base query with strong filtering
         query = '''
-        SELECT 
-            id, pet_name, type, sex, breed, color, 
-            lost_date, lost_location, description, 
-            has_name_tag, status
-        FROM lost_pets 
+        SELECT
+            id, pet_name, type, sex, breed, color,
+            lost_date, lost_location, description,
+            has_name_tag, status, lost_city
+        FROM lost_pets
         WHERE 1=1
         '''
         
         # Prepare parameters list for safe query execution
         params = []
-        
+
         # Type validation and filtering
         if type and type in ALLOWED_TYPES:
-            query += ' AND type = %s'
-            params.append(type)
-        elif type:
-            # Invalid type provided
-            return jsonify({'error': 'Invalid pet type'}), 400
-        
+            if type != 'all':
+                query += ' AND type = %s'
+                params.append(type)
+
         # Sex validation and filtering
         if sex and sex in ALLOWED_SEXES:
-            query += ' AND sex = %s'
-            params.append(sex)
-        elif sex:
-            # Invalid sex provided
-            return jsonify({'error': 'Invalid sex'}), 400
-        
-        # Has tag filtering with strict boolean conversion
-        if has_tag == 'True':
-            query += ' AND has_name_tag = 1'
-        elif has_tag == 'False':
-            query += ' AND has_name_tag = 0'
-        elif has_tag:
-            # Invalid has_tag value
-            return jsonify({'error': 'Invalid name tag filter'}), 400
-        
+            if sex != 'all':
+                query += ' AND sex = %s'
+                params.append(sex)
+
+        # Has name tag filtering
+        if has_name_tag == 'true':
+            query += ' AND has_name_tag = TRUE'
+        elif has_name_tag == 'false':
+            query += ' AND has_name_tag = FALSE'
+
         # City filtering with length and injection protection
         if city:
             # Limit length to prevent potential DOS
             if len(city) > 100:
                 return jsonify({'error': 'City name too long'}), 400
-            query += ' AND lost_location LIKE %s'
+            query += ' AND lost_city LIKE %s'
             params.append(f'%{city}%')
-        
+
         # Address filtering with length and injection protection
         if address:
             # Limit length to prevent potential DOS
@@ -491,20 +484,20 @@ def search_pet():
         # Get database connection and cursor
         conn = get_db_connection()
         cur = conn.cursor()
-        
+
         # Execute query safely with parameters
         cur.execute(query, tuple(params))
-        
+
         # Fetch results
         rows = cur.fetchall()
-        
+
         # Predefined column names to prevent descriptor injection
         columns = [
-            'id', 'pet_name', 'type', 'sex', 'breed', 'color', 
-            'lost_date', 'lost_location', 'description', 
-            'has_name_tag', 'status'
+            'id', 'pet_name', 'type', 'sex', 'breed', 'color',
+            'lost_date', 'lost_location', 'description',
+            'has_name_tag', 'status', 'lost_city'
         ]
-        
+
         # Convert results to list of dictionaries
         pets_list = []
         for row in rows:
@@ -512,15 +505,15 @@ def search_pet():
             
             # Safe date serialization
             if pet_dict['lost_date']:
-                pet_dict['lost_date'] = serialize_dates(pet_dict['lost_date'])
-            
+                pet_dict['lost_date'] = pet_dict['lost_date'].strftime('%Y-%m-%d')
+
             pets_list.append(pet_dict)
-        
+
         cur.close()
         conn.close()
-        
+
         return jsonify(pets_list)
-    
+
     except mysql.connector.Error as e:
         # Log the error server-side
         app.logger.error(f"Database error in pet search: {str(e)}")
@@ -529,6 +522,7 @@ def search_pet():
         # Catch any unexpected errors
         app.logger.error(f"Unexpected error in pet search: {str(e)}")
         return jsonify({'error': 'Unexpected error occurred'}), 500
+    
     
 @app.route('/send_email', methods=['POST'])
 def send_email():
