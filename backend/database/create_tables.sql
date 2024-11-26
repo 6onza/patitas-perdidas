@@ -18,6 +18,7 @@ CREATE TABLE lost_pets (
     breed VARCHAR(100),
     color VARCHAR(100) NOT NULL,
     lost_date DATE NOT NULL,
+    lost_city VARCHAR(100) NOT NULL,
     lost_location VARCHAR(100) NOT NULL,
     lost_latitude DECIMAL(10, 8) NOT NULL,
     lost_longitude DECIMAL(11, 8) NOT NULL,
