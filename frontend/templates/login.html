@@ -8,6 +8,11 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
+                    <!-- volver -->
+                    <a href="{{ url_for('index') }}" class="btn btn-transparent border col-4 m-3 text-start">
+                        <i class="fas fa-arrow-left me-3"></i>
+                        Volver a inicio
+                    </a>
                     <div class="card-header text-center">
                         <img src="{{ url_for('static', filename='images/illustrations/dog.svg') }}" 
                              alt="dog illustration" 
