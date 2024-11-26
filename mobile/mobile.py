@@ -49,41 +49,57 @@ class BuscarMascotasScreen(Screen):
 
     def search_pets(self):
         # Get values from form
-        params = {
-            'type': 'cat' if self.ids.gato.active else 'dog' if self.ids.perro.active else '',
-            'sex': 'male' if self.ids.macho.active else 'female' if self.ids.hembra.active else '',
-            'has_tag': 'True' if self.ids.con_chapa.active else 'False' if self.ids.sin_chapa.active else '',
-            'city': self.ids.ciudad.text,
-            'address': self.ids.direccion.text
-        }
-        
+        params = {}
+        if self.ids.gato.active:
+            params['type'] = 'cat'
+        elif self.ids.perro.active:
+            params['type'] = 'dog'
+        if self.ids.macho.active:
+            params['sex'] = 'male'
+        elif self.ids.hembra.active:
+            params['sex'] = 'female'
+        if self.ids.con_chapa.active:
+            params['has_tag'] = 'True'
+        elif self.ids.sin_chapa.active:
+            params['has_tag'] = 'False'
+        params['city'] = self.ids.ciudad.text
+        params['address'] = self.ids.direccion.text
+
         # Build query string
         query_params = '&'.join([f"{k}={v}" for k, v in params.items() if v])
         url = f'http://localhost:5000/api/v1/pets/search'
-        
+
         # Make API request
         UrlRequest(
-            url,
+            f"{url}?{query_params}",
             on_success=self.handle_search_success,
             on_error=self.handle_search_error,
             on_failure=self.handle_search_error
         )
 
     def handle_search_success(self, request, result):
+        # Validar que el backend devolvió resultados válidos
+        if not isinstance(result, list):
+            self.ids.results_label.text = "Error: formato de datos inválido recibido del servidor"
+            return
+
+        # Guardar los resultados y actualizar pantalla
         self.results = result
-        self.update_results_display()
+        app = PatitasPerdidasApp.get_running_app()
+        resultados_screen = app.root.ids.screen_manager.get_screen("resultados_busqueda")
+        resultados_screen.set_results(self.results)
+        app.change_screen("resultados_busqueda")
 
     def handle_search_error(self, request, error):
-        # Show error message to user
         self.ids.results_label.text = f"Error al buscar mascotas: {str(error)}"
 
     def update_results_display(self):
-        # Clear previous results
+        # Limpiar resultados previos
         results_container = self.ids.results_container
         results_container.clear_widgets()
-        
+
         if not self.results:
-            # Show no results message
+            # Mostrar mensaje de no resultados
             no_results_label = MDLabel(
                 text="No se encontraron mascotas con los criterios especificados",
                 theme_text_color="Secondary",
@@ -93,8 +109,34 @@ class BuscarMascotasScreen(Screen):
             results_container.add_widget(no_results_label)
             return
 
-        # Add each pet card
-        for pet in self.results:
+        # Validar y filtrar resultados basados en los criterios seleccionados
+        filtered_results = self.results
+        if self.ids.gato.active:
+            filtered_results = [pet for pet in filtered_results if pet.get('type') == 'cat']
+        elif self.ids.perro.active:
+            filtered_results = [pet for pet in filtered_results if pet.get('type') == 'dog']
+        if self.ids.macho.active:
+            filtered_results = [pet for pet in filtered_results if pet.get('sex') == 'male']
+        elif self.ids.hembra.active:
+            filtered_results = [pet for pet in filtered_results if pet.get('sex') == 'female']
+        if self.ids.con_chapa.active:
+            filtered_results = [pet for pet in filtered_results if pet.get('has_tag') == 'True']
+        elif self.ids.sin_chapa.active:
+            filtered_results = [pet for pet in filtered_results if pet.get('has_tag') == 'False']
+
+        # Mostrar mensaje si no quedan resultados tras filtrar
+        if not filtered_results:
+            no_results_label = MDLabel(
+                text="No se encontraron mascotas que coincidan con los criterios seleccionados.",
+                theme_text_color="Secondary",
+                size_hint_y=None,
+                height="40dp"
+            )
+            results_container.add_widget(no_results_label)
+            return
+
+        # Agregar tarjetas de resultados filtrados
+        for pet in filtered_results:
             card = MDCard(
                 orientation="vertical",
                 size_hint=(1, None),
@@ -103,8 +145,8 @@ class BuscarMascotasScreen(Screen):
                 spacing="10dp",
                 elevation=1
             )
-            
-            # Pet name and type
+
+            # Encabezado con nombre y tipo
             header = BoxLayout(
                 orientation="horizontal",
                 size_hint_y=None,
@@ -116,31 +158,94 @@ class BuscarMascotasScreen(Screen):
                 font_style="H6"
             )
             header.add_widget(name_label)
-            
-            # Details
+
+            # Detalles de la mascota
             details = MDLabel(
                 text=f"""
-            Sexo: {pet['sex']}
-            Raza: {pet['breed']}
-            Color: {pet['color']}
-            Fecha de pérdida: {pet['lost_date']}
-            Ubicación: {pet['lost_location']}
-            Descripción: {pet['description']}
+                Sexo: {pet['sex']}
+                Raza: {pet['breed']}
+                Color: {pet['color']}
+                Fecha de pérdida: {pet['lost_date']}
+                Ubicación: {pet['lost_location']}
+                Descripción: {pet['description']}
                 """.strip(),
                 theme_text_color="Secondary",
                 size_hint_y=None,
                 height="120dp"
             )
-            
             card.add_widget(header)
-            # Crear un Widget que simula un separador
-            separator = Widget(size_hint_y=None, height="1dp")
-            separator.md_bg_color = [0, 0, 0, 1]  # Establecer color negro para la línea
-            card.add_widget(separator)
 
+            # Separador visual
+            separator = Widget(size_hint_y=None, height="1dp")
+            separator.md_bg_color = [0, 0, 0, 1]
+            card.add_widget(separator)
             card.add_widget(details)
-            
+
+            # Agregar tarjeta al contenedor
             results_container.add_widget(card)
+
+class ResultadosBusquedaScreen(Screen):
+    def set_results(self, results):
+        results_container = self.ids.results_container
+        results_container.clear_widgets()
+
+        if not results:
+            no_results_label = MDLabel(
+                text="No se encontraron mascotas con los criterios especificados",
+                theme_text_color="Secondary",
+                size_hint_y=None,
+                height="40dp"
+            )
+            results_container.add_widget(no_results_label)
+            return
+
+        for pet in results:
+            card = MDCard(
+                orientation="vertical",
+                size_hint=(1, None),
+                height="180dp",
+                padding="10dp",
+                spacing="10dp",
+                elevation=1
+            )
+
+            header = BoxLayout(
+                orientation="horizontal",
+                size_hint_y=None,
+                height="30dp"
+            )
+            name_label = MDLabel(
+                text=f"{pet['pet_name']} - {pet['type'].capitalize()}",
+                theme_text_color="Primary",
+                font_style="H6"
+            )
+            header.add_widget(name_label)
+
+            details = MDLabel(
+                text=f"""
+                Sexo: {pet['sex']}
+                Raza: {pet['breed']}
+                Color: {pet['color']}
+                Fecha de pérdida: {pet['lost_date']}
+                Ubicación: {pet['lost_location']}
+                Descripción: {pet['description']}
+                """.strip(),
+                theme_text_color="Secondary",
+                size_hint_y=None,
+                height="120dp"
+            )
+            card.add_widget(header)
+
+            separator = Widget(size_hint_y=None, height="1dp")
+            separator.md_bg_color = [0, 0, 0, 1]
+            card.add_widget(separator)
+            card.add_widget(details)
+
+            results_container.add_widget(card)
+
+    def go_to_search(self):
+        # Cambiar de vuelta a la pantalla de búsqueda
+        PatitasPerdidasApp.get_running_app().change_screen("buscar_mascotas")
 class PatitasPerdidasApp(MDApp):
     primary_color = ListProperty(get_color_from_hex("#2f2e41"))
     secondary_color = ListProperty(get_color_from_hex("#675F91"))
