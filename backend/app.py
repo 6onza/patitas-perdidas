@@ -284,10 +284,10 @@ def add_pet():
         query = """
             INSERT INTO lost_pets (
                 user_id, pet_name, type, sex, breed, color, 
-                lost_date, lost_location, lost_latitude, lost_longitude,
+                lost_date, lost_city, lost_location, lost_latitude, lost_longitude,
                 description, photo_url, status, has_name_tag
             )
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         
         # Preparar valores con defaults seguros
@@ -299,6 +299,7 @@ def add_pet():
             data.get('breed', ''),  # Valor default vacío si no se proporciona
             data['color'],
             data['lost_date'],
+            data['lost_city'],
             data['lost_location'],
             data['lost_latitude'],
             data['lost_longitude'],
@@ -444,66 +445,66 @@ def search_pet():
         WHERE 1=1
         '''
         
-        # Prepare parameters list for safe query execution
+        # preparar lista de parámetros
         params = []
 
-        # Type validation and filtering
+        # validacion y filtrado de tipo
         if type and type in ALLOWED_TYPES:
             if type != 'all':
                 query += ' AND type = %s'
                 params.append(type)
 
-        # Sex validation and filtering
+        # validacion y filtrado de sexo
         if sex and sex in ALLOWED_SEXES:
             if sex != 'all':
                 query += ' AND sex = %s'
                 params.append(sex)
 
-        # Has name tag filtering
+        # tiene etiqueta de nombre o no
         if has_name_tag == 'true':
             query += ' AND has_name_tag = TRUE'
         elif has_name_tag == 'false':
             query += ' AND has_name_tag = FALSE'
 
-        # City filtering with length and injection protection
+        # filtrar por ciudad con protección de longitud e inyección
         if city:
-            # Limit length to prevent potential DOS
+            # limitar la longitud para prevenir posibles ataques DOS
             if len(city) > 100:
                 return jsonify({'error': 'City name too long'}), 400
             query += ' AND lost_city LIKE %s'
             params.append(f'%{city}%')
 
-        # Address filtering with length and injection protection
+        # filtrar por dirección con protección de longitud e inyección
         if address:
-            # Limit length to prevent potential DOS
+            # limitar la longitud para prevenir posibles ataques DOS
             if len(address) > 255:
                 return jsonify({'error': 'Address too long'}), 400
             query += ' AND lost_location LIKE %s'
             params.append(f'%{address}%')
 
-        # Get database connection and cursor
+        # obtener conexión y cursor
         conn = get_db_connection()
         cur = conn.cursor()
 
-        # Execute query safely with parameters
+        # ejecutar la consulta
         cur.execute(query, tuple(params))
 
-        # Fetch results
+        # Fetch resultados
         rows = cur.fetchall()
 
-        # Predefined column names to prevent descriptor injection
+        # Predefiniendo las columnas para evitar errores de inyección
         columns = [
             'id', 'pet_name', 'type', 'sex', 'breed', 'color',
             'lost_date', 'lost_location', 'description',
             'has_name_tag', 'status', 'lost_city'
         ]
 
-        # Convert results to list of dictionaries
+        # Convertir las tuplas a diccionarios
         pets_list = []
         for row in rows:
             pet_dict = dict(zip(columns, row))
             
-            # Safe date serialization
+            # serializar fechas
             if pet_dict['lost_date']:
                 pet_dict['lost_date'] = pet_dict['lost_date'].strftime('%Y-%m-%d')
 
@@ -515,11 +516,11 @@ def search_pet():
         return jsonify(pets_list)
 
     except mysql.connector.Error as e:
-        # Log the error server-side
+        # Log el error de la base de datos
         app.logger.error(f"Database error in pet search: {str(e)}")
         return jsonify({'error': 'Internal server error'}), 500
     except Exception as e:
-        # Catch any unexpected errors
+        # Catch cualquier otro error inesperado
         app.logger.error(f"Unexpected error in pet search: {str(e)}")
         return jsonify({'error': 'Unexpected error occurred'}), 500
     
