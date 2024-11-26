@@ -203,6 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
       breed: document.getElementById("breed").value,
       color: document.getElementById("color").value,
       lost_date: document.getElementById("lost_date").value,
+      lost_city: document.getElementById("lost_city").value,
       lost_location: document.getElementById("lost_location").value,
       status: "lost",
       lost_latitude: parseFloat(document.getElementById("lost_latitude").value),
