@@ -111,10 +111,12 @@ MDNavigationLayout:
     username: username_field
     password: password_field
     message: message_label
+
     BoxLayout:
         orientation: 'vertical'
         padding: 10
         spacing: 5
+
         MDCard:
             orientation: 'vertical'
             padding: 15
@@ -124,23 +126,27 @@ MDNavigationLayout:
             elevation: 6
             radius: [20]
             md_bg_color: 0.98, 0.98, 0.98, 1
+
             Image:
                 source: 'assets/images/dog.png'
                 size_hint: None, None
                 size: "120dp", "120dp"
                 pos_hint: {'center_x': 0.5}
+
             MDLabel:
                 text: 'Iniciar Sesión'
                 font_style: 'H5'
                 halign: 'center'
                 size_hint_y: None
                 height: "35dp"
+
             MDTextField:
                 id: username_field
                 hint_text: "Usuario"
                 icon_right: "account"
                 size_hint: 1, None
                 height: "55dp"
+
             MDTextField:
                 id: password_field
                 hint_text: "Contraseña"
@@ -148,6 +154,7 @@ MDNavigationLayout:
                 password: True
                 size_hint: 1, None
                 height: "55dp"
+
             MDLabel:
                 id: message_label
                 text: ""
@@ -155,6 +162,7 @@ MDNavigationLayout:
                 halign: "center"
                 size_hint_y: None
                 height: "35dp"
+
             MDFillRoundFlatButton:
                 text: "Iniciar Sesión"
                 md_bg_color: 0.62, 0.14, 0.82, 1
@@ -162,20 +170,22 @@ MDNavigationLayout:
                 size_hint: 0.8, None
                 height: "50dp"
                 on_release: root.do_login()
+
             BoxLayout:
                 orientation: "horizontal"
-                size_hint: None, None
+                size_hint: 0.8, None
                 height: "45dp"
-                width: "280dp"
                 pos_hint: {"center_x": 0.5}
+
                 MDLabel:
                     text: "¿No tienes cuenta?"
                     theme_text_color: "Secondary"
-                    size_hint: None, None
-                    size: "140dp", "45dp"
+                    size_hint: 0.6, 1
                     halign: "right"
+
                 MDTextButton:
                     text: "Regístrate"
+                    size_hint: 0.4, 1
                     on_release: root.go_to_register()
 
 
@@ -716,6 +726,7 @@ MDNavigationLayout:
 
 <ContactoScreen>:
     name: "contacto"
+
     BoxLayout:
         orientation: "vertical"
 
@@ -781,7 +792,7 @@ MDNavigationLayout:
 
                 BoxLayout:
                     orientation: "horizontal"
-                    size_hint_y: None
+                    size_hint: 0.8, None
                     height: "60dp"
                     spacing: "20dp"
                     pos_hint: {"center_x": 0.5}
@@ -791,11 +802,11 @@ MDNavigationLayout:
                         icon: "whatsapp"
                         text_color: 1, 1, 1, 1
                         md_bg_color: app.theme_cls.primary_color
-                        pos_hint: {"center_x": 0.5}
+                        size_hint: 0.5, 0.5
 
                     MDRaisedButton:
                         text: "Instagram"
                         icon: "instagram"
                         text_color: 1, 1, 1, 1
                         md_bg_color: app.theme_cls.primary_color
-                        pos_hint: {"center_x": 0.5}
+                        size_hint: 0.5, 0.5
