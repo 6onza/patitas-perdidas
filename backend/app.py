@@ -246,7 +246,7 @@ def get_user_pets():
         return jsonify({'error': 'Error de base de datos'}), 500
     except Exception as e:
         app.logger.error(f"Unexpected error in get_user_pets: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 @app.route('/api/v1/pets/create', methods=['POST'])
@@ -367,7 +367,7 @@ def get_pet(pet_id):
         return jsonify({'error': 'Error de base de datos'}), 500
     except Exception as e:
         app.logger.error(f"Unexpected error in get_pet: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
 
 
 @app.route('/api/v1/pets/<int:pet_id>', methods=['PUT'])
@@ -398,7 +398,7 @@ def update_pet(pet_id):
         return jsonify({'error': 'Error de base de datos'}), 500
     except Exception as e:
         app.logger.error(f"Unexpected error in update_pet: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': 'Error interno del servidor'}), 500
         
 
 @app.route('/api/v1/pets/<int:pet_id>', methods=['DELETE'])
@@ -418,7 +418,7 @@ def delete_pet(pet_id):
         return jsonify({'error': 'Error de base de datos'}), 500
     except Exception as e:
         app.logger.error(f"Unexpected error in delete_pet: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'Error': 'Error interno del servidor'}), 500
 
 
 @app.route('/api/v1/pets/search', methods=['GET'])
