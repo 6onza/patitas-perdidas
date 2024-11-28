@@ -535,37 +535,51 @@ def send_email():
     Redirige al usuario a la página de inicio al finalizar.
     '''
     if request.method == "POST":
-        name = request.form["name"]
-        email = request.form["email"]
-        message = request.form["message"]
-
-        servidor = smtplib.SMTP("smtp.gmail.com", 587)
-        servidor.starttls()
-        servidor.login(SMTP_USERNAME, SMTP_PASSWORD)
-        print("SMTP_USERNAME:", SMTP_USERNAME)
-        print("SMTP_PASSWORD:", SMTP_PASSWORD)
-
+        try:
+            # se guarda la informacion en la db
+            query = "INSERT INTO contact (name, email, message) VALUES (%s, %s, %s)"
+            conn = get_db_connection()
+            cur = conn.cursor()
+            cur.execute(query, (request.form["name"], request.form["email"], request.form["message"]))
+            conn.commit()
+            cur.close()
+            conn.close()
         
-        msg_user = MIMEText(
-            f"Hola {name},\n\nHemos recibido tu mensaje correctamente. "
-            "Nos pondremos en contacto con vos en breve.\n\nGracias por escribirnos.\n\nSaludos,\nEquipo Patitas Perdidas"
-        )
-        msg_user["From"] = "patitas.perdidas.contacto@gmail.com"
-        msg_user["To"] = email
-        msg_user["Subject"] = "Mensaje recibido - Patitas Perdidas"
-       
-        servidor.sendmail(SMTP_USERNAME, email, msg_user.as_string())
+            name = request.form["name"]
+            email = request.form["email"]
+            message = request.form["message"]
 
-        msg_admin = MIMEText(
-            f"Correo recibido de: {email}\nNombre: {name}\n\n{message}"
-        )
-        msg_admin["From"] = "patitas.perdidas.contacto@gmail.com"
-        msg_admin["To"] = "patitas.perdidas.contacto@gmail.com"
-        msg_admin["Subject"] = f"Nuevo mensaje recibido"
+            servidor = smtplib.SMTP("smtp.gmail.com", 587)
+            servidor.starttls()
+            servidor.login(SMTP_USERNAME, SMTP_PASSWORD)
+            print("SMTP_USERNAME:", SMTP_USERNAME)
+            print("SMTP_PASSWORD:", SMTP_PASSWORD)
 
-        servidor.sendmail(SMTP_USERNAME, SMTP_USERNAME, msg_admin.as_string())
-        servidor.quit()
-        return redirect("https://patitas-perdidas.vercel.app/")
+            
+            msg_user = MIMEText(
+                f"Hola {name},\n\nHemos recibido tu mensaje correctamente. "
+                "Nos pondremos en contacto con vos en breve.\n\nGracias por escribirnos.\n\nSaludos,\nEquipo Patitas Perdidas"
+            )
+            msg_user["From"] = "patitas.perdidas.contacto@gmail.com"
+            msg_user["To"] = email
+            msg_user["Subject"] = "Mensaje recibido - Patitas Perdidas"
+        
+            servidor.sendmail(SMTP_USERNAME, email, msg_user.as_string())
+
+            msg_admin = MIMEText(
+                f"Correo recibido de: {email}\nNombre: {name}\n\n{message}"
+            )
+            msg_admin["From"] = "patitas.perdidas.contacto@gmail.com"
+            msg_admin["To"] = "patitas.perdidas.contacto@gmail.com"
+            msg_admin["Subject"] = f"Nuevo mensaje recibido"
+
+            servidor.sendmail(SMTP_USERNAME, SMTP_USERNAME, msg_admin.as_string())
+            servidor.quit()
+            return redirect("https:localhost:5001/")
+        
+        except Exception as e:
+            print(f"Error al enviar el correo: {str(e)}")
+            return jsonify({'error': 'Error al enviar el correo'}), 500
 
 if __name__ == '__main__':
     app.run()

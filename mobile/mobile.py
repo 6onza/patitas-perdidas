@@ -479,7 +479,7 @@ class AuthService:
             else:
                 return False, response.json().get('error', 'Error en el registro')
                 
-         except requests.exceptions.ConnectionError as e:
+        except requests.exceptions.ConnectionError as e:
             # para debug
             print(f"Error de conexión: {e}")
             return False, f"Hubo un error de conexión al registrar"
