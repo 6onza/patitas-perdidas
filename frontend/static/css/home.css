@@ -8,6 +8,7 @@
 body {
     background-color: #f9f9f9;
     z-index: 1;
+    overflow-x: hidden;
 }
 body::after{
     /* circulo al final a la derecha de la pagina */
