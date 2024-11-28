@@ -367,7 +367,8 @@ class RegistrarMascotaScreen(Screen):
             'sex': sex,
             'color': color,
             'lost_date': datetime.now().isoformat(),
-            'lost_location': f"{address}, {city}",
+            'lost_city': city,
+            'lost_location': address,
             'lost_latitude': latitude,
             'lost_longitude': longitude,
             'description': f"Mascota perdida en {city}",
@@ -414,6 +415,18 @@ class RegistrarMascotaScreen(Screen):
             self.show_message('Error', f'Error inesperado: {str(e)}')
             return None
 
+def show_error( message):
+    popup = Popup(
+        title='Error', 
+        content=MDLabel(
+            text=message, 
+            halign='center',
+            theme_text_color='Error'
+        ),
+        size_hint=(0.8, 0.2),  # Tamaño más pequeño
+        title_color=(1, 0, 0, 1),  # Color rojo para el título
+    )
+    popup.open()
 
 class AuthService:
     def __init__(self):
@@ -442,8 +455,13 @@ class AuthService:
             else:
                 return False, response.json().get('error', 'Error en el login')
                 
+        except requests.exceptions.ConnectionError as e:
+            # para debug
+            print(f"Error de conexión: {e}")
+            return False, f"Hubo un error de conexión al iniciar sesión"
+        
         except Exception as e:
-            return False, f"Error de conexión: {str(e)}"
+            return False, f"Error inesperado: {str(e)}"
 
     def register(self, username, password, name, phone):
         try:
@@ -462,6 +480,11 @@ class AuthService:
             else:
                 return False, response.json().get('error', 'Error en el registro')
                 
+        except requests.exceptions.ConnectionError as e:
+            # para debug
+            print(f"Error de conexión: {e}")
+            return False, f"Hubo un error de conexión al registrar"
+        
         except Exception as e:
             return False, f"Error de conexión: {str(e)}"
     

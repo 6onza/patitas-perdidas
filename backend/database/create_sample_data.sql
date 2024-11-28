@@ -17,6 +17,7 @@ INSERT INTO lost_pets (
     breed,
     color,
     lost_date,
+    lost_city,
     lost_location,
     lost_latitude,
     lost_longitude,
@@ -24,10 +25,10 @@ INSERT INTO lost_pets (
     status,
     has_name_tag
 ) VALUES 
-(1, 'Toby', 'dog', 'male', 'Labrador', 'dorado', '2024-03-15', 'Palermo, Buenos Aires', -34.588446, -58.411780, 'Perro labrador amigable, collar azul con placa', 'lost', true),
-(2, 'Luna', 'cat', 'female', 'Siamés', 'blanco y marrón', '2024-03-18', 'Recoleta, Buenos Aires', -34.587569, -58.393839, 'Gata siamesa con collar rojo', 'lost', true),
-(3, 'Rocky', 'dog', 'male', 'Pastor Alemán', 'negro y marrón', '2024-03-20', 'Belgrano, Buenos Aires', -34.563589, -58.451886, 'Pastor alemán adulto con cicatriz en pata derecha', 'found', false),
-(4, 'Mimi', 'cat', 'female', 'Persa', 'gris', '2024-03-21', 'San Telmo, Buenos Aires', -34.621023, -58.371573, 'Gata persa de pelo largo, muy asustadiza', 'lost', false),
-(5, 'Max', 'dog', 'male', 'Golden Retriever', 'dorado', '2024-03-22', 'Núñez, Buenos Aires', -34.543456, -58.456789, 'Golden retriever con pañuelo rojo en el cuello', 'lost', true),
-(6, 'Nina', 'cat', 'female', 'Común Europeo', 'negro', '2024-03-23', 'Villa Crespo, Buenos Aires', -34.599825, -58.436937, 'Gata negra con manchita blanca en el pecho', 'lost', false),
-(7, 'Zeus', 'dog', 'male', 'Bulldog Francés', 'atigrado', '2024-03-24', 'Caballito, Buenos Aires', -34.619732, -58.442982, 'Bulldog francés con collar verde', 'found', true);
+(1, 'Toby', 'dog', 'male', 'Labrador', 'dorado', '2024-03-15', 'Palermo', 'Buenos Aires', -34.588446, -58.411780, 'Perro labrador amigable, collar azul con placa', 'lost', true),
+(2, 'Luna', 'cat', 'female', 'Siamés', 'blanco y marrón', '2024-03-18', 'Recoleta', 'Buenos Aires', -34.587569, -58.393839, 'Gata siamesa con collar rojo', 'lost', true),
+(3, 'Rocky', 'dog', 'male', 'Pastor Alemán', 'negro y marrón', '2024-03-20', 'Belgrano', 'Buenos Aires', -34.563589, -58.451886, 'Pastor alemán adulto con cicatriz en pata derecha', 'found', false),
+(4, 'Mimi', 'cat', 'female', 'Persa', 'gris', '2024-03-21', 'San Telmo', 'Buenos Aires', -34.621023, -58.371573, 'Gata persa de pelo largo, muy asustadiza', 'lost', false),
+(5, 'Max', 'dog', 'male', 'Golden Retriever', 'dorado', '2024-03-22', 'Núñez', 'Buenos Aires', -34.543456, -58.456789, 'Golden retriever con pañuelo rojo en el cuello', 'lost', true),
+(6, 'Nina', 'cat', 'female', 'Común Europeo', 'negro', '2024-03-23', 'Villa Crespo', 'Buenos Aires', -34.599825, -58.436937, 'Gata negra con manchita blanca en el pecho', 'lost', false),
+(7, 'Zeus', 'dog', 'male', 'Bulldog Francés', 'atigrado', '2024-03-24', 'Caballito', 'Buenos Aires', -34.619732, -58.442982, 'Bulldog francés con collar verde', 'found', true);

@@ -7,79 +7,34 @@
       <h2 class="text-secondary">Filtrar por:</h2>
       <div class="form-group">
         <label for="especie" class="mt-3 fw-bold">Especie</label>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            id="cat"
-            name="cat"
-            value="cat"
-          />
-          <label class="form-check-label" for="cat">Gato</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            id="dog"
-            name="dog"
-            value="dog"
-          />
-          <label class="form-check-label" for="dog">Perro</label>
-        </div>
+        <!-- formselect -->
+        <select class="form-select" id="type" name="type">
+          <option value="dog">Perro</option>
+          <option value="cat">Gato</option>
+          <option value="all">Todos</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="sexo">Sexo</label>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            id="male"
-            name="male"
-            value="male"
-          />
-          <label class="form-check-label" for="male" class="fw-light"
-            >Macho</label
-          >
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            id="female"
-            name="female"
-            value="female"
-          />
-          <label class="form-check-label" for="female" class="fw-light"
-            >Hembra</label
-          >
-        </div>
+        <select class="form-select" id="sex" name="sex">
+          <option value="male">Macho</option>
+          <option value="female">Hembra</option>
+          <option value="all">Todos</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="condicion">Condición</label>
         <div class="form-check form-check-inline">
+          <!-- tiene name_tag -->
           <input
             class="form-check-input"
             type="checkbox"
             id="hasNameTag"
-            name="con-chapa"
-            value="con-chapa"
+            name="chapa"
+            value="chapa"
           />
-          <label class="form-check-label" for="con-chapa" class="fw-light"
-            >Con chapa</label
-          >
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            id="noNameTag"
-            name="sin-chapa"
-            value="sin-chapa"
-          />
-          <label class="form-check-label" for="sin-chapa" class="fw-light"
-            >Sin chapa</label
-          >
+          <label class="form-check-label" for="nameTag">Tiene chapa</label>
+      
         </div>
       </div>
       <div class="form-group">
@@ -182,5 +137,5 @@
       map.fitBounds(group.getBounds().pad(0.1));
   }
 </script>
-<script src="../../static/js/map.js"></script>
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
 {% endblock %}

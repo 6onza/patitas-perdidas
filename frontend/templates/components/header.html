@@ -7,10 +7,11 @@
 {% block content %}
 <header>
     <nav class="navigation-bar">
-        <div class="nav-container">
+        <div class="nav-container p-3">
             <h1 class="main-title">
                 <a href="{{ url_for('index') }}" class="d-flex align-items-center gap-2">
                 <i class="fas fa-paw fs-1"></i> <span class="fw-bold">Patitas Perdidas</span>
+                </a>
             </h1>
             <div class="menu-button">
                 <div class="line"></div>
@@ -34,7 +35,7 @@
         </div> 
     </nav>
 </header>
-    <section  id="home" class="home">
+    <section  id="home" class="home mt-md-0 mt-4">
         <div class="content-wrapper">
             <div class="text-content">
                 <h2 class="fw-bold">Patitas Perdidas</h2>
@@ -45,6 +46,11 @@
             alt="Mascota perdida" class="home-image">
         </div>
     </section> 
+{% endblock %}
+
+<!-- scripts -->
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
 {% endblock %}
 
 

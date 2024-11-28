@@ -52,14 +52,12 @@ function getModalElements(modalOverlay) {
 
 function collectSearchParams() {
   return {
-    type: document.querySelector("#cat").checked ? "cat" :
-      document.querySelector("#dog").checked ? "dog" : "",
-    sex: document.querySelector("#male").checked ? "male" :
-      document.querySelector("#female").checked ? "female" : "",
-    has_tag: document.querySelector("#hasNameTag").checked ? "True" :
-      document.querySelector("#noNameTag").checked ? "False" : "",
-    city: document.querySelector("#city").value,
-    address: document.querySelector("#address").value
+    // si seleccionan cat, dog y other se envian todos
+    type: document.getElementById("type").value,  
+    sex: document.getElementById("sex").value,
+    has_name_tag: document.getElementById("hasNameTag").checked,
+    lost_city: document.getElementById("city").value,
+    lost_location: document.getElementById("address").value,
   };
 }
 
@@ -112,6 +110,7 @@ function displaySearchResults(data, resultsTitle, resultsContainer) {
           <img src="${pet.type === 'cat' ? '../static/images/illustrations/cat.svg' : '../static/images/illustrations/dog.svg'}" alt="Mascota">
           <p><strong>Raza:</strong> ${pet.breed || 'No especificada'}</p>
           <p><strong>Descripción:</strong> ${pet.description || 'Sin descripción'}</p>
+          <p><strong>Localidad:</strong> ${pet.lost_city || 'Ubicación no especificada'}</p>
           <p><strong>Ubicación:</strong> ${pet.lost_location || 'Ubicación no especificada'}</p>
           <p><strong>Contacto:</strong> ${pet.contact_info || 'No disponible'}</p>
         </div>

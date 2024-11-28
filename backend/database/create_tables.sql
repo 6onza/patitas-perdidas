@@ -18,6 +18,7 @@ CREATE TABLE lost_pets (
     breed VARCHAR(100),
     color VARCHAR(100) NOT NULL,
     lost_date DATE NOT NULL,
+    lost_city VARCHAR(100) NOT NULL,
     lost_location VARCHAR(100) NOT NULL,
     lost_latitude DECIMAL(10, 8) NOT NULL,
     lost_longitude DECIMAL(11, 8) NOT NULL,
@@ -27,4 +28,13 @@ CREATE TABLE lost_pets (
     has_name_tag BOOLEAN DEFAULT FALSE, -- Nueva columna para indicar si la mascota tiene una placa de identificación
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- tabla para guardar un mensaje de contacto nombre, email, mensaje
+CREATE TABLE contact (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

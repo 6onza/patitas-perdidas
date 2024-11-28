@@ -7,8 +7,8 @@
 
 body {
     background-color: #f9f9f9;
-    overflow-x: hidden;
     z-index: 1;
+    overflow-x: hidden;
 }
 body::after{
     /* circulo al final a la derecha de la pagina */
@@ -41,13 +41,6 @@ header {
     position: relative;
 }
 
-.navigation-bar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 30px 0;
-}
 
 .nav-container {
     display: flex;
@@ -78,6 +71,8 @@ header {
 
 .nav-items {
     padding: 15px;
+    display: flex;
+    justify-content: center;
 }
 
 .nav-links {
@@ -158,8 +153,12 @@ header {
 }
 
 @media only screen and (max-width: 768px) {
-    header {
-        padding: 0;
+    body::after{
+        width: 200px;
+        height: 200px;
+        bottom: -50px;
+        right: -100px;
+        display: none;
     }
 
     .nav-container {
