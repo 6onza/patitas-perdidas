@@ -5,9 +5,6 @@ from services import pets_service
 
 app = Flask(__name__, static_url_path='/static')
 
-
-app.secret_key = "1xu5rTqT7CT/POBFBsB7GEuPLUd8klo/Pw52q5QK87E="  
-
 @app.route('/login', methods=['GET'])
 def login():
     return render_template('login.html')

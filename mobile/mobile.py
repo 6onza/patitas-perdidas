@@ -344,6 +344,9 @@ class RegistrarMascotaScreen(Screen):
         address = self.ids.address.text
         image_path = self.ids.image.text  # El campo de la imagen es opcional
 
+        latitude = self.ids.latitude.text  # Obtener latitud del formulario
+        longitude = self.ids.longitude.text  # Obtener longitud del formulario
+
         # Validar solo los campos obligatorios
         if not all([name, color, city, address]):
             self.show_message('Error', 'Todos los campos obligatorios son requeridos')
@@ -357,8 +360,17 @@ class RegistrarMascotaScreen(Screen):
             self.show_message('Error', 'Seleccione el sexo de la mascota')
             return
 
-        latitude = -34.603722  # Coordenadas de ejemplo
-        longitude = -58.381592  # Coordenadas de ejemplo
+        # Validar latitud y longitud
+        if not latitude or not longitude:
+            self.show_message('Error', 'Las coordenadas de latitud y longitud son requeridas')
+            return
+
+        try:
+            latitude = float(latitude)  # Convertir a número flotante
+            longitude = float(longitude)  # Convertir a número flotante
+        except ValueError:
+            self.show_message('Error', 'Las coordenadas deben ser números válidos')
+            return
 
         # Datos para enviar en el cuerpo de la solicitud
         data = {
@@ -634,11 +646,18 @@ class MascotaCard(MDCard):
             font_style="Subtitle1",
             halign="center"
         ))
-        
-        self.add_widget(MDFillRoundFlatButton(
+
+        saber_mas_button = MDFillRoundFlatButton(
             text="Saber más",
-            pos_hint={"center_x": 0.5}
-        ))
+            pos_hint={"center_x": 0.5},
+            on_release=self.open_url  # Enlaza el evento al método
+        )
+        self.add_widget(saber_mas_button)
+
+    def open_url(self, instance):
+        # Redirige al navegador con la URL de localhost:5001 o el front hosteado
+        webbrowser.open("http://localhost:5001/#lostPets")
+
 
 class MascotasPerdidasScreen(Screen):
     def on_pre_enter(self, *args):
